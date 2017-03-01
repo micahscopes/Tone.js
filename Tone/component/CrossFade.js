@@ -94,7 +94,7 @@ extend(CrossFade);
  *  @returns {CrossFade} this
  */
 CrossFade.prototype.dispose = function(){
-	prototype.dispose.call(this);
+	Tone.prototype.dispose.call(this);
 	this._writable("fade");
 	this._equalPowerA.dispose();
 	this._equalPowerA = null;

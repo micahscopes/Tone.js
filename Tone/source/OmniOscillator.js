@@ -210,7 +210,7 @@ import { FatOscillator } from 'source/FatOscillator';
 			this.type = params.type;
 		}
 		//then set the rest
-		prototype.set.apply(this, arguments);
+		Tone.prototype.set.apply(this, arguments);
 		return this;
 	};
 

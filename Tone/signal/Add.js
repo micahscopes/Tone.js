@@ -57,7 +57,7 @@ import { Gain } from 'core/Gain';
 	 *  @returns {Add} this
 	 */
 	Add.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._sum.dispose();
 		this._sum = null;
 		this._param.dispose();

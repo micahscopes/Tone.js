@@ -467,6 +467,6 @@ import { AudioToGain } from 'signal/AudioToGain';
 	 *  clean up
 	 */
 	Expr.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._disposeNodes();
 	};

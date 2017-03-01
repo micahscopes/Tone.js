@@ -73,7 +73,7 @@ import { Volume } from 'component/Volume';
 	 *  @returns {PanVol} this
 	 */
 	PanVol.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._writable(["pan", "volume"]);
 		this._panner.dispose();
 		this._panner = null;

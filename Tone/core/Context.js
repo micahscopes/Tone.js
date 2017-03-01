@@ -243,7 +243,7 @@ import { Emitter } from 'core/Emitter';
 			return this._updateInterval;
 		},
 		set : function(interval){
-			this._updateInterval = Math.max(interval, prototype.blockTime);
+			this._updateInterval = Math.max(interval, Tone.prototype.blockTime);
 			this._worker.postMessage(Math.max(interval * 1000, 1));
 		}
 	});
@@ -311,8 +311,8 @@ import { Emitter } from 'core/Emitter';
 			window.OfflineAudioContext = window.webkitOfflineAudioContext;
 		}
 
-		var isUndef = prototype.isUndef;
-		var isFunction = prototype.isFunction;
+		var isUndef = Tone.prototype.isUndef;
+		var isFunction = Tone.prototype.isFunction;
 
 		var nativeConnect = AudioNode.prototype.connect;
 		//replace the old connect method
@@ -385,9 +385,9 @@ import { Emitter } from 'core/Emitter';
 	}
 
 	// set the audio context initially
-	if (supported){
+	if (Tone.supported){
 		shimAudioContext();
-		context = new Context();
+		Tone.context = new Context();
 	} else {
 		console.warn("This browser does not support js");
 	}

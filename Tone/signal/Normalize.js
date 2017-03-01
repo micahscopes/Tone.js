@@ -101,7 +101,7 @@ import { Multiply } from 'signal/Multiply';
 	 *  @returns {Normalize} this
 	 */
 	Normalize.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._sub.dispose();
 		this._sub = null;
 		this._div.dispose();

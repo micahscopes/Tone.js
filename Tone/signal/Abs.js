@@ -39,7 +39,7 @@ import { SignalBase } from 'signal/SignalBase';
 	 *  @returns {Abs} this
 	 */
 	Abs.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._abs.dispose();
 		this._abs = null;
 		return this;

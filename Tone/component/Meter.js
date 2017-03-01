@@ -118,7 +118,7 @@ import { Analyser } from 'component/Analyser';
 	 *  @returns {Meter} this
 	 */
 	Meter.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._analyser.dispose();
 		this._analyser = null;
 		return this;

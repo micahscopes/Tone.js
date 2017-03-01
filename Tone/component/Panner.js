@@ -108,14 +108,14 @@ import { Zero } from 'signal/Zero';
 	 *  @type  {boolean}
 	 *  @private
 	 */
-	Panner.prototype._hasStereoPanner = prototype.isFunction(context.createStereoPanner);
+	Panner.prototype._hasStereoPanner = Tone.prototype.isFunction(context.createStereoPanner);
 
 	/**
 	 *  Clean up.
 	 *  @returns {Panner} this
 	 */
 	Panner.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._writable("pan");
 		if (this._hasStereoPanner){
 			this._panner.disconnect();

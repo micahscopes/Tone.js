@@ -634,7 +634,7 @@
 	///////////////////////////////////////////////////////////////////////////
 
 	/**
-	 *  have a child inherit all of Tone's (or a parent's) prototype
+	 *  have a child inherit all of Tone's (or a parent's) Tone.prototype
 	 *  to inherit the parent's properties, make sure to call
 	 *  Parent.call(this) in the child's constructor
 	 *

@@ -1,10 +1,18 @@
-import { Tone } from 'core/Tone';
 
-import { TimelineSignal } from 'signal/TimelineSignal';
 
-import { Pow } from 'signal/Pow';
 
-import { Type } from 'type/Type';
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 "use strict";
@@ -449,7 +457,7 @@ Envelope.prototype.connect = Signal.prototype.connect;
  *  @returns {Envelope} this
  */
 Envelope.prototype.dispose = function(){
-	prototype.dispose.call(this);
+	Tone.prototype.dispose.call(this);
 	this._sig.dispose();
 	this._sig = null;
 	this._attackCurve = null;

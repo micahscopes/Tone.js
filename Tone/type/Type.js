@@ -163,7 +163,7 @@ import { Context } from 'core/Context';
 	};
 
 	///////////////////////////////////////////////////////////////////////////
-	// AUGMENT TONE's PROTOTYPE
+	// AUGMENT TONE's Tone.PROTOTYPE
 	///////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -180,7 +180,7 @@ import { Context } from 'core/Context';
 	 *  @param  {Time} time
 	 *  @return {Seconds}
 	 */
-	prototype.toSeconds = function(time){
+	Tone.prototype.toSeconds = function(time){
 		if (this.isNumber(time)){
 			return time;
 		} else if (this.isUndef(time)){
@@ -197,7 +197,7 @@ import { Context } from 'core/Context';
 	 *  @param  {Frequency} freq
 	 *  @return {Hertz}      the frequency in hertz
 	 */
-	prototype.toFrequency = function(freq){
+	Tone.prototype.toFrequency = function(freq){
 		if (this.isNumber(freq)){
 			return freq;
 		} else if (this.isString(freq) || this.isUndef(freq)){
@@ -212,7 +212,7 @@ import { Context } from 'core/Context';
 	 *  @param  {Time} time
 	 *  @return {Ticks}  the time in ticks
 	 */
-	prototype.toTicks = function(time){
+	Tone.prototype.toTicks = function(time){
 		if (this.isNumber(time) || this.isString(time)){
 			return (new TransportTime(time)).toTicks();
 		} else if (this.isUndef(time)){

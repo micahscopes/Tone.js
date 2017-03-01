@@ -35,7 +35,7 @@ import { Merge } from 'component/Merge';
 	 *  @returns {Mono} this
 	 */
 	Mono.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._merge.dispose();
 		this._merge = null;
 		return this;

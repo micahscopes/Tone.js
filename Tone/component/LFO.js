@@ -336,7 +336,7 @@ import { Zero } from 'signal/Zero';
 	 *  @returns {LFO} this
 	 */
 	LFO.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._writable(["amplitude", "frequency"]);
 		this._oscillator.dispose();
 		this._oscillator = null;

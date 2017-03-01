@@ -3,14 +3,17 @@
   "version": "0.9.0",
   "description": "A Web Audio framework for making interactive music in the browser.",
   "main": "build/Tone.js",
+  "module": "build/index.es.js",
   "files": [
     "./README.md",
     "build/Tone.min.js",
     "build/Tone.js",
+    "build/index.es.js",
     "Tone"
   ],
   "scripts": {
-    "test": "cd gulp && gulp karma-test"
+    "test": "cd gulp && gulp karma-test",
+    "rollup": "rollup -c rollup.config.js"
   },
   "repository": {
     "type": "git",

@@ -76,7 +76,7 @@ import { Gain } from 'core/Gain';
 	 *  @returns {FeedbackCombFilter} this
 	 */
 	FeedbackCombFilter.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._writable(["resonance", "delayTime"]);
 		this._delay.dispose();
 		this._delay = null;

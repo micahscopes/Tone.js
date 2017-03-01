@@ -80,7 +80,7 @@ import { Gain } from 'core/Gain';
 	 *  @returns {MidSideMerge} this
 	 */
 	MidSideMerge.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this.mid.dispose();
 		this.mid = null;
 		this.side.dispose();

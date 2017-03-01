@@ -61,7 +61,7 @@ import { Compressor } from 'component/Compressor';
 	 *  @returns {Limiter} this
 	 */
 	Limiter.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._compressor.dispose();
 		this._compressor = null;
 		this._writable("threshold");

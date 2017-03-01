@@ -33,7 +33,7 @@ import { Signal } from 'signal/Signal';
 	 *  @returns {Negate} this
 	 */
 	Negate.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._multiply.dispose();
 		this._multiply = null;
 		return this;

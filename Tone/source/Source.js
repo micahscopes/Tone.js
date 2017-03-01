@@ -271,7 +271,7 @@ import { Signal } from 'signal/Signal';
 	 *  @return {Source} this
 	 */
 	Source.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this.unsync();
 		this._scheduled = null;
 		this._writable("volume");

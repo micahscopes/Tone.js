@@ -85,7 +85,7 @@ import { CrossFade } from 'component/CrossFade';
 	 *  @returns {Effect} this
 	 */
 	Effect.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._dryWet.dispose();
 		this._dryWet = null;
 		this.effectSend.dispose();

@@ -170,7 +170,7 @@ import { Signal } from 'signal/Signal';
 	 *  @return {Filter} this
 	 */
 	Filter.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		for (var i = 0; i < this._filters.length; i++) {
 			this._filters[i].disconnect();
 			this._filters[i] = null;

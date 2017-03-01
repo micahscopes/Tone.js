@@ -69,7 +69,7 @@ import { WaveShaper } from 'signal/WaveShaper';
 	 *  @returns {Pow} this
 	 */
 	Pow.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._expScaler.dispose();
 		this._expScaler = null;
 		return this;

@@ -123,7 +123,7 @@ import { SignalBase } from 'signal/SignalBase';
 	 *  @returns {WaveShaper} this
 	 */
 	WaveShaper.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._shaper.disconnect();
 		this._shaper = null;
 		this._curve = null;

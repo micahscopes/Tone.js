@@ -61,7 +61,7 @@ import { Tone } from 'core/Tone';
 	 *  @returns {Merge} this
 	 */
 	Merge.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this.left.dispose();
 		this.left = null;
 		this.right.dispose();

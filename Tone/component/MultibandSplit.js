@@ -115,7 +115,7 @@ import { Gain } from 'core/Gain';
 	 *  @returns {MultibandSplit} this
 	 */
 	MultibandSplit.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._writable(["high", "mid", "low", "highFrequency", "lowFrequency"]);
 		this.low.dispose();
 		this.low = null;

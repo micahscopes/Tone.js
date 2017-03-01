@@ -82,7 +82,7 @@ import { Compressor } from 'component/Compressor';
 	 *  @returns {MidSideCompressor} this
 	 */
 	MidSideCompressor.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._writable(["mid", "side"]);
 		this.mid.dispose();
 		this.mid = null;

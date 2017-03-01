@@ -96,7 +96,7 @@ import { CrossFade } from 'component/CrossFade';
 	 *  @returns {StereoEffect} this
 	 */
 	StereoEffect.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._dryWet.dispose();
 		this._dryWet = null;
 		this._split.dispose();

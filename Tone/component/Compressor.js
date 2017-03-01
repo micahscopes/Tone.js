@@ -101,7 +101,7 @@ Compressor.defaults = {
  *  @returns {Compressor} this
  */
 Compressor.prototype.dispose = function(){
-	prototype.dispose.call(this);
+	Tone.prototype.dispose.call(this);
 	this._writable(["knee", "release", "attack", "ratio", "threshold"]);
 	this._compressor.disconnect();
 	this._compressor = null;

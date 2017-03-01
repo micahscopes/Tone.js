@@ -70,7 +70,7 @@ import { Context } from 'core/Context';
 			//invoke all the callbacks on that time
 			this.emit("tick");
 			//increment the clock
-			this._currentTime += prototype.blockTime;
+			this._currentTime += Tone.prototype.blockTime;
 		}
 
 		//promise returned is not yet implemented in all browsers

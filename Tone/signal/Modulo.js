@@ -96,7 +96,7 @@ import { Subtract } from 'signal/Subtract';
 	 *  @returns {Modulo} this
 	 */
 	Modulo.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._shaper.dispose();
 		this._shaper = null;
 		this._multiply.dispose();

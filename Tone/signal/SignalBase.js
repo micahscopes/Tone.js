@@ -39,6 +39,6 @@ import { Tone } from 'core/Tone';
 			node.cancelScheduledValues(0);
 			node.value = 0;
 		}
-		prototype.connect.call(this, node, outputNumber, inputNumber);
+		Tone.prototype.connect.call(this, node, outputNumber, inputNumber);
 		return this;
 	};

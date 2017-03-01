@@ -106,7 +106,7 @@ import { Signal } from 'signal/Signal';
 	 *  @returns {Scale} this
 	 */
 	Scale.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._add.dispose();
 		this._add = null;
 		this._scale.dispose();

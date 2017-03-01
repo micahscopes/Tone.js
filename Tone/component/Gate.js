@@ -110,7 +110,7 @@ import { GreaterThan } from 'signal/GreaterThan';
 	 *  @returns {Gate} this
 	 */
 	Gate.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._follower.dispose();
 		this._gt.dispose();
 		this._follower = null;

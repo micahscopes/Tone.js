@@ -374,7 +374,7 @@ import { Type } from 'type/Type';
 	 *  @return  {Timeline}  this
 	 */
 	Timeline.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._timeline = null;
 		this._toRemove = null;
 	};

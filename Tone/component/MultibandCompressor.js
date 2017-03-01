@@ -103,7 +103,7 @@ import { Compressor } from 'component/Compressor';
 	 *  @returns {MultibandCompressor} this
 	 */
 	MultibandCompressor.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._splitter.dispose();
 		this._writable(["high", "mid", "low", "highFrequency", "lowFrequency"]);
 		this.low.dispose();

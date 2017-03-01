@@ -57,7 +57,7 @@ import { Gain } from 'core/Gain';
 	 *  @returns {Multiply} this
 	 */
 	Multiply.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._mult.dispose();
 		this._mult = null;
 		this._param = null;

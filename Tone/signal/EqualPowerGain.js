@@ -36,7 +36,7 @@ import { WaveShaper } from 'signal/WaveShaper';
 	 *  @returns {EqualPowerGain} this
 	 */
 	EqualPowerGain.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._eqPower.dispose();
 		this._eqPower = null;
 		return this;

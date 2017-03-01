@@ -230,7 +230,7 @@ Object.defineProperty(Analyser.prototype, "maxDecibels", {
  *  @return  {Analyser}  this
  */
 Analyser.prototype.dispose = function(){
-	prototype.dispose.call(this);
+	Tone.prototype.dispose.call(this);
 	this._analyser.disconnect();
 	this._analyser = null;
 	this._buffer = null;

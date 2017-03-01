@@ -99,7 +99,7 @@ import { Gain } from 'core/Gain';
 	 */
 	Volume.prototype.dispose = function(){
 		this.input.dispose();
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._writable("volume");
 		this.volume.dispose();
 		this.volume = null;

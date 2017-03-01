@@ -366,7 +366,7 @@ import { Type } from 'type/Type';
 	 *  @returns {Param} this
 	 */
 	Param.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._param = null;
 		if (this._lfo){
 			this._lfo.dispose();

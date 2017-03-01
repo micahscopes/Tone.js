@@ -28,7 +28,7 @@ import { Gain } from 'core/Gain';
 	 *  @return  {Zero}  this
 	 */
 	Zero.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._gain.dispose();
 		this._gain = null;
 		return this;

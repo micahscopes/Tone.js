@@ -1,9 +1,7 @@
 // Rollup plugins
 import babel from 'rollup-plugin-babel';
-// import resolve from 'rollup-plugin-node-resolve';
-// import commonjs from 'rollup-plugin-commonjs';
-
 import includePaths from 'rollup-plugin-includepaths';
+// import commonjs from 'rollup-plugin-commonjs';
 
 let includePathOptions = {
     include: {},
@@ -13,10 +11,9 @@ let includePathOptions = {
 };
 
 export default {
-  entry: 'Tone/core.js',
-  dest: 'build/index.js',
-  format: 'iife',
-  moduleName: "Tone",
+  entry: 'Tone/main.js',
+  dest: 'build/index.es.js',
+  format: 'es',
   plugins: [
     includePaths(includePathOptions),
   // sourceMap: 'inline',
@@ -28,15 +25,10 @@ export default {
   //     preferBuiltins: true  // Default: true
   //   }),
     // commonjs(),
-    babel({
-      presets: [
-        ['es2015', { modules: false } ]
-      ],
-      // plugins: [
-      //   'transform-class-properties',
-      //   'external-helpers',
-      // ],
-      // exclude: 'node_modules/babel-runtime/**',
-    }),
+    // babel({
+    //   presets: [
+    //     ['es2015', { modules: true } ]
+    //   ],
+    // }),
   ],
 };

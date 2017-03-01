@@ -74,7 +74,7 @@ import { Type } from 'type/Type';
 	 *  @return  {Tone}  this
 	 *  @internal
 	 */
-	prototype.createInsOuts = function(inputs, outputs){
+	Tone.prototype.createInsOuts = function(inputs, outputs){
 
 		if (inputs === 1){
 			this.input = new Gain();

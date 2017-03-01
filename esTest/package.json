@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "tone": "file://home/micah/Web/Tone.js/"
+  },
+  "devDependencies": {
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-node-resolve": "^2.0.0"
+  }
+}

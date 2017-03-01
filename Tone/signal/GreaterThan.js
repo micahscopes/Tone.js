@@ -51,7 +51,7 @@ import { Signal } from 'signal/Signal';
 	 *  @returns {GreaterThan} this
 	 */
 	GreaterThan.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._param.dispose();
 		this._param = null;
 		this._gtz.dispose();

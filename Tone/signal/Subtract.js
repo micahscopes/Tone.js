@@ -68,7 +68,7 @@ import { Gain } from 'core/Gain';
 	 *  @returns {SignalBase} this
 	 */
 	Subtract.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._neg.dispose();
 		this._neg = null;
 		this._sum.disconnect();

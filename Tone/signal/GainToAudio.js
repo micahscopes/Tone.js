@@ -34,7 +34,7 @@ import { Signal } from 'signal/Signal';
 	 *  @returns {GainToAudio} this
 	 */
 	GainToAudio.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._norm.dispose();
 		this._norm = null;
 		return this;

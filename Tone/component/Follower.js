@@ -178,7 +178,7 @@ import { Delay } from 'core/Delay';
 	 *  @returns {Follower} this
 	 */
 	Follower.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._filter.disconnect();
 		this._filter = null;
 		this._frequencyValues.disconnect();

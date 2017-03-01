@@ -60,7 +60,7 @@ import { Split } from 'component/Split';
 	 *  @returns {MidSideSplit} this
 	 */
 	MidSideSplit.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this.mid.dispose();
 		this.mid = null;
 		this.side.dispose();

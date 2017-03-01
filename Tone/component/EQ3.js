@@ -129,7 +129,7 @@ import { Gain } from 'core/Gain';
 	 *  @returns {EQ3} this
 	 */
 	EQ3.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._writable(["low", "mid", "high", "lowFrequency", "highFrequency"]);
 		this._multibandSplit.dispose();
 		this._multibandSplit = null;

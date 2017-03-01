@@ -50,7 +50,7 @@ import { Gain } from 'core/Gain';
 	 *  @returns {Split} this
 	 */
 	Split.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._splitter.disconnect();
 		this.left.dispose();
 		this.left = null;

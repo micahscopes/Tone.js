@@ -110,7 +110,7 @@ import { Context } from 'core/Context';
 	 *  @return  {Master}  this
 	 */
 	Master.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._writable("volume");
 		this._volume.dispose();
 		this._volume = null;
@@ -118,7 +118,7 @@ import { Context } from 'core/Context';
 	};
 
 	///////////////////////////////////////////////////////////////////////////
-	//	AUGMENT TONE's PROTOTYPE
+	//	AUGMENT TONE's Tone.PROTOTYPE
 	///////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -128,13 +128,13 @@ import { Context } from 'core/Context';
 	 * //connect an oscillator to the master output
 	 * var osc = new Oscillator().toMaster();
 	 */
-	prototype.toMaster = function(){
+	Tone.prototype.toMaster = function(){
 		this.connect(Master);
 		return this;
 	};
 
 	/**
-	 *  Also augment AudioNode's prototype to include toMaster
+	 *  Also augment AudioNode's Tone.prototype to include toMaster
 	 *  as a convenience
 	 *  @returns {AudioNode} this
 	 */

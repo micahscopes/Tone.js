@@ -255,7 +255,7 @@ import { Volume } from 'component/Volume';
 	 *  @return  {MultiPlayer}  this
 	 */
 	MultiPlayer.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._volume.dispose();
 		this._volume = null;
 		this._writable("volume");

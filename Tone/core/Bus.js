@@ -8,7 +8,7 @@ import { Gain } from 'core/Gain';
 	/**
 	 *  buses are another way of routing audio
 	 *
-	 *  augments prototype to include send and recieve
+	 *  augments Tone.prototype to include send and recieve
 	 */
 
 	 /**
@@ -29,7 +29,7 @@ import { Gain } from 'core/Gain';
 	 *  @example
 	 * source.send("reverb", -12);
 	 */
-	prototype.send = function(channelName, amount){
+	Tone.prototype.send = function(channelName, amount){
 		if (!Buses.hasOwnProperty(channelName)){
 			Buses[channelName] = this.context.createGain();
 		}
@@ -50,7 +50,7 @@ import { Gain } from 'core/Gain';
 	 *  @example
 	 * reverbEffect.receive("reverb");
 	 */
-	prototype.receive = function(channelName, input){
+	Tone.prototype.receive = function(channelName, input){
 		if (!Buses.hasOwnProperty(channelName)){
 			Buses[channelName] = this.context.createGain();
 		}

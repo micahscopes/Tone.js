@@ -94,7 +94,7 @@ import { Pow } from 'signal/Pow';
 	 *  @returns {ScaleExp} this
 	 */
 	ScaleExp.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._scale.dispose();
 		this._scale = null;
 		this._exp.dispose();

@@ -258,7 +258,7 @@ import { Volume } from 'component/Volume';
 	 * @return {UserMedia} this
 	 */
 	UserMedia.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this.close();
 		this._writable("volume");
 		this._volume.dispose();
@@ -277,6 +277,6 @@ import { Volume } from 'component/Volume';
 	 */
 	Object.defineProperty(UserMedia, "supported", {
 		get : function(){
-			return !prototype.isUndef(navigator.mediaDevices) && prototype.isFunction(navigator.mediaDevices.getUserMedia);
+			return !Tone.prototype.isUndef(navigator.mediaDevices) && Tone.prototype.isFunction(navigator.mediaDevices.getUserMedia);
 		}
 	});

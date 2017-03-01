@@ -102,7 +102,7 @@ import { Delay } from 'core/Delay';
 	 *  @returns {LowpassCombFilter} this
 	 */
 	LowpassCombFilter.prototype.dispose = function(){
-		prototype.dispose.call(this);
+		Tone.prototype.dispose.call(this);
 		this._writable(["dampening", "resonance", "delayTime"]);
 		this.dampening.dispose();
 		this.dampening = null;
