@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Synth } from 'instrument';
-import { Source } from 'source';
+import { Tone } from 'core/Tone';
+
+import { Synth } from 'instrument/Synth';
+
+import { Source } from 'source/Source';
+
 
 	"use strict";
 
@@ -24,7 +27,7 @@ import { Source } from 'source';
 	 * //play a chord
 	 * synth.triggerAttackRelease(["C4", "E4", "A4"], "4n");
 	 */
-	export function PolySynth(){
+	export var PolySynth = function(){
 
 		Instrument.call(this);
 

@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Time } from 'type';
+import { Tone } from 'core/Tone';
+
+import { Time } from 'type/Time';
+
 
 	/**
 	 *  @class TransportTime is a the time along the Transport's
@@ -11,7 +13,7 @@ import { Time } from 'type';
 	 *  @param  {String=}  units  Unit values
 	 *  @extends {Time}
 	 */
-	export function TransportTime(val, units){
+	export var TransportTime = function(val, units){
 		if (this instanceof TransportTime){
 
 			Time.call(this, val, units);

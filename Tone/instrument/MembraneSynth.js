@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { OmniOscillator } from 'source';
-import { Instrument } from 'instrument';
-import { AmplitudeEnvelope } from 'component';
+import { Tone } from 'core/Tone';
+
+import { OmniOscillator } from 'source/OmniOscillator';
+
+import { Instrument } from 'instrument/Instrument';
+
+import { AmplitudeEnvelope } from 'component/AmplitudeEnvelope';
+
 
 	"use strict";
 
@@ -22,7 +26,7 @@ import { AmplitudeEnvelope } from 'component';
 	 * var synth = new MembraneSynth().toMaster();
 	 * synth.triggerAttackRelease("C2", "8n");
 	 */
-	export function MembraneSynth(options){
+	export var MembraneSynth = function(options){
 
 		options = this.defaultArg(options, MembraneSynth.defaults);
 		Instrument.call(this, options);

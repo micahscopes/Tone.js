@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Type } from 'type';
+import { Tone } from 'core/Tone';
+
+import { Type } from 'type/Type';
+
 
 	"use strict";
 
@@ -13,7 +15,7 @@ import { Type } from 'type';
 	 *  @param  {Type} units The units of the audio param.
 	 *  @param  {Boolean} convert If the param should be converted.
 	 */
-	export function Param(){
+	export var Param = function(){
 
 		var options = this.optionsObject(arguments, ["param", "units", "convert"], Param.defaults);
 

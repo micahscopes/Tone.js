@@ -1,8 +1,13 @@
-import { Tone } from 'core';
-import { Time } from 'type';
-import { Frequency } from 'type';
-import { TransportTime } from 'type';
-import { Context } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Time } from 'type/Time';
+
+import { Frequency } from 'type/Frequency';
+
+import { TransportTime } from 'type/TransportTime';
+
+import { Context } from 'core/Context';
+
 
 	///////////////////////////////////////////////////////////////////////////
 	//	TYPES
@@ -12,7 +17,7 @@ import { Context } from 'core';
 	 * Units which a value can take on.
 	 * @enum {String}
 	 */
-	Type = {
+	export const Type = {
 		/**
 		 *  Default units
 		 *  @typedef {Default}

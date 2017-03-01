@@ -1,6 +1,13 @@
-import { Tone } from 'core';
-import { Signal, Expr, EqualPowerGain } from 'signal';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Signal } from 'signal/Signal'
+
+import { Expr } from 'signal/Expr';
+
+import { EqualPowerGain } from 'signal/EqualPowerGain';
+
+import { Gain } from 'core/Gain';
+
 
 "use strict";
 
@@ -26,7 +33,7 @@ import { Gain } from 'core';
  * crossFade.fade.value = 0.5;
  * // ^ the two signals are mixed equally.
  */
-export function CrossFade(initialFade){
+export var CrossFade = function(initialFade){
 
 	this.createInsOuts(2, 1);
 

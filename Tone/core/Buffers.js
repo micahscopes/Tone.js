@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Buffer } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Buffer } from 'core/Buffer';
+
 
 	/**
 	 *  @class A data structure for holding multiple buffers.
@@ -24,7 +26,7 @@ import { Buffer } from 'core';
 	 * });
 	 *
 	 */
-	export function Buffers(urls, onload, baseUrl){
+	export var Buffers = function(urls, onload, baseUrl){
 
 		/**
 		 *  All of the buffers

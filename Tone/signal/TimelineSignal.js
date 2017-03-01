@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Signal } from 'signal';
-import { Timeline } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Signal } from 'signal/Signal';
+
+import { Timeline } from 'core/Timeline';
+
 
 	"use strict";
 
@@ -11,7 +14,7 @@ import { Timeline } from 'core';
 	 *  @param {Number=} value The initial value of the signal
 	 *  @param {String=} units The conversion units of the signal.
 	 */
-	export function TimelineSignal(){
+	export var TimelineSignal = function(){
 
 		var options = this.optionsObject(arguments, ["value", "units"], Signal.defaults);
 

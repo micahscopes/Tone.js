@@ -1,4 +1,5 @@
-import { Tone } from 'core';
+import { Tone } from 'core/Tone';
+
 "use strict";
 
 /**
@@ -10,7 +11,7 @@ import { Tone } from 'core';
  *  @param {Number=} size The size of the FFT. Value must be a power of
  *                       two in the range 32 to 32768.
  */
-export function Analyser(){
+export var Analyser = function(){
 
 	var options = this.optionsObject(arguments, ["type", "size"], Analyser.defaults);
 

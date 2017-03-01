@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { MidSideSplit } from 'component';
-import { MidSideMerge } from 'component';
-import { Compressor } from 'component';
+import { Tone } from 'core/Tone';
+
+import { MidSideSplit } from 'component/MidSideSplit';
+
+import { MidSideMerge } from 'component/MidSideMerge';
+
+import { Compressor } from 'component/Compressor';
+
 
 	"use strict";
 
@@ -14,7 +18,7 @@ import { Compressor } from 'component';
 	 *                          compressors.
 	 *  @constructor
 	 */
-	export function MidSideCompressor(options){
+	export var MidSideCompressor = function(options){
 
 		options = this.defaultArg(options, MidSideCompressor.defaults);
 

@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Instrument } from 'instrument';
-import { Signal } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Instrument } from 'instrument/Instrument';
+
+import { Signal } from 'signal/Signal';
+
 
 	"use strict";
 
@@ -13,7 +16,7 @@ import { Signal } from 'signal';
 	 *  @abstract
 	 *  @extends {Instrument}
 	 */
-	export function Monophonic(options){
+	export var Monophonic = function(options){
 
 		//get the defaults
 		options = this.defaultArg(options, Monophonic.defaults);

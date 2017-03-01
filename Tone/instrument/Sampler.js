@@ -1,8 +1,12 @@
-import { Tone } from 'core';
+import { Tone } from 'core/Tone';
+
 /*
-import { Player } from 'source';
-import { AmplitudeEnvelope } from 'component';
-import { Instrument } from 'instrument';*/
+import { Player } from 'source/Player';
+
+import { AmplitudeEnvelope } from 'component/AmplitudeEnvelope';
+
+import { Instrument } from 'instrument/Instrument';
+*/
 
 	"use strict";
 
@@ -19,7 +23,7 @@ import { Instrument } from 'instrument';*/
 	 * 	sampler.triggerAttack(-1);
 	 * }).toMaster();
 	 */
-	export function Sampler(){
+	export var Sampler = function(){
 
 		var options = this.optionsObject(arguments, ["url", "onload"], Sampler.defaults);
 		Instrument.call(this, options);

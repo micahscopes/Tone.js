@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Gain } from 'core/Gain';
+
 
 	/**
 	 *  @class Zero outputs 0's at audio-rate. The reason this has to be
@@ -7,7 +9,7 @@ import { Gain } from 'core';
 	 *         with a value of 0 and will not process nodes further down the graph.
 	 *  @extends {Tone}
 	 */
-	export function Zero(){
+	export var Zero = function(){
 
 		/**
 		 *  The gain node

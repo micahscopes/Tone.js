@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Effect } from 'effect';
-import { MidSideSplit } from 'component';
-import { MidSideMerge } from 'component';
+import { Tone } from 'core/Tone';
+
+import { Effect } from 'effect/Effect';
+
+import { MidSideSplit } from 'component/MidSideSplit';
+
+import { MidSideMerge } from 'component/MidSideMerge';
+
 
 	"use strict";
 
@@ -18,7 +22,7 @@ import { MidSideMerge } from 'component';
 	 *  @extends {Effect}
 	 *  @constructor
 	 */
-	export function MidSideEffect(){
+	export var MidSideEffect = function(){
 
 		Effect.apply(this, arguments);
 

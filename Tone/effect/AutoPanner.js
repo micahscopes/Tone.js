@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Effect } from 'effect';
-import { LFO } from 'component';
-import { Panner } from 'component';
+import { Tone } from 'core/Tone';
+
+import { Effect } from 'effect/Effect';
+
+import { LFO } from 'component/LFO';
+
+import { Panner } from 'component/Panner';
+
 
 	"use strict";
 
@@ -18,7 +22,7 @@ import { Panner } from 'component';
 	 * //route an oscillator through the panner and start it
 	 * var oscillator = new Oscillator().connect(autoPanner).start();
 	 */
-	export function AutoPanner(){
+	export var AutoPanner = function(){
 
 		var options = this.optionsObject(arguments, ["frequency"], AutoPanner.defaults);
 		Effect.call(this, options);

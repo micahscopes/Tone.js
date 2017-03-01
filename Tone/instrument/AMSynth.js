@@ -1,10 +1,17 @@
-import { Tone } from 'core';
-import { Synth } from 'instrument';
-import { Signal } from 'signal';
-import { Multiply } from 'signal';
-import { Monophonic } from 'instrument';
-import { AudioToGain } from 'signal';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Synth } from 'instrument/Synth';
+
+import { Signal } from 'signal/Signal';
+
+import { Multiply } from 'signal/Multiply';
+
+import { Monophonic } from 'instrument/Monophonic';
+
+import { AudioToGain } from 'signal/AudioToGain';
+
+import { Gain } from 'core/Gain';
+
 
 	"use strict";
 
@@ -24,7 +31,7 @@ import { Gain } from 'core';
 	 * var synth = new AMSynth().toMaster();
 	 * synth.triggerAttackRelease("C4", "4n");
 	 */
-	export function AMSynth(options){
+	export var AMSynth = function(options){
 
 		options = this.defaultArg(options, AMSynth.defaults);
 		Monophonic.call(this, options);

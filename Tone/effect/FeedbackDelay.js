@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { FeedbackEffect } from 'effect';
-import { Signal } from 'signal';
-import { Delay } from 'core';
+import { Tone } from 'core/Tone';
+
+import { FeedbackEffect } from 'effect/FeedbackEffect';
+
+import { Signal } from 'signal/Signal';
+
+import { Delay } from 'core/Delay';
+
 
 	"use strict";
 
@@ -22,7 +26,7 @@ import { Delay } from 'core';
 	 * }).connect(feedbackDelay);
 	 * tom.triggerAttackRelease("A2","32n");
 	 */
-	export function FeedbackDelay(){
+	export var FeedbackDelay = function(){
 
 		var options = this.optionsObject(arguments, ["delayTime", "feedback"], FeedbackDelay.defaults);
 		FeedbackEffect.call(this, options);

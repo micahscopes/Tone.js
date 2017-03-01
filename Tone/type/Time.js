@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { TimeBase } from 'type';
+import { Tone } from 'core/Tone';
+
+import { TimeBase } from 'type/TimeBase';
+
 
 	/**
 	 *  @class Time is a primitive type for encoding Time values.
@@ -16,7 +18,7 @@ import { TimeBase } from 'type';
 	 * t.mult(4); // multiply that value by 4
 	 * t.toNotation(); //returns "1m"
 	 */
-	export function Time(val, units){
+	export var Time = function(val, units){
 		if (this instanceof Time){
 
 			/**

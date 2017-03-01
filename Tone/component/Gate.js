@@ -1,7 +1,9 @@
-import { Tone } from 'core';
-/* 
-import { Follower } from 'component';
-import { GreaterThan } from 'signal';*/
+import { Tone } from 'core/Tone';
+
+import { Follower } from 'component/Follower';
+
+import { GreaterThan } from 'signal/GreaterThan';
+
 
 	"use strict";
 
@@ -22,7 +24,7 @@ import { GreaterThan } from 'signal';*/
 	 * //the gate will only pass through the incoming
 	 * //signal when it's louder than -30db
 	 */
-	export default function Gate(){
+	export var Gate = function(){
 
 		this.createInsOuts(1, 1);
 		var options = this.optionsObject(arguments, ["threshold", "attack", "release"], Gate.defaults);

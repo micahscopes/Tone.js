@@ -1,8 +1,13 @@
-import { Tone } from 'core';
-import { Synth } from 'instrument';
-import { Signal } from 'signal';
-import { Multiply } from 'signal';
-import { Monophonic } from 'instrument';
+import { Tone } from 'core/Tone';
+
+import { Synth } from 'instrument/Synth';
+
+import { Signal } from 'signal/Signal';
+
+import { Multiply } from 'signal/Multiply';
+
+import { Monophonic } from 'instrument/Monophonic';
+
 
 	"use strict";
 
@@ -21,7 +26,7 @@ import { Monophonic } from 'instrument';
 	 * var fmSynth = new FMSynth().toMaster();
 	 * fmSynth.triggerAttackRelease("C5", "4n");
 	 */
-	export function FMSynth(options){
+	export var FMSynth = function(options){
 
 		options = this.defaultArg(options, FMSynth.defaults);
 		Monophonic.call(this, options);

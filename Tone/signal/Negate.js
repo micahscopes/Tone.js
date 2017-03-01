@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Multiply } from 'signal';
-import { Signal } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Multiply } from 'signal/Multiply';
+
+import { Signal } from 'signal/Signal';
+
 
 	"use strict";
 
@@ -14,7 +17,7 @@ import { Signal } from 'signal';
 	 * var sig = new Signal(-2).connect(neg);
 	 * //output of neg is positive 2.
 	 */
-	export function Negate(){
+	export var Negate = function(){
 		/**
 		 *  negation is done by multiplying by -1
 		 *  @type {Multiply}

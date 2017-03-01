@@ -1,8 +1,13 @@
-import { Tone } from 'core';
-import { WaveShaper } from 'signal';
-import { Type } from 'type';
-import { Param } from 'core';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { WaveShaper } from 'signal/WaveShaper';
+
+import { Type } from 'type/Type';
+
+import { Param } from 'core/Param';
+
+import { Gain } from 'core/Gain';
+
 
 	"use strict";
 
@@ -23,7 +28,7 @@ import { Gain } from 'core';
 	 *  @example
 	 * var signal = new Signal(10);
 	 */
-	export function Signal(){
+	export var Signal = function(){
 
 		var options = this.optionsObject(arguments, ["value", "units"], Signal.defaults);
 

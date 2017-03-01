@@ -1,5 +1,5 @@
-import { Tone } from 'core';
-import { Tone } from 'core';
+import { Tone } from 'core/Tone';
+
 
 	"use strict";
 
@@ -22,7 +22,7 @@ import { Tone } from 'core';
 	 *  @param  {CtrlPattern.Type=}  type  The name of the pattern.
 	 *  @extends {Tone}
 	 */
-	export function CtrlPattern(){
+	export var CtrlPattern = function(){
 
 		var options = this.optionsObject(arguments, ["values", "type"], CtrlPattern.defaults);
 

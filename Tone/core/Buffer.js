@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Emitter } from 'core';
-import { Type } from 'type';
+import { Tone } from 'core/Tone';
+
+import { Emitter } from 'core/Emitter';
+
+import { Type } from 'type/Type';
+
 
 	"use strict";
 
@@ -26,7 +29,7 @@ import { Type } from 'type';
 	 * 	var buff = buffer.get();
 	 * });
 	 */
-	export function Buffer(){
+	export var Buffer = function(){
 
 		var options = this.optionsObject(arguments, ["url", "onload", "onerror"], Buffer.defaults);
 

@@ -1,10 +1,17 @@
-import { Tone } from 'core';
-import { Transport } from 'core';
-import { Volume } from 'component';
-import { Master } from 'core';
-import { Type } from 'type';
-import { TimelineState } from 'core';
-import { Signal } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Transport } from 'core/Transport';
+
+import { Volume } from 'component/Volume';
+
+import { Master } from 'core/Master';
+
+import { Type } from 'type/Type';
+
+import { TimelineState } from 'core/TimelineState';
+
+import { Signal } from 'signal/Signal';
+
 
 	"use strict";
 
@@ -30,7 +37,7 @@ import { Signal } from 'signal';
 	 * state.start("+0.3").stop("+0.2");
 	 *
 	 */
-	export function Source(options){
+	export var Source = function(options){
 
 		// this.createInsOuts(0, 1);
 

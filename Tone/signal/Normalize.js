@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Add } from 'signal';
-import { Multiply } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Add } from 'signal/Add';
+
+import { Multiply } from 'signal/Multiply';
+
 
 	"use strict";
 
@@ -16,7 +19,7 @@ import { Multiply } from 'signal';
 	 * var sig = new Signal(3).connect(norm);
 	 * //output of norm is 0.5.
 	 */
-	export function Normalize(inputMin, inputMax){
+	export var Normalize = function(inputMin, inputMax){
 
 		/**
 		 *  the min input value

@@ -1,5 +1,5 @@
-import { Tone } from 'core';
-import { Tone } from 'core';
+import { Tone } from 'core/Tone';
+
 
 	"use strict";
 
@@ -11,7 +11,7 @@ import { Tone } from 'core';
 	 *
 	 *  @extends {Tone}
 	 */
-	export function Emitter(){
+	export var Emitter = function(){
 		/**
 		 *  Contains all of the events.
 		 *  @private

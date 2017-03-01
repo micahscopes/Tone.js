@@ -1,10 +1,17 @@
-import { Tone } from 'core';
-import { Clock } from 'core';
-import { Type } from 'type';
-import { Timeline } from 'core';
-import { Emitter } from 'core';
-import { Gain } from 'core';
-import { IntervalTimeline } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Clock } from 'core/Clock';
+
+import { Type } from 'type/Type';
+
+import { Timeline } from 'core/Timeline';
+
+import { Emitter } from 'core/Emitter';
+
+import { Gain } from 'core/Gain';
+
+import { IntervalTimeline } from 'core/IntervalTimeline';
+
 
 	"use strict";
 
@@ -32,7 +39,7 @@ import { IntervalTimeline } from 'core';
 	 * 	//do something with the time
 	 * }, "16:0:0");
 	 */
-	export function Transport(){
+	export var Transport = function(){
 
 		Emitter.call(this);
 

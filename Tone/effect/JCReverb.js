@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { FeedbackCombFilter } from 'component';
-import { StereoEffect } from 'effect';
-import { Scale } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { FeedbackCombFilter } from 'component/FeedbackCombFilter';
+
+import { StereoEffect } from 'effect/StereoEffect';
+
+import { Scale } from 'signal/Scale';
+
 
 	"use strict";
 
@@ -45,7 +49,7 @@ import { Scale } from 'signal';
 	 * var synth = new DuoSynth().chain(delay, reverb);
 	 * synth.triggerAttackRelease("A4","8n");
 	 */
-	export function JCReverb(){
+	export var JCReverb = function(){
 
 		var options = this.optionsObject(arguments, ["roomSize"], JCReverb.defaults);
 		StereoEffect.call(this, options);

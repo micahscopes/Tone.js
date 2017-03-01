@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { WaveShaper } from 'signal';
-import { Multiply } from 'signal';
-import { Subtract } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { WaveShaper } from 'signal/WaveShaper';
+
+import { Multiply } from 'signal/Multiply';
+
+import { Subtract } from 'signal/Subtract';
+
 
 	"use strict";
 
@@ -17,7 +21,7 @@ import { Subtract } from 'signal';
 	 * var sig = new Signal(0.5).connect(mod);
 	 * //mod outputs 0.1
 	 */
-	export function Modulo(modulus){
+	export var Modulo = function(modulus){
 
 		this.createInsOuts(1, 0);
 

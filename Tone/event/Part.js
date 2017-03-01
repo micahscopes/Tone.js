@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Event } from 'event';
-import { Type } from 'type';
-import { Transport } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Event } from 'event/Event';
+
+import { Type } from 'type/Type';
+
+import { Transport } from 'core/Transport';
+
 
 	"use strict";
 
@@ -27,7 +31,7 @@ import { Transport } from 'core';
 	 * 	   {"time" : "0:2", "note" : "C4", "velocity": 0.5}
 	 * ]).start(0);
 	 */
-	export function Part(){
+	export var Part = function(){
 
 		var options = this.optionsObject(arguments, ["callback", "events"], Part.defaults);
 

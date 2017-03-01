@@ -1,8 +1,13 @@
-import { Tone } from 'core';
-import { Effect } from 'effect';
-import { Split } from 'component';
-import { Merge } from 'component';
-import { CrossFade } from 'component';
+import { Tone } from 'core/Tone';
+
+import { Effect } from 'effect/Effect';
+
+import { Split } from 'component/Split';
+
+import { Merge } from 'component/Merge';
+
+import { CrossFade } from 'component/CrossFade';
+
 
 	"use strict";
 
@@ -12,7 +17,7 @@ import { CrossFade } from 'component';
 	 *	@constructor
 	 *	@extends {Effect}
 	 */
-	export function StereoEffect(){
+	export var StereoEffect = function(){
 
 		this.createInsOuts(1, 1);
 		//get the defaults

@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Effect } from 'effect';
-import { Delay } from 'core';
-import { LFO } from 'component';
+import { Tone } from 'core/Tone';
+
+import { Effect } from 'effect/Effect';
+
+import { Delay } from 'core/Delay';
+
+import { LFO } from 'component/LFO';
+
 
 	"use strict";
 
@@ -13,7 +17,7 @@ import { LFO } from 'component';
 	 *  @param {Frequency} frequency The frequency of the vibrato.
 	 *  @param {NormalRange} depth The amount the pitch is modulated.
 	 */
-	export function Vibrato(){
+	export var Vibrato = function(){
 
 		var options = this.optionsObject(arguments, ["frequency", "depth"], Vibrato.defaults);
 		Effect.call(this, options);

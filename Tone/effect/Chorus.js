@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { LFO } from 'component';
-import { StereoXFeedbackEffect } from 'effect';
-import { Delay } from 'core';
+import { Tone } from 'core/Tone';
+
+import { LFO } from 'component/LFO';
+
+import { StereoXFeedbackEffect } from 'effect/StereoXFeedbackEffect';
+
+import { Delay } from 'core/Delay';
+
 
 	"use strict";
 
@@ -21,7 +25,7 @@ import { Delay } from 'core';
 	 * var synth = new PolySynth(4, MonoSynth).connect(chorus);
 	 * synth.triggerAttackRelease(["C3","E3","G3"], "8n");
 	 */
-	export function Chorus(){
+	export var Chorus = function(){
 
 		var options = this.optionsObject(arguments, ["frequency", "delayTime", "depth"], Chorus.defaults);
 		StereoXFeedbackEffect.call(this, options);

@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { SignalBase } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { SignalBase } from 'signal/SignalBase';
+
 
 	"use strict";
 
@@ -27,7 +29,7 @@ import { SignalBase } from 'signal';
 	 * //a waveshaper can also be constructed with an array of values
 	 * var invert = new WaveShaper([1, -1]);
 	 */
-	export function WaveShaper(mapping, bufferLen){
+	export var WaveShaper = function(mapping, bufferLen){
 
 		/**
 		 *  the waveshaper

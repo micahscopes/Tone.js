@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { LFO } from 'component';
-import { Filter } from 'component';
-import { StereoEffect } from 'effect';
+import { Tone } from 'core/Tone';
+
+import { LFO } from 'component/LFO';
+
+import { Filter } from 'component/Filter';
+
+import { StereoEffect } from 'effect/StereoEffect';
+
 
 	"use strict";
 
@@ -25,7 +29,7 @@ import { StereoEffect } from 'effect';
 	 * var synth = new FMSynth().connect(phaser);
 	 * synth.triggerAttackRelease("E3", "2n");
 	 */
-	export function Phaser(){
+	export var Phaser = function(){
 
 		//set the defaults
 		var options = this.optionsObject(arguments, ["frequency", "octaves", "baseFrequency"], Phaser.defaults);

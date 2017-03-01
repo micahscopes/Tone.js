@@ -1,8 +1,13 @@
-import { Tone } from 'core';
-import { MidSideEffect } from 'effect';
-import { Signal } from 'signal';
-import { Multiply } from 'signal';
-import { Expr } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { MidSideEffect } from 'effect/MidSideEffect';
+
+import { Signal } from 'signal/Signal';
+
+import { Multiply } from 'signal/Multiply';
+
+import { Expr } from 'signal/Expr';
+
 
 	"use strict";
 
@@ -20,7 +25,7 @@ import { Expr } from 'signal';
 	 *  @constructor
 	 *  @param {NormalRange|Object} [width] The stereo width. A width of 0 is mono and 1 is stereo. 0.5 is no change.
 	 */
-	export function StereoWidener(){
+	export var StereoWidener = function(){
 
 		var options = this.optionsObject(arguments, ["width"], StereoWidener.defaults);
 		MidSideEffect.call(this, options);

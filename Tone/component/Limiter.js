@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Compressor } from 'component';
+import { Tone } from 'core/Tone';
+
+import { Compressor } from 'component/Compressor';
+
 
 	"use strict";
 
@@ -17,7 +19,7 @@ import { Compressor } from 'component';
 	 *  @example
 	 *  var limiter = new Limiter(-6);
 	 */
-	export function Limiter(){
+	export var Limiter = function(){
 
 		var options = this.optionsObject(arguments, ["threshold"], Limiter.defaults);
 

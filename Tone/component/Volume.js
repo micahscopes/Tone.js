@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Signal } from 'signal';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Signal } from 'signal/Signal';
+
+import { Gain } from 'core/Gain';
+
 
 	"use strict";
 
@@ -14,7 +17,7 @@ import { Gain } from 'core';
 	 * var vol = new Volume(-12);
 	 * instrument.chain(vol, Master);
 	 */
-	export function Volume(){
+	export var Volume = function(){
 
 		var options = this.optionsObject(arguments, ["volume"], Volume.defaults);
 

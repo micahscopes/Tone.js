@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Instrument } from 'instrument';
-import { Noise } from 'source';
-import { LowpassCombFilter } from 'component';
+import { Tone } from 'core/Tone';
+
+import { Instrument } from 'instrument/Instrument';
+
+import { Noise } from 'source/Noise';
+
+import { LowpassCombFilter } from 'component/LowpassCombFilter';
+
 
 	"use strict";
 
@@ -17,7 +21,7 @@ import { LowpassCombFilter } from 'component';
 	 * var plucky = new PluckSynth().toMaster();
 	 * plucky.triggerAttack("C4");
 	 */
-	export function PluckSynth(options){
+	export var PluckSynth = function(options){
 
 		options = this.defaultArg(options, PluckSynth.defaults);
 		Instrument.call(this, options);

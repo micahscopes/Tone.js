@@ -1,9 +1,15 @@
-import { Tone } from 'core';
-import { Source } from 'source';
-import { Oscillator } from 'source';
-import { Multiply } from 'signal';
-import { Gain } from 'core';
-import { AudioToGain } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Source } from 'source/Source';
+
+import { Oscillator } from 'source/Oscillator';
+
+import { Multiply } from 'signal/Multiply';
+
+import { Gain } from 'core/Gain';
+
+import { AudioToGain } from 'signal/AudioToGain';
+
 
 	"use strict";
 
@@ -19,7 +25,7 @@ import { AudioToGain } from 'signal';
 	 * //a sine oscillator frequency-modulated by a square wave
 	 * var fmOsc = new AMOscillator("Ab3", "sine", "square").toMaster().start();
 	 */
-	export function AMOscillator(){
+	export var AMOscillator = function(){
 
 		var options = this.optionsObject(arguments, ["frequency", "type", "modulationType"], AMOscillator.defaults);
 		Source.call(this, options);

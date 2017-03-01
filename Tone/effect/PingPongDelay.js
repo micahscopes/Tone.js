@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { StereoXFeedbackEffect } from 'effect';
-import { Signal } from 'signal';
-import { Delay } from 'core';
+import { Tone } from 'core/Tone';
+
+import { StereoXFeedbackEffect } from 'effect/StereoXFeedbackEffect';
+
+import { Signal } from 'signal/Signal';
+
+import { Delay } from 'core/Delay';
+
 
 	"use strict";
 
@@ -24,7 +28,7 @@ import { Delay } from 'core';
 	 * var drum = new DrumSynth().connect(pingPong);
 	 * drum.triggerAttackRelease("C4", "32n");
 	 */
-	export function PingPongDelay(){
+	export var PingPongDelay = function(){
 
 		var options = this.optionsObject(arguments, ["delayTime", "feedback"], PingPongDelay.defaults);
 		StereoXFeedbackEffect.call(this, options);

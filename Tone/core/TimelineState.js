@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Timeline } from 'core';
-import { Type } from 'type';
+import { Tone } from 'core/Tone';
+
+import { Timeline } from 'core/Timeline';
+
+import { Type } from 'type/Type';
+
 
 	"use strict";
 
@@ -12,7 +15,7 @@ import { Type } from 'type';
 	 *  @param {String} initial The initial state of the TimelineState.
 	 *                          Defaults to <code>undefined</code>
 	 */
-	export function TimelineState(initial){
+	export var TimelineState = function(initial){
 
 		Timeline.call(this);
 

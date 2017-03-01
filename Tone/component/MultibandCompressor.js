@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { MultibandSplit } from 'component';
-import { Compressor } from 'component';
+import { Tone } from 'core/Tone';
+
+import { MultibandSplit } from 'component/MultibandSplit';
+
+import { Compressor } from 'component/Compressor';
+
 
 	"use strict";
 
@@ -19,7 +22,7 @@ import { Compressor } from 'component';
 	 *  	}
 	 *  })
 	 */
-	export function MultibandCompressor(options){
+	export var MultibandCompressor = function(options){
 
 		options = this.defaultArg(arguments, MultibandCompressor.defaults);
 

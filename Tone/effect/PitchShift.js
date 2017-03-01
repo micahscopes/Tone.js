@@ -1,9 +1,15 @@
-import { Tone } from 'core';
-import { LFO } from 'component';
-import { CrossFade } from 'component';
-import { Signal } from 'signal';
-import { FeedbackEffect } from 'effect';
-import { Delay } from 'core';
+import { Tone } from 'core/Tone';
+
+import { LFO } from 'component/LFO';
+
+import { CrossFade } from 'component/CrossFade';
+
+import { Signal } from 'signal/Signal';
+
+import { FeedbackEffect } from 'effect/FeedbackEffect';
+
+import { Delay } from 'core/Delay';
+
 
 	"use strict";
 
@@ -17,7 +23,7 @@ import { Delay } from 'core';
 	 *  @extends {FeedbackEffect}
 	 *  @param {Interval=} pitch The interval to transpose the incoming signal by.
 	 */
-	export function PitchShift(){
+	export var PitchShift = function(){
 
 		var options = this.optionsObject(arguments, ["pitch"], PitchShift.defaults);
 		FeedbackEffect.call(this, options);

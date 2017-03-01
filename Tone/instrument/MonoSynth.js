@@ -1,10 +1,17 @@
-import { Tone } from 'core';
-import { AmplitudeEnvelope } from 'component';
-import { FrequencyEnvelope } from 'component';
-import { OmniOscillator } from 'source';
-import { Signal } from 'signal';
-import { Filter } from 'component';
-import { Monophonic } from 'instrument';
+import { Tone } from 'core/Tone';
+
+import { AmplitudeEnvelope } from 'component/AmplitudeEnvelope';
+
+import { FrequencyEnvelope } from 'component/FrequencyEnvelope';
+
+import { OmniOscillator } from 'source/OmniOscillator';
+
+import { Signal } from 'signal/Signal';
+
+import { Filter } from 'component/Filter';
+
+import { Monophonic } from 'instrument/Monophonic';
+
 
 	"use strict";
 
@@ -29,7 +36,7 @@ import { Monophonic } from 'instrument';
 	 * }).toMaster();
 	 * synth.triggerAttackRelease("C4", "8n");
 	 */
-	export function MonoSynth(options){
+	export var MonoSynth = function(options){
 
 		//get the defaults
 		options = this.defaultArg(options, MonoSynth.defaults);

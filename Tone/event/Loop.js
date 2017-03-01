@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Event } from 'event';
+import { Tone } from 'core/Tone';
+
+import { Event } from 'event/Event';
+
 
 	/**
 	 *  @class Loop creates a looped callback at the
@@ -16,7 +18,7 @@ import { Event } from 'event';
 	 *  @param {Function} callback The callback to invoke with the event.
 	 *  @param {Time} interval The time between successive callback calls.
 	 */
-	export function Loop(){
+	export var Loop = function(){
 
 		var options = this.optionsObject(arguments, ["callback", "interval"], Loop.defaults);
 

@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Type } from 'type';
+import { Tone } from 'core/Tone';
+
+import { Type } from 'type/Type';
+
 
 	"use strict";
 
@@ -12,7 +14,7 @@ import { Type } from 'type';
 	 *         to represent the data.
 	 *  @extends {Tone}
 	 */
-	export function IntervalTimeline(){
+	export var IntervalTimeline = function(){
 
 		/**
 		 *  The root node of the inteval tree

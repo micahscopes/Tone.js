@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Type } from 'type';
+import { Tone } from 'core/Tone';
+
+import { Type } from 'type/Type';
+
 
 	"use strict";
 
@@ -23,7 +25,7 @@ import { Type } from 'type';
 	 * @param {Positive} index The initial interpolation index.
 	 * @extends {Tone}
 	 */
-	export function CtrlInterpolate(){
+	export var CtrlInterpolate = function(){
 
 		var options = this.optionsObject(arguments, ["values", "index"], CtrlInterpolate.defaults);
 

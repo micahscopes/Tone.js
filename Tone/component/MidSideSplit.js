@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Expr } from 'signal';
-import { Signal } from 'signal';
-import { Split } from 'component';
+import { Tone } from 'core/Tone';
+
+import { Expr } from 'signal/Expr';
+
+import { Signal } from 'signal/Signal';
+
+import { Split } from 'component/Split';
+
 
 	"use strict";
 
@@ -17,7 +21,7 @@ import { Split } from 'component';
 	 *  @extends {Tone}
 	 *  @constructor
 	 */
-	export function MidSideSplit(){
+	export var MidSideSplit = function(){
 		this.createInsOuts(0, 2);
 
 		/**

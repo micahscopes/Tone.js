@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { StereoEffect } from 'effect';
-import { FeedbackEffect } from 'effect';
+import { Tone } from 'core/Tone';
+
+import { StereoEffect } from 'effect/StereoEffect';
+
+import { FeedbackEffect } from 'effect/FeedbackEffect';
+
 
 	"use strict";
 
@@ -11,7 +14,7 @@ import { FeedbackEffect } from 'effect';
 	 *	@constructor
 	 *	@extends {FeedbackEffect}
 	 */
-	export function StereoXFeedbackEffect(){
+	export var StereoXFeedbackEffect = function(){
 
 		var options = this.optionsObject(arguments, ["feedback"], FeedbackEffect.defaults);
 		StereoEffect.call(this, options);

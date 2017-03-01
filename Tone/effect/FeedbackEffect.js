@@ -1,8 +1,13 @@
-import { Tone } from 'core';
-import { Effect } from 'effect';
-import { Signal } from 'signal';
-import { Multiply } from 'signal';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Effect } from 'effect/Effect';
+
+import { Signal } from 'signal/Signal';
+
+import { Multiply } from 'signal/Multiply';
+
+import { Gain } from 'core/Gain';
+
 
 	"use strict";
 
@@ -15,7 +20,7 @@ import { Gain } from 'core';
 	 *  @extends {Effect}
 	 *  @param {NormalRange|Object} [feedback] The initial feedback value.
 	 */
-	export function FeedbackEffect(){
+	export var FeedbackEffect = function(){
 
 		var options = this.optionsObject(arguments, ["feedback"]);
 		options = this.defaultArg(options, FeedbackEffect.defaults);

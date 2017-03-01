@@ -1,8 +1,13 @@
-import { Tone } from 'core';
-import { Signal } from 'signal';
-import { Expr } from 'signal';
-import { Merge } from 'component';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Signal } from 'signal/Signal';
+
+import { Expr } from 'signal/Expr';
+
+import { Merge } from 'component/Merge';
+
+import { Gain } from 'core/Gain';
+
 
 	"use strict";
 
@@ -20,7 +25,7 @@ import { Gain } from 'core';
 	 *  @extends {StereoEffect}
 	 *  @constructor
 	 */
-	export function MidSideMerge(){
+	export var MidSideMerge = function(){
 		this.createInsOuts(2, 0);
 
 		/**

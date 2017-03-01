@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Param } from 'core';
-import { Type } from 'type';
+import { Tone } from 'core/Tone';
+
+import { Param } from 'core/Param';
+
+import { Type } from 'type/Type';
+
 
 	"use strict";
 
@@ -12,7 +15,7 @@ import { Type } from 'type';
 	 *  @param  {Number=}  gain  The initial gain of the GainNode
 	 *  @param {Type=} units The units of the gain parameter.
 	 */
-	export function Gain(){
+	export var Gain = function(){
 
 		var options = this.optionsObject(arguments, ["gain", "units"], Gain.defaults);
 

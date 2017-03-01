@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { WaveShaper } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { WaveShaper } from 'signal/WaveShaper';
+
 
 	"use strict";
 
@@ -11,7 +13,7 @@ import { WaveShaper } from 'signal';
 	 *  @example
 	 * var eqPowGain = new EqualPowerGain();
 	 */
-	export function EqualPowerGain(){
+	export var EqualPowerGain = function(){
 
 		/**
 		 *  @type {WaveShaper}

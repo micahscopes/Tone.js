@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Merge } from 'component';
+import { Tone } from 'core/Tone';
+
+import { Merge } from 'component/Merge';
+
 
 	"use strict";
 
@@ -11,7 +13,7 @@ import { Merge } from 'component';
 	 *  @extends {Tone}
 	 *  @constructor
 	 */
-	export function Mono(){
+	export var Mono = function(){
 		this.createInsOuts(1, 0);
 
 		/**

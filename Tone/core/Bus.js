@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Gain } from 'core/Gain';
+
 
 	"use strict";
 

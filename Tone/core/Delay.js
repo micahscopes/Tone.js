@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Param } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Param } from 'core/Param';
+
 
 	"use strict";
 
@@ -9,7 +11,7 @@ import { Param } from 'core';
 	 *  @param {Time=} delayTime The delay applied to the incoming signal.
 	 *  @param {Time=} maxDelay The maximum delay time.
 	 */
-	export function Delay(){
+	export var Delay = function(){
 
 		var options = this.optionsObject(arguments, ["delayTime", "maxDelay"], Delay.defaults);
 

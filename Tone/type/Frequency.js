@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { TimeBase } from 'type';
+import { Tone } from 'core/Tone';
+
+import { TimeBase } from 'type/TimeBase';
+
 
 	/**
 	 *  @class Frequency is a primitive type for encoding Frequency values.
@@ -14,7 +16,7 @@ import { TimeBase } from 'type';
 	 * Frequency(38, "midi").eval() //
 	 * Frequency("C3").transpose(4).eval();
 	 */
-	export function Frequency(val, units){
+	export var Frequency = function(val, units){
 		if (this instanceof Frequency){
 
 			TimeBase.call(this, val, units);

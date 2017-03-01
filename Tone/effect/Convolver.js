@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Buffer } from 'core';
-import { Effect } from 'effect';
+import { Tone } from 'core/Tone';
+
+import { Buffer } from 'core/Buffer';
+
+import { Effect } from 'effect/Effect';
+
 
 	"use strict";
 
@@ -19,7 +22,7 @@ import { Effect } from 'effect';
 	 * //initializing the convolver with an impulse response
 	 * var convolver = new Convolver("./path/to/ir.wav").toMaster();
 	 */
-	export function Convolver(){
+	export var Convolver = function(){
 
 		var options = this.optionsObject(arguments, ["url", "onload"], Convolver.defaults);
 		Effect.call(this, options);

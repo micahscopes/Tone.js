@@ -1,10 +1,17 @@
-import { Tone } from 'core';
-import { Oscillator } from 'source';
-import { Scale } from 'signal';
-import { Signal } from 'signal';
-import { AudioToGain } from 'signal';
-import { Type } from 'type';
-import { Zero } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Oscillator } from 'source/Oscillator';
+
+import { Scale } from 'signal/Scale';
+
+import { Signal } from 'signal/Signal';
+
+import { AudioToGain } from 'signal/AudioToGain';
+
+import { Type } from 'type/Type';
+
+import { Zero } from 'signal/Zero';
+
 
 	"use strict";
 
@@ -24,7 +31,7 @@ import { Zero } from 'signal';
 	 * var lfo = new LFO("4n", 400, 4000);
 	 * lfo.connect(filter.frequency);
 	 */
-	export function LFO(){
+	export var LFO = function(){
 
 		var options = this.optionsObject(arguments, ["frequency", "min", "max"], LFO.defaults);
 

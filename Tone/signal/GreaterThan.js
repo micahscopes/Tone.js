@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { GreaterThanZero } from 'signal';
-import { Subtract } from 'signal';
-import { Signal } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { GreaterThanZero } from 'signal/GreaterThanZero';
+
+import { Subtract } from 'signal/Subtract';
+
+import { Signal } from 'signal/Signal';
+
 
 	"use strict";
 
@@ -17,7 +21,7 @@ import { Signal } from 'signal';
 	 * var sig = new Signal(4).connect(gt);
 	 * //output of gt is equal 1.
 	 */
-	export function GreaterThan(value){
+	export var GreaterThan = function(value){
 
 		this.createInsOuts(2, 0);
 

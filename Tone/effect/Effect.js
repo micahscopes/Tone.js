@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { CrossFade } from 'component';
+import { Tone } from 'core/Tone';
+
+import { CrossFade } from 'component/CrossFade';
+
 
 	"use strict";
 
@@ -12,7 +14,7 @@ import { CrossFade } from 'component';
 	 *  @extends {Tone}
 	 *  @param {NormalRange|Object} [wet] The starting wet value.
 	 */
-	export function Effect(){
+	export var Effect = function(){
 
 		this.createInsOuts(1, 1);
 

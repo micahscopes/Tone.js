@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Volume } from 'component';
-import { Context } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Volume } from 'component/Volume';
+
+import { Context } from 'core/Context';
+
 
 	"use strict";
 
@@ -24,7 +27,7 @@ import { Context } from 'core';
 	 * oscillator.toMaster();
 	 * //the above two examples are equivalent.
 	 */
-	export function Master(){
+	export var Master = function(){
 
 		this.createInsOuts(1, 1);
 

@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Effect } from 'effect';
-import { WaveShaper } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Effect } from 'effect/Effect';
+
+import { WaveShaper } from 'signal/WaveShaper';
+
 
 	"use strict";
 
@@ -20,7 +23,7 @@ import { WaveShaper } from 'signal';
 	 * //create a monosynth connected to our cheby
 	 * synth = new MonoSynth().connect(cheby);
 	 */
-	export function Chebyshev(){
+	export var Chebyshev = function(){
 
 		var options = this.optionsObject(arguments, ["order"], Chebyshev.defaults);
 		Effect.call(this, options);

@@ -1,6 +1,11 @@
-import { Tone } from 'core';
-import { TimelineSignal, Pow } from 'signal';
-import { Type } from 'type';
+import { Tone } from 'core/Tone';
+
+import { TimelineSignal } from 'signal/TimelineSignal';
+
+import { Pow } from 'signal/Pow';
+
+import { Type } from 'type/Type';
+
 
 "use strict";
 
@@ -30,7 +35,7 @@ import { Type } from 'type';
  * });
  * env.connect(gainNode.gain);
  */
-export function Envelope(){
+export var Envelope = function(){
 
 	//get all of the defaults
 	var options = this.optionsObject(arguments, ["attack", "decay", "sustain", "release"], Envelope.defaults);

@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Signal } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Signal } from 'signal/Signal';
+
 
 	"use strict";
 
@@ -18,7 +20,7 @@ import { Signal } from 'signal';
 	 *  @example
 	 *  var filter = new Filter(200, "highpass");
 	 */
-	export function Filter(){
+	export var Filter = function(){
 		this.createInsOuts(1, 1);
 
 		var options = this.optionsObject(arguments, ["frequency", "type", "rolloff"], Filter.defaults);

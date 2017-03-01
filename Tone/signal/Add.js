@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Signal } from 'signal';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Signal } from 'signal/Signal';
+
+import { Gain } from 'core/Gain';
+
 
 	"use strict";
 
@@ -27,7 +30,7 @@ import { Gain } from 'core';
 	 * var sig1 = new Signal(4).connect(add, 0, 1);
 	 * //the output of add equals 7.
 	 */
-	export function Add(value){
+	export var Add = function(value){
 
 		this.createInsOuts(2, 0);
 

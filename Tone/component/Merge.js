@@ -1,5 +1,5 @@
-import { Tone } from 'core';
-import { Tone } from 'core';
+import { Tone } from 'core/Tone';
+
 
 	"use strict";
 
@@ -19,7 +19,7 @@ import { Tone } from 'core';
 	 * noise.start();
 	 * osc.start();
 	 */
-	export function Merge(){
+	export var Merge = function(){
 
 		this.createInsOuts(2, 0);
 

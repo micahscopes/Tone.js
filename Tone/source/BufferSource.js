@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Buffer } from 'core';
-import { Source } from 'source';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Buffer } from 'core/Buffer';
+
+import { Source } from 'source/Source';
+
+import { Gain } from 'core/Gain';
+
 
 	/**
 	 *  @class Wrapper around the native BufferSourceNode.
@@ -9,7 +13,7 @@ import { Gain } from 'core';
 	 *  @param  {Function}  onended  The callback to invoke when the
 	 *                               buffer is done playing.
 	 */
-	export function BufferSource(){
+	export var BufferSource = function(){
 
 		var options = this.optionsObject(arguments, ["buffer", "onended"], BufferSource.defaults);
 

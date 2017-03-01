@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Loop } from 'event';
-import { CtrlPattern } from 'control';
+import { Tone } from 'core/Tone';
+
+import { Loop } from 'event/Loop';
+
+import { CtrlPattern } from 'control/CtrlPattern';
+
 
 	/**
 	 *  @class Pattern arpeggiates between the given notes
@@ -15,7 +18,7 @@ import { CtrlPattern } from 'control';
 	 *                             event.
 	 *  @param {Array} values The values to arpeggiate over.
 	 */
-	export function Pattern(){
+	export var Pattern = function(){
 
 		var options = this.optionsObject(arguments, ["callback", "values", "pattern"], Pattern.defaults);
 

@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Effect } from 'effect';
-import { WaveShaper } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Effect } from 'effect/Effect';
+
+import { WaveShaper } from 'signal/WaveShaper';
+
 
 	"use strict";
 
@@ -17,7 +20,7 @@ import { WaveShaper } from 'signal';
 	 * //this sounds good on bass notes
 	 * fm.triggerAttackRelease("A1", "8n");
 	 */
-	export function Distortion(){
+	export var Distortion = function(){
 
 		var options = this.optionsObject(arguments, ["distortion"], Distortion.defaults);
 

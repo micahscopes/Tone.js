@@ -1,5 +1,5 @@
-import { Tone } from 'core';
-import { Tone } from 'core';
+import { Tone } from 'core/Tone';
+
 
 	/**
 	 *  @class TimeBase is a flexible encoding of time
@@ -15,7 +15,7 @@ import { Tone } from 'core';
 	 * TimeBase("2t").add("1m")
 	 * TimeBase("2t + 1m");
 	 */
-	export function TimeBase(val, units){
+	export var TimeBase = function(val, units){
 
 		//allows it to be constructed with or without 'new'
 		if (this instanceof TimeBase) {
@@ -549,6 +549,3 @@ import { Tone } from 'core';
 	TimeBase.prototype.dispose = function(){
 		this._expr = null;
 	};
-
-	return TimeBase;
-});

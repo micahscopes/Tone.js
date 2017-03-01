@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Volume } from 'component';
+import { Tone } from 'core/Tone';
+
+import { Volume } from 'component/Volume';
+
 
 	"use strict";
 
@@ -25,7 +27,7 @@ import { Volume } from 'component';
 	 * });
 	 */
 
-	export function UserMedia(){
+	export var UserMedia = function(){
 
 		var options = this.optionsObject(arguments, ["volume"], UserMedia.defaults);
 

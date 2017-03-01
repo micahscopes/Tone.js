@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Transport } from 'core';
-import { Type } from 'type';
-import { TimelineState } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Transport } from 'core/Transport';
+
+import { Type } from 'type/Type';
+
+import { TimelineState } from 'core/TimelineState';
+
 
 	"use strict";
 
@@ -24,7 +28,7 @@ import { TimelineState } from 'core';
 	 * chord.loop = 8;
 	 * chord.loopEnd = "1m";
 	 */
-	export function Event(){
+	export var Event = function(){
 
 		var options = this.optionsObject(arguments, ["callback", "value"], Event.defaults);
 

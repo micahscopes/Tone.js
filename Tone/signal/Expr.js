@@ -1,14 +1,25 @@
-import { Tone } from 'core';
-import { Add } from 'signal';
-import { Subtract } from 'signal';
-import { Multiply } from 'signal';
-import { GreaterThan } from 'signal';
-import { GreaterThanZero } from 'signal';
-import { Abs } from 'signal';
-import { Negate } from 'signal';
-import { Modulo } from 'signal';
-import { Pow } from 'signal';
-import { AudioToGain } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Add } from 'signal/Add';
+
+import { Subtract } from 'signal/Subtract';
+
+import { Multiply } from 'signal/Multiply';
+
+import { GreaterThan } from 'signal/GreaterThan';
+
+import { GreaterThanZero } from 'signal/GreaterThanZero';
+
+import { Abs } from 'signal/Abs';
+
+import { Negate } from 'signal/Negate';
+
+import { Modulo } from 'signal/Modulo';
+
+import { Pow } from 'signal/Pow';
+
+import { AudioToGain } from 'signal/AudioToGain';
+
 
 	"use strict";
 
@@ -24,7 +35,7 @@ import { AudioToGain } from 'signal';
 	 * //adds the signals from input[0] and input[1].
 	 * var expr = new Expr("$0 + $1");
 	 */
-	export function Expr(){
+	export var Expr = function(){
 
 		var expr = this._replacements(Array.prototype.slice.call(arguments));
 		var inputCount = this._parseInputs(expr);

@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Signal } from 'signal';
-import { Multiply } from 'signal';
-import { WaveShaper } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Signal } from 'signal/Signal';
+
+import { Multiply } from 'signal/Multiply';
+
+import { WaveShaper } from 'signal/WaveShaper';
+
 
 	"use strict";
 
@@ -17,7 +21,7 @@ import { WaveShaper } from 'signal';
 	 * sig.value = 0;
 	 * //the output of gt0 is 0.
 	 */
-	export function GreaterThanZero(){
+	export var GreaterThanZero = function(){
 
 		/**
 		 *  @type {WaveShaper}

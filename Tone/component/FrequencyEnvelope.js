@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { ScaledEnvelope } from 'component';
-import { Envelope } from 'component';
+import { Tone } from 'core/Tone';
+
+import { ScaledEnvelope } from 'component/ScaledEnvelope';
+
+import { Envelope } from 'component/Envelope';
+
 
 	"use strict";
 
@@ -22,7 +25,7 @@ import { Envelope } from 'component';
 	 *  });
 	 *  scaledEnv.connect(oscillator.frequency);
 	 */
-	export function FrequencyEnvelope(){
+	export var FrequencyEnvelope = function(){
 
 		var options = this.optionsObject(arguments, ["attack", "decay", "sustain", "release"], Envelope.defaults);
 		ScaledEnvelope.call(this, options);
@@ -110,6 +113,3 @@ import { Envelope } from 'component';
 		ScaledEnvelope.prototype.dispose.call(this);
 		return this;
 	};
-
-	return FrequencyEnvelope;
-});

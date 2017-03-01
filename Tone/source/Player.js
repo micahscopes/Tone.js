@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Buffer } from 'core';
-import { Source } from 'source';
+import { Tone } from 'core/Tone';
+
+import { Buffer } from 'core/Buffer';
+
+import { Source } from 'source/Source';
+
 
 	"use strict";
 
@@ -18,7 +21,7 @@ import { Source } from 'source';
 	 * //play as soon as the buffer is loaded
 	 * player.autostart = true;
 	 */
-	export function Player(url){
+	export var Player = function(url){
 
 		var options;
 		if (url instanceof Buffer){

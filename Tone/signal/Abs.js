@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { WaveShaper } from 'signal';
-import { SignalBase } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { WaveShaper } from 'signal/WaveShaper';
+
+import { SignalBase } from 'signal/SignalBase';
+
 
 	"use strict";
 
@@ -15,7 +18,7 @@ import { SignalBase } from 'signal';
 	 * signal.connect(abs);
 	 * //the output of abs is 1.
 	 */
-	export function Abs(){
+	export var Abs = function(){
 		/**
 		 *  @type {LessThan}
 		 *  @private

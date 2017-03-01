@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Signal } from 'signal';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Signal } from 'signal/Signal';
+
+import { Gain } from 'core/Gain';
+
 
 	"use strict";
 
@@ -24,7 +27,7 @@ import { Gain } from 'core';
 	 * var sig = new Signal(2).connect(mult);
 	 * //the output of mult is 20.
 	 */
-	export function Multiply(value){
+	export var Multiply = function(value){
 
 		this.createInsOuts(2, 0);
 

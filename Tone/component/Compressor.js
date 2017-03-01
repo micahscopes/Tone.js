@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Param } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Param } from 'core/Param';
+
 
 	"use strict";
 
@@ -17,7 +19,7 @@ import { Param } from 'core';
  *  @example
  * var comp = new Compressor(-30, 3);
  */
-export function Compressor(){
+export var Compressor = function(){
 
 	var options = this.optionsObject(arguments, ["threshold", "ratio"], Compressor.defaults);
 

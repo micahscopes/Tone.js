@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { StereoEffect } from 'effect';
-import { FeedbackEffect } from 'effect';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { StereoEffect } from 'effect/StereoEffect';
+
+import { FeedbackEffect } from 'effect/FeedbackEffect';
+
+import { Gain } from 'core/Gain';
+
 
 	"use strict";
 
@@ -12,7 +16,7 @@ import { Gain } from 'core';
 	 *	@constructor
 	 *	@extends {FeedbackEffect}
 	 */
-	export function StereoFeedbackEffect(){
+	export var StereoFeedbackEffect = function(){
 
 		var options = this.optionsObject(arguments, ["feedback"], FeedbackEffect.defaults);
 		StereoEffect.call(this, options);
@@ -62,6 +66,3 @@ import { Gain } from 'core';
 		this._feedbackR = null;
 		return this;
 	};
-
-	return StereoFeedbackEffect;
-});

@@ -1,5 +1,5 @@
-import { Tone } from 'core';
-import { Tone } from 'core';
+import { Tone } from 'core/Tone';
+
 
 	"use strict";
 
@@ -31,7 +31,7 @@ import { Tone } from 'core';
 	 *  @param {Object} values An object with the state names as the keys
 	 *                         and the next state(s) as the values.
 	 */
-	export function CtrlMarkov(values, initial){
+	export var CtrlMarkov = function(values, initial){
 
 		/**
 		 *  The Markov values with states as the keys

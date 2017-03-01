@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Envelope } from 'component';
-import { Scale } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Envelope } from 'component/Envelope';
+
+import { Scale } from 'signal/Scale';
+
 
 	"use strict";
 
@@ -24,7 +27,7 @@ import { Scale } from 'signal';
 	 *  });
 	 *  scaledEnv.connect(oscillator.frequency);
 	 */
-	export function ScaledEnvelope(){
+	export var ScaledEnvelope = function(){
 
 		//get all of the defaults
 		var options = this.optionsObject(arguments, ["attack", "decay", "sustain", "release"], Envelope.defaults);

@@ -1,8 +1,13 @@
-import { Tone } from 'core';
-import { BufferSource } from 'source';
-import { Buffers } from 'core';
-import { Source } from 'source';
-import { Volume } from 'component';
+import { Tone } from 'core/Tone';
+
+import { BufferSource } from 'source/BufferSource';
+
+import { Buffers } from 'core/Buffers';
+
+import { Source } from 'source/Source';
+
+import { Volume } from 'component/Volume';
+
 
 	/**
 	 *  @class MultiPlayer is well suited for one-shots, multi-sampled instruments
@@ -26,7 +31,7 @@ import { Volume } from 'component';
 	 * 	multiPlayer.start(1);
 	 * });
 	 */
-	export function MultiPlayer(){
+	export var MultiPlayer = function(){
 
 		var options = this.optionsObject(arguments, ["urls", "onload"], MultiPlayer.defaults);
 

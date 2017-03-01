@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Source } from 'source';
-import { Buffer } from 'core';
-import { MultiPlayer } from 'source';
+import { Tone } from 'core/Tone';
+
+import { Source } from 'source/Source';
+
+import { Buffer } from 'core/Buffer';
+
+import { MultiPlayer } from 'source/MultiPlayer';
+
 
 	/**
 	 * @class GrainPlayer implements [granular synthesis](https://en.wikipedia.org/wiki/Granular_synthesis).
@@ -12,7 +16,7 @@ import { MultiPlayer } from 'source';
 	 * @param {String|Buffer} url	The url to load, or the Buffer to play.
 	 * @param {Function=} callback The callback to invoke after the url is loaded.
 	 */
-	export function GrainPlayer(){
+	export var GrainPlayer = function(){
 
 		var options = this.optionsObject(arguments, ["url", "onload"], GrainPlayer.defaults);
 

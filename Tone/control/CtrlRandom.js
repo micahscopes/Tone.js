@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Type } from 'type';
+import { Tone } from 'core/Tone';
+
+import { Type } from 'type/Type';
+
 
 	"use strict";
 
@@ -17,7 +19,7 @@ import { Type } from 'type';
 	 *  @param {Number|Time=} min The minimum return value.
 	 *  @param {Number|Time=} max The maximum return value.
 	 */
-	export function CtrlRandom(){
+	export var CtrlRandom = function(){
 
 		var options = this.optionsObject(arguments, ["min", "max"], CtrlRandom.defaults);
 

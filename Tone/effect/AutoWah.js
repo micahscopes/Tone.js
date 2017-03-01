@@ -1,8 +1,13 @@
-import { Tone } from 'core';
-import { Follower } from 'component';
-import { ScaleExp } from 'signal';
-import { Effect } from 'effect';
-import { Filter } from 'component';
+import { Tone } from 'core/Tone';
+
+import { Follower } from 'component/Follower';
+
+import { ScaleExp } from 'signal/ScaleExp';
+
+import { Effect } from 'effect/Effect';
+
+import { Filter } from 'component/Filter';
+
 
 	"use strict";
 
@@ -28,7 +33,7 @@ import { Filter } from 'component';
 	 * //more audible on higher notes
 	 * synth.triggerAttackRelease("C4", "8n")
 	 */
-	export function AutoWah(){
+	export var AutoWah = function(){
 
 		var options = this.optionsObject(arguments, ["baseFrequency", "octaves", "sensitivity"], AutoWah.defaults);
 		Effect.call(this, options);

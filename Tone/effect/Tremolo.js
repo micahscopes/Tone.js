@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { LFO } from 'component';
-import { StereoEffect } from 'effect';
+import { Tone } from 'core/Tone';
+
+import { LFO } from 'component/LFO';
+
+import { StereoEffect } from 'effect/StereoEffect';
+
 
 	"use strict";
 
@@ -18,7 +21,7 @@ import { StereoEffect } from 'effect';
 	 * //route an oscillator through the tremolo and start it
 	 * var oscillator = new Oscillator().connect(tremolo).start();
 	 */
-	export function Tremolo(){
+	export var Tremolo = function(){
 
 		var options = this.optionsObject(arguments, ["frequency", "depth"], Tremolo.defaults);
 		StereoEffect.call(this, options);

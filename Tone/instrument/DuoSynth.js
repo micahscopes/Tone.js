@@ -1,10 +1,17 @@
-import { Tone } from 'core';
-import { MonoSynth } from 'instrument';
-import { LFO } from 'component';
-import { Signal } from 'signal';
-import { Multiply } from 'signal';
-import { Monophonic } from 'instrument';
-import { Param } from 'core';
+import { Tone } from 'core/Tone';
+
+import { MonoSynth } from 'instrument/MonoSynth';
+
+import { LFO } from 'component/LFO';
+
+import { Signal } from 'signal/Signal';
+
+import { Multiply } from 'signal/Multiply';
+
+import { Monophonic } from 'instrument/Monophonic';
+
+import { Param } from 'core/Param';
+
 
 	"use strict";
 
@@ -22,7 +29,7 @@ import { Param } from 'core';
 	 * var duoSynth = new DuoSynth().toMaster();
 	 * duoSynth.triggerAttackRelease("C4", "2n");
 	 */
-	export function DuoSynth(options){
+	export var DuoSynth = function(options){
 
 		options = this.defaultArg(options, DuoSynth.defaults);
 		Monophonic.call(this, options);

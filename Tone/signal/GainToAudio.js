@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { WaveShaper } from 'signal';
-import { Signal } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { WaveShaper } from 'signal/WaveShaper';
+
+import { Signal } from 'signal/Signal';
+
 
 	"use strict";
 
@@ -13,7 +16,7 @@ import { Signal } from 'signal';
 	 *  @example
 	 * var g2a = new GainToAudio();
 	 */
-	export function GainToAudio(){
+	export var GainToAudio = function(){
 
 		/**
 		 *  @type {WaveShaperNode}

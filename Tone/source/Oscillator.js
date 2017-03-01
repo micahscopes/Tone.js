@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Signal } from 'signal';
-import { Source } from 'source';
-import { Transport } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Signal } from 'signal/Signal';
+
+import { Source } from 'source/Source';
+
+import { Transport } from 'core/Transport';
+
 
 	"use strict";
 
@@ -18,7 +22,7 @@ import { Transport } from 'core';
 	 * //make and start a 440hz sine tone
 	 * var osc = new Oscillator(440, "sine").toMaster().start();
 	 */
-	export function Oscillator(){
+	export var Oscillator = function(){
 
 		var options = this.optionsObject(arguments, ["frequency", "type"], Oscillator.defaults);
 		Source.call(this, options);

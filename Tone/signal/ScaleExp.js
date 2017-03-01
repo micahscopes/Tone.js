@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Scale } from 'signal';
-import { Pow } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Scale } from 'signal/Scale';
+
+import { Pow } from 'signal/Pow';
+
 
 	/**
 	 *  @class  Performs an exponential scaling on an input signal.
@@ -16,7 +19,7 @@ import { Pow } from 'signal';
 	 * var scaleExp = new ScaleExp(0, 100, 2);
 	 * var signal = new Signal(0.5).connect(scaleExp);
 	 */
-	export function ScaleExp(outputMin, outputMax, exponent){
+	export var ScaleExp = function(outputMin, outputMax, exponent){
 
 		/**
 		 *  scale the input to the output range

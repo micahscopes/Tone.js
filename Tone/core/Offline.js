@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Transport } from 'core';
-import { Buffer } from 'core';
-import { OfflineContext } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Transport } from 'core/Transport';
+
+import { Buffer } from 'core/Buffer';
+
+import { OfflineContext } from 'core/OfflineContext';
+
 
 	/**
 	 *  Record a segment of the Transport
@@ -29,7 +33,7 @@ import { OfflineContext } from 'core';
 	 * 	//do something with the output buffer
 	 * })
 	 */
-	export function Offline(callback, duration){
+	export var Offline = function(callback, duration){
 		//set the OfflineAudioContext
 		var sampleRate = context.sampleRate;
 		var originalContext = context;

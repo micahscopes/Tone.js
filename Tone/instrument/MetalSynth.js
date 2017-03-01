@@ -1,12 +1,21 @@
-import { Tone } from 'core';
-import { Instrument } from 'instrument';
-import { FMOscillator } from 'source';
-import { Filter } from 'component';
-import { FrequencyEnvelope } from 'component';
-import { AmplitudeEnvelope } from 'component';
-import { Gain } from 'core';
-import { Scale } from 'signal';
-import { Multiply } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Instrument } from 'instrument/Instrument';
+
+import { FMOscillator } from 'source/FMOscillator';
+
+import { Filter } from 'component/Filter';
+
+import { FrequencyEnvelope } from 'component/FrequencyEnvelope';
+
+import { AmplitudeEnvelope } from 'component/AmplitudeEnvelope';
+
+import { Gain } from 'core/Gain';
+
+import { Scale } from 'signal/Scale';
+
+import { Multiply } from 'signal/Multiply';
+
 
 	/**
 	 *  Inharmonic ratio of frequencies based on the Roland TR-808
@@ -28,7 +37,7 @@ import { Multiply } from 'signal';
 	 *  @param {Object} [options] The options availble for the synth
 	 *                             see defaults below
 	 */
-	export function MetalSynth(options){
+	export var MetalSynth = function(options){
 
 		options = this.defaultArg(options, MetalSynth.defaults);
 		Instrument.call(this, options);

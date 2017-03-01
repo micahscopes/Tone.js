@@ -21,7 +21,7 @@ import { Timeline } from 'core';
 	 * 	}, time)
 	 * }, "+0.5")
 	 */
-	export function Draw(){
+	export var Draw = function(){
 		/**
 		 *  All of the events.
 		 *  @type  {Timeline}

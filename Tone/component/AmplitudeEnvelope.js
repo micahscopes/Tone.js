@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Gain } from 'core';
-import { Envelope } from 'component';
+import { Tone } from 'core/Tone';
+
+import { Gain } from 'core/Gain';
+
+import { Envelope } from 'component/Envelope';
+
 
 "use strict";
 
@@ -32,7 +35,7 @@ import { Envelope } from 'component';
  * ampEnv.triggerAttackRelease("8t");
  */
 
-export function AmplitudeEnvelope(){
+export var AmplitudeEnvelope = function(){
 
 	Envelope.apply(this, arguments);
 

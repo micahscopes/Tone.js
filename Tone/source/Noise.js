@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Source } from 'source';
+import { Tone } from 'core/Tone';
+
+import { Source } from 'source/Source';
+
 
 	"use strict";
 
@@ -27,7 +29,7 @@ import { Source } from 'source';
 	 * //start the autofilter LFO
 	 * autoFilter.start()
 	 */
-	export function Noise(){
+	export var Noise = function(){
 
 		var options = this.optionsObject(arguments, ["type"], Noise.defaults);
 		Source.call(this, options);

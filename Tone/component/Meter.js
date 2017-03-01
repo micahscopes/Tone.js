@@ -1,6 +1,8 @@
-import { Tone } from 'core';
+import { Tone } from 'core/Tone';
+
 /*
-import { Analyser } from 'component';*/
+import { Analyser } from 'component/Analyser';
+*/
 
 	"use strict";
 
@@ -21,7 +23,7 @@ import { Analyser } from 'component';*/
 	 * //the current level of the mic input
 	 * var level = meter.value;
 	 */
-	export function Meter(){
+	export var Meter = function(){
 
 		var options = this.optionsObject(arguments, ["type", "smoothing"], Meter.defaults);
 

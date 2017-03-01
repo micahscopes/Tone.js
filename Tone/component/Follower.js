@@ -1,12 +1,20 @@
-import { Tone } from 'core';
+import { Tone } from 'core/Tone';
+
 /*
-import { Abs } from 'signal';
-import { Subtract } from 'signal';
-import { Multiply } from 'signal';
-import { Signal } from 'signal';
-import { WaveShaper } from 'signal';
-import { Type } from 'type';
-import { Delay } from 'core';*/
+import { Abs } from 'signal/Abs';
+
+import { Subtract } from 'signal/Subtract';
+
+import { Multiply } from 'signal/Multiply';
+
+import { Signal } from 'signal/Signal';
+
+import { WaveShaper } from 'signal/WaveShaper';
+
+import { Type } from 'type/Type';
+
+import { Delay } from 'core/Delay';
+*/
 
 	"use strict";
 
@@ -25,7 +33,7 @@ import { Delay } from 'core';*/
 	 *  @example
 	 * var follower = new Follower(0.2, 0.4);
 	 */
-	export function Follower(){
+	export var Follower = function(){
 
 		this.createInsOuts(1, 1);
 		var options = this.optionsObject(arguments, ["attack", "release"], Follower.defaults);
@@ -186,6 +194,3 @@ import { Delay } from 'core';*/
 		this._curve = null;
 		return this;
 	};
-
-	return Follower;
-});

@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Type } from 'type';
+import { Tone } from 'core/Tone';
+
+import { Type } from 'type/Type';
+
 
 	"use strict";
 
@@ -9,7 +11,7 @@ import { Type } from 'type';
 	 *  @constructor
 	 *  @extends {Tone}
 	 */
-	export function Instrument(options){
+	export var Instrument = function(options){
 
 		//get the defaults
 		options = this.defaultArg(options, Instrument.defaults);

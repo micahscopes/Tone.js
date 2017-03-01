@@ -1,11 +1,19 @@
-import { Tone } from 'core';
-import { Source } from 'source';
-import { Oscillator } from 'source';
-import { PulseOscillator } from 'source';
-import { PWMOscillator } from 'source';
-import { FMOscillator } from 'source';
-import { AMOscillator } from 'source';
-import { FatOscillator } from 'source';
+import { Tone } from 'core/Tone';
+
+import { Source } from 'source/Source';
+
+import { Oscillator } from 'source/Oscillator';
+
+import { PulseOscillator } from 'source/PulseOscillator';
+
+import { PWMOscillator } from 'source/PWMOscillator';
+
+import { FMOscillator } from 'source/FMOscillator';
+
+import { AMOscillator } from 'source/AMOscillator';
+
+import { FatOscillator } from 'source/FatOscillator';
+
 
 	"use strict";
 
@@ -26,7 +34,7 @@ import { FatOscillator } from 'source';
 	 *  @example
 	 *  var omniOsc = new OmniOscillator("C#4", "pwm");
 	 */
-	export function OmniOscillator(){
+	export var OmniOscillator = function(){
 		var options = this.optionsObject(arguments, ["frequency", "type"], OmniOscillator.defaults);
 		Source.call(this, options);
 

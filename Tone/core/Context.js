@@ -1,12 +1,14 @@
-import { Tone } from 'core';
-import { Emitter } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Emitter } from 'core/Emitter';
+
 
 	/**
 	 *  @class Wrapper around the native AudioContext.
 	 *  @extends {Emitter}
 	 *  @param {AudioContext=} context optionally pass in a context
 	 */
-	export function Context(context){
+	export var Context = function(context){
 
 		Emitter.call(this);
 

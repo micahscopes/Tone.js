@@ -1,8 +1,13 @@
-import { Tone } from 'core';
-import { Add } from 'signal';
-import { Negate } from 'signal';
-import { Signal } from 'signal';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Add } from 'signal/Add';
+
+import { Negate } from 'signal/Negate';
+
+import { Signal } from 'signal/Signal';
+
+import { Gain } from 'core/Gain';
+
 
 	"use strict";
 
@@ -27,7 +32,7 @@ import { Gain } from 'core';
 	 * sigB.connect(sub, 0, 1);
 	 * //output of sub is 7.5
 	 */
-	export function Subtract(value){
+	export var Subtract = function(value){
 
 		this.createInsOuts(2, 0);
 

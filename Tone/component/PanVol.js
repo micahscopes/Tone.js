@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Panner } from 'component';
-import { Volume } from 'component';
+import { Tone } from 'core/Tone';
+
+import { Panner } from 'component/Panner';
+
+import { Volume } from 'component/Volume';
+
 
 	"use strict";
 
@@ -15,7 +18,7 @@ import { Volume } from 'component';
 	 * //pan the incoming signal left and drop the volume
 	 * var panVol = new PanVol(0.25, -12);
 	 */
-	export function PanVol(){
+	export var PanVol = function(){
 
 		var options = this.optionsObject(arguments, ["pan", "volume"], PanVol.defaults);
 

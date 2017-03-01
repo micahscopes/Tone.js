@@ -1,8 +1,13 @@
-import { Tone } from 'core';
-import { TimelineSignal } from 'signal';
-import { TimelineState } from 'core';
-import { Emitter } from 'core';
-import { Context } from 'core';
+import { Tone } from 'core/Tone';
+
+import { TimelineSignal } from 'signal/TimelineSignal';
+
+import { TimelineState } from 'core/TimelineState';
+
+import { Emitter } from 'core/Emitter';
+
+import { Context } from 'core/Context';
+
 
 	"use strict";
 
@@ -24,7 +29,7 @@ import { Context } from 'core';
 	 * 	console.log(time);
 	 * }, 1);
 	 */
-	export function Clock(){
+	export var Clock = function(){
 
 		Emitter.call(this);
 

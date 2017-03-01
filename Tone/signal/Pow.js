@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { WaveShaper } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { WaveShaper } from 'signal/WaveShaper';
+
 
 	"use strict";
 
@@ -15,7 +17,7 @@ import { WaveShaper } from 'signal';
 	 * var sig = new Signal(0.5).connect(pow);
 	 * //output of pow is 0.25.
 	 */
-	export function Pow(exp){
+	export var Pow = function(exp){
 
 		/**
 		 * the exponent

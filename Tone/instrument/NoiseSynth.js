@@ -1,10 +1,17 @@
-import { Tone } from 'core';
-import { AmplitudeEnvelope } from 'component';
-import { FrequencyEnvelope } from 'component';
-import { Noise } from 'source';
-import { Signal } from 'signal';
-import { Filter } from 'component';
-import { Instrument } from 'instrument';
+import { Tone } from 'core/Tone';
+
+import { AmplitudeEnvelope } from 'component/AmplitudeEnvelope';
+
+import { FrequencyEnvelope } from 'component/FrequencyEnvelope';
+
+import { Noise } from 'source/Noise';
+
+import { Signal } from 'signal/Signal';
+
+import { Filter } from 'component/Filter';
+
+import { Instrument } from 'instrument/Instrument';
+
 
 	"use strict";
 
@@ -22,7 +29,7 @@ import { Instrument } from 'instrument';
 	 * var noiseSynth = new NoiseSynth().toMaster();
 	 * noiseSynth.triggerAttackRelease("8n");
 	 */
-	export function NoiseSynth(options){
+	export var NoiseSynth = function(options){
 
 		//get the defaults
 		options = this.defaultArg(options, NoiseSynth.defaults);

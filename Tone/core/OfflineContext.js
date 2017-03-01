@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Context } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Context } from 'core/Context';
+
 
 	/**
 	 *  @class Wrapper around the OfflineAudioContext
@@ -8,7 +10,7 @@ import { Context } from 'core';
 	 *  @param  {Number}  duration  The duration to render in samples
 	 *  @param {Number} sampleRate the sample rate to render at
 	 */
-	export function OfflineContext(channels, duration, sampleRate){
+	export var OfflineContext = function(channels, duration, sampleRate){
 		/**
 		 *  The offline context
 		 *  @private

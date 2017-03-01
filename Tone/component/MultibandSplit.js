@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Filter } from 'component';
-import { Signal } from 'signal';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Filter } from 'component/Filter';
+
+import { Signal } from 'signal/Signal';
+
+import { Gain } from 'core/Gain';
+
 
 	"use strict";
 
@@ -14,7 +18,7 @@ import { Gain } from 'core';
 	 *  @param {Frequency|Object} [lowFrequency] the low/mid crossover frequency
 	 *  @param {Frequency} [highFrequency] the mid/high crossover frequency
 	 */
-	export function MultibandSplit(){
+	export var MultibandSplit = function(){
 		var options = this.optionsObject(arguments, ["lowFrequency", "highFrequency"], MultibandSplit.defaults);
 
 		/**

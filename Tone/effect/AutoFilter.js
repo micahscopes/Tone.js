@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Effect } from 'effect';
-import { LFO } from 'component';
-import { Filter } from 'component';
+import { Tone } from 'core/Tone';
+
+import { Effect } from 'effect/Effect';
+
+import { LFO } from 'component/LFO';
+
+import { Filter } from 'component/Filter';
+
 
 	"use strict";
 
@@ -21,7 +25,7 @@ import { Filter } from 'component';
 	 * //route an oscillator through the filter and start it
 	 * var oscillator = new Oscillator().connect(autoFilter).start();
 	 */
-	export function AutoFilter(){
+	export var AutoFilter = function(){
 
 		var options = this.optionsObject(arguments, ["frequency", "baseFrequency", "octaves"], AutoFilter.defaults);
 		Effect.call(this, options);

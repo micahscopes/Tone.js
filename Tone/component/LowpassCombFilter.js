@@ -1,9 +1,15 @@
-import { Tone } from 'core';
-import { Signal } from 'signal';
-import { Filter } from 'component';
-import { Param } from 'core';
-import { Gain } from 'core';
-import { Delay } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Signal } from 'signal/Signal';
+
+import { Filter } from 'component/Filter';
+
+import { Param } from 'core/Param';
+
+import { Gain } from 'core/Gain';
+
+import { Delay } from 'core/Delay';
+
 
 	"use strict";
 
@@ -18,7 +24,7 @@ import { Delay } from 'core';
 	 *  @param {Frequency=} dampening The cutoff of the lowpass filter dampens the
 	 *                                signal as it is fedback.
 	 */
-	export function LowpassCombFilter(){
+	export var LowpassCombFilter = function(){
 
 		this.createInsOuts(1, 1);
 

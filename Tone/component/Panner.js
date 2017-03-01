@@ -1,10 +1,17 @@
-import { Tone } from 'core';
-import { CrossFade } from 'component';
-import { Merge } from 'component';
-import { Split } from 'component';
-import { Signal } from 'signal';
-import { AudioToGain } from 'signal';
-import { Zero } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { CrossFade } from 'component/CrossFade';
+
+import { Merge } from 'component/Merge';
+
+import { Split } from 'component/Split';
+
+import { Signal } from 'signal/Signal';
+
+import { AudioToGain } from 'signal/AudioToGain';
+
+import { Zero } from 'signal/Zero';
+
 
 	"use strict";
 
@@ -19,7 +26,7 @@ import { Zero } from 'signal';
 	 *  //pan the input signal hard right.
 	 *  var panner = new Panner(1);
 	 */
-	export function Panner(initialPan){
+	export var Panner = function(initialPan){
 
 		if (this._hasStereoPanner){
 

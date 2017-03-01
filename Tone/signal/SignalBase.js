@@ -1,5 +1,5 @@
-import { Tone } from 'core';
-import { Tone } from 'core';
+import { Tone } from 'core/Tone';
+
 
 	"use strict";
 
@@ -9,7 +9,7 @@ import { Tone } from 'core';
 	 *  @constructor
 	 *  @extends {Tone}
 	 */
-	export function SignalBase(){};
+	export var SignalBase = function(){};
 
 	Tone.extend(SignalBase);
 

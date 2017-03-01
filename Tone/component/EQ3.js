@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { MultibandSplit } from 'component';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { MultibandSplit } from 'component/MultibandSplit';
+
+import { Gain } from 'core/Gain';
+
 
 	"use strict";
 
@@ -17,7 +20,7 @@ import { Gain } from 'core';
 	 *  @example
 	 * var eq = new EQ3(-10, 3, -20);
 	 */
-	export function EQ3(){
+	export var EQ3 = function(){
 
 		var options = this.optionsObject(arguments, ["low", "mid", "high"], EQ3.defaults);
 

@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Type } from 'type';
+import { Tone } from 'core/Tone';
+
+import { Type } from 'type/Type';
+
 
 	"use strict";
 
@@ -11,7 +13,7 @@ import { Type } from 'type';
 	 *  @extends {Tone}
 	 *  @param {Positive} [memory=Infinity] The number of previous events that are retained.
 	 */
-	export function Timeline(){
+	export var Timeline = function(){
 
 		var options = this.optionsObject(arguments, ["memory"], Timeline.defaults);
 

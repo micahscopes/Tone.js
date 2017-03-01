@@ -1,8 +1,13 @@
-import { Tone } from 'core';
-import { Source } from 'source';
-import { PulseOscillator } from 'source';
-import { Oscillator } from 'source';
-import { Multiply } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Source } from 'source/Source';
+
+import { PulseOscillator } from 'source/PulseOscillator';
+
+import { Oscillator } from 'source/Oscillator';
+
+import { Multiply } from 'signal/Multiply';
+
 
 	"use strict";
 
@@ -19,7 +24,7 @@ import { Multiply } from 'signal';
 	 *  @example
 	 *  var pwm = new PWMOscillator("Ab3", 0.3).toMaster().start();
 	 */
-	export function PWMOscillator(){
+	export var PWMOscillator = function(){
 		var options = this.optionsObject(arguments, ["frequency", "modulationFrequency"], PWMOscillator.defaults);
 		Source.call(this, options);
 

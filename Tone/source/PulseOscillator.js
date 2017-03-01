@@ -1,9 +1,15 @@
-import { Tone } from 'core';
-import { Source } from 'source';
-import { Oscillator } from 'source';
-import { Signal } from 'signal';
-import { WaveShaper } from 'signal';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Source } from 'source/Source';
+
+import { Oscillator } from 'source/Oscillator';
+
+import { Signal } from 'signal/Signal';
+
+import { WaveShaper } from 'signal/WaveShaper';
+
+import { Gain } from 'core/Gain';
+
 
 	"use strict";
 
@@ -21,7 +27,7 @@ import { Gain } from 'core';
 	 *  @example
 	 * var pulse = new PulseOscillator("E5", 0.4).toMaster().start();
 	 */
-	export function PulseOscillator(){
+	export var PulseOscillator = function(){
 
 		var options = this.optionsObject(arguments, ["frequency", "width"], Oscillator.defaults);
 		Source.call(this, options);

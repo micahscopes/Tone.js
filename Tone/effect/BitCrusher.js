@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Effect } from 'effect';
-import { Subtract } from 'signal';
-import { Modulo } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Effect } from 'effect/Effect';
+
+import { Subtract } from 'signal/Subtract';
+
+import { Modulo } from 'signal/Modulo';
+
 
 	"use strict";
 
@@ -19,7 +23,7 @@ import { Modulo } from 'signal';
 	 * var crusher = new BitCrusher(4).toMaster();
 	 * var synth = new MonoSynth().connect(crusher);
 	 */
-	export function BitCrusher(){
+	export var BitCrusher = function(){
 
 		var options = this.optionsObject(arguments, ["bits"], BitCrusher.defaults);
 		Effect.call(this, options);

@@ -1,9 +1,15 @@
-import { Tone } from 'core';
-import { ScaleExp } from 'signal';
-import { Signal } from 'signal';
-import { Param } from 'core';
-import { Delay } from 'core';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { ScaleExp } from 'signal/ScaleExp';
+
+import { Signal } from 'signal/Signal';
+
+import { Param } from 'core/Param';
+
+import { Delay } from 'core/Delay';
+
+import { Gain } from 'core/Gain';
+
 
 	"use strict";
 
@@ -16,7 +22,7 @@ import { Gain } from 'core';
 	 *  @param {Time|Object} [delayTime] The delay time of the filter.
 	 *  @param {NormalRange=} resonance The amount of feedback the filter has.
 	 */
-	export function FeedbackCombFilter(){
+	export var FeedbackCombFilter = function(){
 
 		var options = this.optionsObject(arguments, ["delayTime", "resonance"], FeedbackCombFilter.defaults);
 

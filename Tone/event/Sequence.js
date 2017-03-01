@@ -1,6 +1,9 @@
-import { Tone } from 'core';
-import { Part } from 'event';
-import { Transport } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Part } from 'event/Part';
+
+import { Transport } from 'core/Transport';
+
 
 	"use strict";
 
@@ -26,7 +29,7 @@ import { Transport } from 'core';
 	 * //subdivisions are given as subarrays
 	 * }, ["C4", ["E4", "D4", "E4"], "G4", ["A4", "G4"]]);
 	 */
-	export function Sequence(){
+	export var Sequence = function(){
 
 		var options = this.optionsObject(arguments, ["callback", "events", "subdivision"], Sequence.defaults);
 

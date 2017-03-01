@@ -1,5 +1,7 @@
-import { Tone } from 'core';
-import { Gain } from 'core';
+import { Tone } from 'core/Tone';
+
+import { Gain } from 'core/Gain';
+
 
 	"use strict";
 
@@ -12,7 +14,7 @@ import { Gain } from 'core';
 	 * var split = new Split();
 	 * stereoSignal.connect(split);
 	 */
-	export function Split(){
+	export var Split = function(){
 
 		this.createInsOuts(0, 2);
 

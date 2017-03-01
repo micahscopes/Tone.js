@@ -1,10 +1,17 @@
-import { Tone } from 'core';
-import { CrossFade } from 'component';
-import { Merge } from 'component';
-import { Split } from 'component';
-import { Signal } from 'signal';
-import { AudioToGain } from 'signal';
-import { Zero } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { CrossFade } from 'component/CrossFade';
+
+import { Merge } from 'component/Merge';
+
+import { Split } from 'component/Split';
+
+import { Signal } from 'signal/Signal';
+
+import { AudioToGain } from 'signal/AudioToGain';
+
+import { Zero } from 'signal/Zero';
+
 
 	"use strict";
 
@@ -18,7 +25,7 @@ import { Zero } from 'signal';
 	 *  @param {Number} positionY The initial y position.
 	 *  @param {Number} positionZ The initial z position.
 	 */
-	export function Panner3D(){
+	export var Panner3D = function(){
 
 		var options = this.optionsObject(arguments, ["positionX", "positionY", "positionZ"], Panner3D.defaults);
 

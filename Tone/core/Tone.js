@@ -21,7 +21,7 @@
 	 *  @param {number} [inputs=1] the number of input nodes
 	 *  @param {number} [outputs=1] the number of output nodes
 	 */
-	export function Tone(inputs, outputs){
+	export var Tone = function(inputs, outputs){
 
 		/**
 		 *  the input node(s)
@@ -784,6 +784,3 @@
 	if (!window.TONE_SILENCE_VERSION_LOGGING) {
 		console.log("%c * Tone.js " + Tone.version + " * ", "background: #000; color: #fff");
 	}
-
-	return Tone;
-});

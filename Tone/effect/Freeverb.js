@@ -1,10 +1,17 @@
-import { Tone } from 'core';
-import { LowpassCombFilter } from 'component';
-import { StereoEffect } from 'effect';
-import { Signal } from 'signal';
-import { Split } from 'component';
-import { Merge } from 'component';
-import { ScaleExp } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { LowpassCombFilter } from 'component/LowpassCombFilter';
+
+import { StereoEffect } from 'effect/StereoEffect';
+
+import { Signal } from 'signal/Signal';
+
+import { Split } from 'component/Split';
+
+import { Merge } from 'component/Merge';
+
+import { ScaleExp } from 'signal/ScaleExp';
+
 
 	"use strict";
 
@@ -39,7 +46,7 @@ import { ScaleExp } from 'signal';
 	 * //routing synth through the reverb
 	 * var synth = new AMSynth().connect(freeverb);
 	 */
-	export function Freeverb(){
+	export var Freeverb = function(){
 
 		var options = this.optionsObject(arguments, ["roomSize", "dampening"], Freeverb.defaults);
 		StereoEffect.call(this, options);

@@ -1,7 +1,11 @@
-import { Tone } from 'core';
-import { Add } from 'signal';
-import { Multiply } from 'signal';
-import { Signal } from 'signal';
+import { Tone } from 'core/Tone';
+
+import { Add } from 'signal/Add';
+
+import { Multiply } from 'signal/Multiply';
+
+import { Signal } from 'signal/Signal';
+
 
 	"use strict";
 
@@ -19,7 +23,7 @@ import { Signal } from 'signal';
 	 * var signal = new Signal(0.5).connect(scale);
 	 * //the output of scale equals 75
 	 */
-	export function Scale(outputMin, outputMax){
+	export var Scale = function(outputMin, outputMax){
 
 		/**
 		 *  @private
