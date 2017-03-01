@@ -1,17 +1,10 @@
 import { Tone } from 'core/Tone';
-
 import { CrossFade } from 'component/CrossFade';
-
 import { Merge } from 'component/Merge';
-
 import { Split } from 'component/Split';
-
 import { Signal } from 'signal/Signal';
-
 import { AudioToGain } from 'signal/AudioToGain';
-
 import { Zero } from 'signal/Zero';
-
 
 	"use strict";
 
@@ -108,7 +101,7 @@ import { Zero } from 'signal/Zero';
 	 *  @type  {boolean}
 	 *  @private
 	 */
-	Panner.prototype._hasStereoPanner = Tone.prototype.isFunction(context.createStereoPanner);
+	Panner.prototype._hasStereoPanner = Tone.prototype.isFunction(Tone.context.createStereoPanner);
 
 	/**
 	 *  Clean up.

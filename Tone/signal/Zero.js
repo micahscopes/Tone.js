@@ -18,7 +18,7 @@ import { Gain } from 'core/Gain';
 		 */
 		this._gain = this.input = this.output = new Gain();
 
-		context._zeros.connect(this._gain);
+		Tone.context._zeros.connect(this._gain);
 	};
 
 	Tone.extend(Zero);

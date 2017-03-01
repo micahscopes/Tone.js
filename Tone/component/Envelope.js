@@ -1,19 +1,4 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import { Tone } from 'core/Tone';
 
 "use strict";
 

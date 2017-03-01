@@ -427,7 +427,7 @@ import { Type } from 'type/Type';
 
 		request.addEventListener("load", function(){
 			if (request.status === 200){
-				context.decodeAudioData(request.response, function(buff) {
+				Tone.context.decodeAudioData(request.response, function(buff) {
 
 					request.progress = 1;
 					onProgress();
@@ -495,7 +495,7 @@ import { Type } from 'type/Type';
 	/**
 	 *  Returns a Promise which resolves when all of the buffers have loaded
 	 */
-	loaded = function(){
+	Tone.loaded = function(){
 		var onload, onerror;
 		return new Promise(function(success, fail){
 			onload = function(){

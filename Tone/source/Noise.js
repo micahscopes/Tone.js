@@ -246,6 +246,6 @@ import { Source } from 'source/Source';
 			return buffer;
 		}());
 	}
-	createNoise(context);
+	createNoise(Tone.context);
 
 	Context.on("init", createNoise);
