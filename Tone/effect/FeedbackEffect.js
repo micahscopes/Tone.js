@@ -1,33 +1,36 @@
-define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/signal/Signal", 
-	"Tone/signal/Multiply", "Tone/core/Gain"], function(Tone){
+import { Tone } from 'core';
+import { Effect } from 'effect';
+import { Signal } from 'signal';
+import { Multiply } from 'signal';
+import { Gain } from 'core';
 
 	"use strict";
-	
+
 	/**
-	 * 	@class  Tone.FeedbackEffect provides a loop between an 
+	 * 	@class  FeedbackEffect provides a loop between an
 	 * 	        audio source and its own output. This is a base-class
-	 * 	        for feedback effects. 
+	 * 	        for feedback effects.
 	 *
 	 *  @constructor
-	 *  @extends {Tone.Effect}
+	 *  @extends {Effect}
 	 *  @param {NormalRange|Object} [feedback] The initial feedback value.
 	 */
-	Tone.FeedbackEffect = function(){
+	export function FeedbackEffect(){
 
 		var options = this.optionsObject(arguments, ["feedback"]);
-		options = this.defaultArg(options, Tone.FeedbackEffect.defaults);
+		options = this.defaultArg(options, FeedbackEffect.defaults);
 
-		Tone.Effect.call(this, options);
-		
+		Effect.call(this, options);
+
 		/**
 		 *  the gain which controls the feedback
-		 *  @type {Tone.Gain}
+		 *  @type {Gain}
 		 *  @private
 		 */
-		this._feedbackGain = new Tone.Gain(options.feedback, Tone.Type.NormalRange);
+		this._feedbackGain = new Gain(options.feedback, Type.NormalRange);
 
 		/**
-		 *  The amount of signal which is fed back into the effect input. 
+		 *  The amount of signal which is fed back into the effect input.
 		 *  @type {NormalRange}
 		 *  @signal
 		 */
@@ -38,28 +41,25 @@ define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/signal/Signal",
 		this._readOnly(["feedback"]);
 	};
 
-	Tone.extend(Tone.FeedbackEffect, Tone.Effect);
+	Tone.extend(FeedbackEffect, Effect);
 
 	/**
 	 *  @static
 	 *  @type {Object}
 	 */
-	Tone.FeedbackEffect.defaults = {
+	FeedbackEffect.defaults = {
 		"feedback" : 0.125
 	};
 
 	/**
-	 *  Clean up. 
-	 *  @returns {Tone.FeedbackEffect} this
+	 *  Clean up.
+	 *  @returns {FeedbackEffect} this
 	 */
-	Tone.FeedbackEffect.prototype.dispose = function(){
-		Tone.Effect.prototype.dispose.call(this);
+	FeedbackEffect.prototype.dispose = function(){
+		Effect.prototype.dispose.call(this);
 		this._writable(["feedback"]);
 		this._feedbackGain.dispose();
 		this._feedbackGain = null;
 		this.feedback = null;
 		return this;
 	};
-
-	return Tone.FeedbackEffect;
-});

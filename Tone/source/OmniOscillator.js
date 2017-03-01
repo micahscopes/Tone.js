@@ -1,43 +1,48 @@
-define(["Tone/core/Tone", "Tone/source/Source", "Tone/source/Oscillator", "Tone/source/PulseOscillator", "Tone/source/PWMOscillator", 
-	"Tone/source/FMOscillator", "Tone/source/AMOscillator", "Tone/source/FatOscillator"],
-function(Tone){
+import { Tone } from 'core';
+import { Source } from 'source';
+import { Oscillator } from 'source';
+import { PulseOscillator } from 'source';
+import { PWMOscillator } from 'source';
+import { FMOscillator } from 'source';
+import { AMOscillator } from 'source';
+import { FatOscillator } from 'source';
 
 	"use strict";
 
 	/**
-	 *  @class Tone.OmniOscillator aggregates Tone.Oscillator, Tone.PulseOscillator,
-	 *         Tone.PWMOscillator, Tone.FMOscillator, Tone.AMOscillator, and Tone.FatOscillator
-	 *         into one class. The oscillator class can be changed by setting the `type`. 
-	 *         `omniOsc.type = "pwm"` will set it to the Tone.PWMOscillator. Prefixing
+	 *  @class OmniOscillator aggregates Oscillator, PulseOscillator,
+	 *         PWMOscillator, FMOscillator, AMOscillator, and FatOscillator
+	 *         into one class. The oscillator class can be changed by setting the `type`.
+	 *         `omniOsc.type = "pwm"` will set it to the PWMOscillator. Prefixing
 	 *         any of the basic types ("sine", "square4", etc.) with "fm", "am", or "fat"
-	 *         will use the FMOscillator, AMOscillator or FatOscillator respectively. 
+	 *         will use the FMOscillator, AMOscillator or FatOscillator respectively.
 	 *         For example: `omniOsc.type = "fatsawtooth"` will create set the oscillator
-	 *         to a FatOscillator of type "sawtooth". 
+	 *         to a FatOscillator of type "sawtooth".
 	 *
-	 *  @extends {Tone.Oscillator}
+	 *  @extends {Oscillator}
 	 *  @constructor
 	 *  @param {Frequency} frequency The initial frequency of the oscillator.
 	 *  @param {String} type The type of the oscillator.
 	 *  @example
-	 *  var omniOsc = new Tone.OmniOscillator("C#4", "pwm");
+	 *  var omniOsc = new OmniOscillator("C#4", "pwm");
 	 */
-	Tone.OmniOscillator = function(){
-		var options = this.optionsObject(arguments, ["frequency", "type"], Tone.OmniOscillator.defaults);
-		Tone.Source.call(this, options);
+	export function OmniOscillator(){
+		var options = this.optionsObject(arguments, ["frequency", "type"], OmniOscillator.defaults);
+		Source.call(this, options);
 
 		/**
 		 *  The frequency control.
 		 *  @type {Frequency}
 		 *  @signal
 		 */
-		this.frequency = new Tone.Signal(options.frequency, Tone.Type.Frequency);
+		this.frequency = new Signal(options.frequency, Type.Frequency);
 
 		/**
 		 *  The detune control
 		 *  @type {Cents}
 		 *  @signal
 		 */
-		this.detune = new Tone.Signal(options.detune, Tone.Type.Cents);
+		this.detune = new Signal(options.detune, Type.Cents);
 
 		/**
 		 *  the type of the oscillator source
@@ -48,7 +53,7 @@ function(Tone){
 
 		/**
 		 *  the oscillator
-		 *  @type {Tone.Oscillator}
+		 *  @type {Oscillator}
 		 *  @private
 		 */
 		this._oscillator = null;
@@ -60,7 +65,7 @@ function(Tone){
 		this.set(options);
 	};
 
-	Tone.extend(Tone.OmniOscillator, Tone.Oscillator);
+	Tone.extend(OmniOscillator, Oscillator);
 
 	/**
 	 *  default values
@@ -68,7 +73,7 @@ function(Tone){
 	 *  @type {Object}
 	 *  @const
 	 */
-	Tone.OmniOscillator.defaults = {
+	OmniOscillator.defaults = {
 		"frequency" : 440,
 		"detune" : 0,
 		"type" : "sine",
@@ -93,7 +98,7 @@ function(Tone){
 	 *  @param {Time} [time=now] the time to start the oscillator
 	 *  @private
 	 */
-	Tone.OmniOscillator.prototype._start = function(time){
+	OmniOscillator.prototype._start = function(time){
 		this._oscillator.start(time);
 	};
 
@@ -102,7 +107,7 @@ function(Tone){
 	 *  @param {Time} [time=now] the time to start the oscillator
 	 *  @private
 	 */
-	Tone.OmniOscillator.prototype._stop = function(time){
+	OmniOscillator.prototype._stop = function(time){
 		this._oscillator.stop(time);
 	};
 
@@ -110,23 +115,23 @@ function(Tone){
 	 * The type of the oscillator. Can be any of the basic types: sine, square, triangle, sawtooth. Or
 	 * prefix the basic types with "fm", "am", or "fat" to use the FMOscillator, AMOscillator or FatOscillator
 	 * types. The oscillator could also be set to "pwm" or "pulse". All of the parameters of the
-	 * oscillator's class are accessible when the oscillator is set to that type, but throws an error 
+	 * oscillator's class are accessible when the oscillator is set to that type, but throws an error
 	 * when it's not.
-	 * 
-	 * @memberOf Tone.OmniOscillator#
+	 *
+	 * @memberOf OmniOscillator#
 	 * @type {String}
 	 * @name type
 	 * @example
 	 * omniOsc.type = "pwm";
 	 * //modulationFrequency is parameter which is available
-	 * //only when the type is "pwm". 
+	 * //only when the type is "pwm".
 	 * omniOsc.modulationFrequency.value = 0.5;
 	 * @example
 	 * //an square wave frequency modulated by a sawtooth
 	 * omniOsc.type = "fmsquare";
 	 * omniOsc.modulationType = "sawtooth";
 	 */
-	Object.defineProperty(Tone.OmniOscillator.prototype, "type", {
+	Object.defineProperty(OmniOscillator.prototype, "type", {
 		get : function(){
 			var prefix = "";
 			if (this._sourceType === OmniOscType.FM){
@@ -137,7 +142,7 @@ function(Tone){
 				prefix = "fat";
 			}
 			return prefix + this._oscillator.type;
-		}, 
+		},
 		set : function(type){
 			if (type.substr(0, 2) === "fm"){
 				this._createNewOscillator(OmniOscType.FM);
@@ -160,36 +165,36 @@ function(Tone){
 	});
 
 	/**
-	 * The partials of the waveform. A partial represents 
-	 * the amplitude at a harmonic. The first harmonic is the 
+	 * The partials of the waveform. A partial represents
+	 * the amplitude at a harmonic. The first harmonic is the
 	 * fundamental frequency, the second is the octave and so on
-	 * following the harmonic series. 
-	 * Setting this value will automatically set the type to "custom". 
-	 * The value is an empty array when the type is not "custom". 
+	 * following the harmonic series.
+	 * Setting this value will automatically set the type to "custom".
+	 * The value is an empty array when the type is not "custom".
 	 * This is not available on "pwm" and "pulse" oscillator types.
-	 * @memberOf Tone.OmniOscillator#
+	 * @memberOf OmniOscillator#
 	 * @type {Array}
 	 * @name partials
 	 * @example
 	 * osc.partials = [1, 0.2, 0.01];
 	 */
-	Object.defineProperty(Tone.OmniOscillator.prototype, "partials", {
+	Object.defineProperty(OmniOscillator.prototype, "partials", {
 		get : function(){
 			return this._oscillator.partials;
-		}, 
+		},
 		set : function(partials){
 			this._oscillator.partials = partials;
 		}
 	});
 
 	/**
-	 *  Set a member/attribute of the oscillator. 
+	 *  Set a member/attribute of the oscillator.
 	 *  @param {Object|String} params
 	 *  @param {number=} value
 	 *  @param {Time=} rampTime
-	 *  @returns {Tone.OmniOscillator} this
+	 *  @returns {OmniOscillator} this
 	 */
-	Tone.OmniOscillator.prototype.set = function(params, value){
+	OmniOscillator.prototype.set = function(params, value){
 		//make sure the type is set first
 		if (params === "type"){
 			this.type = value;
@@ -197,7 +202,7 @@ function(Tone){
 			this.type = params.type;
 		}
 		//then set the rest
-		Tone.prototype.set.apply(this, arguments);
+		prototype.set.apply(this, arguments);
 		return this;
 	};
 
@@ -205,7 +210,7 @@ function(Tone){
 	 *  connect the oscillator to the frequency and detune signals
 	 *  @private
 	 */
-	Tone.OmniOscillator.prototype._createNewOscillator = function(oscType){
+	OmniOscillator.prototype._createNewOscillator = function(oscType){
 		if (oscType !== this._sourceType){
 			this._sourceType = oscType;
 			var OscillatorConstructor = Tone[oscType];
@@ -224,22 +229,22 @@ function(Tone){
 			this.frequency.connect(this._oscillator.frequency);
 			this.detune.connect(this._oscillator.detune);
 			this._oscillator.connect(this.output);
-			if (this.state === Tone.State.Started){
+			if (this.state === State.Started){
 				this._oscillator.start(now);
 			}
 		}
 	};
 
 	/**
-	 * The phase of the oscillator in degrees. 
-	 * @memberOf Tone.OmniOscillator#
+	 * The phase of the oscillator in degrees.
+	 * @memberOf OmniOscillator#
 	 * @type {Degrees}
 	 * @name phase
 	 */
-	Object.defineProperty(Tone.OmniOscillator.prototype, "phase", {
+	Object.defineProperty(OmniOscillator.prototype, "phase", {
 		get : function(){
 			return this._oscillator.phase;
-		}, 
+		},
 		set : function(phase){
 			this._oscillator.phase = phase;
 		}
@@ -247,39 +252,39 @@ function(Tone){
 
 	/**
 	 * The width of the oscillator (only if the oscillator is set to "pulse")
-	 * @memberOf Tone.OmniOscillator#
+	 * @memberOf OmniOscillator#
 	 * @type {NormalRange}
 	 * @signal
 	 * @name width
 	 * @example
-	 * var omniOsc = new Tone.OmniOscillator(440, "pulse");
+	 * var omniOsc = new OmniOscillator(440, "pulse");
 	 * //can access the width attribute only if type === "pulse"
-	 * omniOsc.width.value = 0.2; 
+	 * omniOsc.width.value = 0.2;
 	 */
-	Object.defineProperty(Tone.OmniOscillator.prototype, "width", {
+	Object.defineProperty(OmniOscillator.prototype, "width", {
 		get : function(){
 			if (this._sourceType === OmniOscType.Pulse){
 				return this._oscillator.width;
-			} 
+			}
 		}
 	});
 
 	/**
 	 * The number of detuned oscillators
-	 * @memberOf Tone.OmniOscillator#
+	 * @memberOf OmniOscillator#
 	 * @type {Number}
 	 * @name count
 	 */
-	Object.defineProperty(Tone.OmniOscillator.prototype, "count", {
+	Object.defineProperty(OmniOscillator.prototype, "count", {
 		get : function(){
 			if (this._sourceType === OmniOscType.Fat){
 				return this._oscillator.count;
-			} 
+			}
 		},
 		set : function(count){
 			if (this._sourceType === OmniOscType.Fat){
 				this._oscillator.count = count;
-			} 
+			}
 		}
 	});
 
@@ -287,108 +292,108 @@ function(Tone){
 	 * The detune spread between the oscillators. If "count" is
 	 * set to 3 oscillators and the "spread" is set to 40,
 	 * the three oscillators would be detuned like this: [-20, 0, 20]
-	 * for a total detune spread of 40 cents. See Tone.FatOscillator
+	 * for a total detune spread of 40 cents. See FatOscillator
 	 * for more info.
-	 * @memberOf Tone.OmniOscillator#
+	 * @memberOf OmniOscillator#
 	 * @type {Cents}
 	 * @name spread
 	 */
-	Object.defineProperty(Tone.OmniOscillator.prototype, "spread", {
+	Object.defineProperty(OmniOscillator.prototype, "spread", {
 		get : function(){
 			if (this._sourceType === OmniOscType.Fat){
 				return this._oscillator.spread;
-			} 
+			}
 		},
 		set : function(spread){
 			if (this._sourceType === OmniOscType.Fat){
 				this._oscillator.spread = spread;
-			} 
+			}
 		}
 	});
 
 	/**
 	 * The type of the modulator oscillator. Only if the oscillator
-	 * is set to "am" or "fm" types. see. Tone.AMOscillator or Tone.FMOscillator
-	 * for more info. 
-	 * @memberOf Tone.OmniOscillator#
+	 * is set to "am" or "fm" types. see. AMOscillator or FMOscillator
+	 * for more info.
+	 * @memberOf OmniOscillator#
 	 * @type {String}
 	 * @name modulationType
 	 */
-	Object.defineProperty(Tone.OmniOscillator.prototype, "modulationType", {
+	Object.defineProperty(OmniOscillator.prototype, "modulationType", {
 		get : function(){
 			if (this._sourceType === OmniOscType.FM || this._sourceType === OmniOscType.AM){
 				return this._oscillator.modulationType;
-			} 
+			}
 		},
 		set : function(mType){
 			if (this._sourceType === OmniOscType.FM || this._sourceType === OmniOscType.AM){
 				this._oscillator.modulationType = mType;
-			} 
+			}
 		}
 	});
 
 	/**
-	 * The modulation index which is in essence the depth or amount of the modulation. In other terms it is the 
-	 * ratio of the frequency of the modulating signal (mf) to the amplitude of the 
-	 * modulating signal (ma) -- as in ma/mf. 
-	 * See Tone.FMOscillator for more info. 
+	 * The modulation index which is in essence the depth or amount of the modulation. In other terms it is the
+	 * ratio of the frequency of the modulating signal (mf) to the amplitude of the
+	 * modulating signal (ma) -- as in ma/mf.
+	 * See FMOscillator for more info.
 	 * @type {Positive}
 	 * @signal
 	 * @name modulationIndex
 	 */
-	Object.defineProperty(Tone.OmniOscillator.prototype, "modulationIndex", {
+	Object.defineProperty(OmniOscillator.prototype, "modulationIndex", {
 		get : function(){
 			if (this._sourceType === OmniOscType.FM){
 				return this._oscillator.modulationIndex;
-			} 
+			}
 		}
 	});
 
 	/**
-	 *  Harmonicity is the frequency ratio between the carrier and the modulator oscillators. 
-	 *  A harmonicity of 1 gives both oscillators the same frequency. 
-	 *  Harmonicity = 2 means a change of an octave. See Tone.AMOscillator or Tone.FMOscillator
-	 *  for more info. 
-	 *  @memberOf Tone.OmniOscillator#
+	 *  Harmonicity is the frequency ratio between the carrier and the modulator oscillators.
+	 *  A harmonicity of 1 gives both oscillators the same frequency.
+	 *  Harmonicity = 2 means a change of an octave. See AMOscillator or FMOscillator
+	 *  for more info.
+	 *  @memberOf OmniOscillator#
 	 *  @signal
 	 *  @type {Positive}
 	 *  @name harmonicity
 	 */
-	Object.defineProperty(Tone.OmniOscillator.prototype, "harmonicity", {
+	Object.defineProperty(OmniOscillator.prototype, "harmonicity", {
 		get : function(){
 			if (this._sourceType === OmniOscType.FM || this._sourceType === OmniOscType.AM){
 				return this._oscillator.harmonicity;
-			} 
+			}
 		}
 	});
 
 	/**
-	 * The modulationFrequency Signal of the oscillator 
-	 * (only if the oscillator type is set to pwm). See 
-	 * Tone.PWMOscillator for more info. 
-	 * @memberOf Tone.OmniOscillator#
+	 * The modulationFrequency Signal of the oscillator
+	 * (only if the oscillator type is set to pwm). See
+	 * PWMOscillator for more info.
+	 * @memberOf OmniOscillator#
 	 * @type {Frequency}
 	 * @signal
 	 * @name modulationFrequency
 	 * @example
-	 * var omniOsc = new Tone.OmniOscillator(440, "pwm");
+	 * var omniOsc = new OmniOscillator(440, "pwm");
 	 * //can access the modulationFrequency attribute only if type === "pwm"
-	 * omniOsc.modulationFrequency.value = 0.2; 
+	 * omniOsc.modulationFrequency.value = 0.2;
 	 */
-	Object.defineProperty(Tone.OmniOscillator.prototype, "modulationFrequency", {
+	Object.defineProperty(OmniOscillator.prototype, "modulationFrequency", {
 		get : function(){
 			if (this._sourceType === OmniOscType.PWM){
 				return this._oscillator.modulationFrequency;
-			} 
+			}
 		}
 	});
 
 	/**
 	 *  Clean up.
-	 *  @return {Tone.OmniOscillator} this
+	 *  @return {OmniOscillator} this
 	 */
-	Tone.OmniOscillator.prototype.dispose = function(){
-		Tone.Source.prototype.dispose.call(this);
+	OmniOscillator.prototype.dispose = function(){
+		Source.prototype.dispose.call(this);
 		this._writable(["frequency", "detune"]);
 		this.detune.dispose();
 		this.detune = null;
@@ -399,6 +404,3 @@ function(Tone){
 		this._sourceType = null;
 		return this;
 	};
-
-	return Tone.OmniOscillator;
-});

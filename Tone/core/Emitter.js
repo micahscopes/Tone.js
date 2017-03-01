@@ -1,16 +1,17 @@
-define(["Tone/core/Tone"], function (Tone) {
+import { Tone } from 'core';
+import { Tone } from 'core';
 
 	"use strict";
 
 	/**
-	 *  @class Tone.Emitter gives classes which extend it
-	 *         the ability to listen for and emit events. 
+	 *  @class Emitter gives classes which extend it
+	 *         the ability to listen for and emit events.
 	 *         Inspiration and reference from Jerome Etienne's [MicroEvent](https://github.com/jeromeetienne/microevent.js).
 	 *         MIT (c) 2011 Jerome Etienne.
-	 *         
+	 *
 	 *  @extends {Tone}
 	 */
-	Tone.Emitter = function(){
+	export function Emitter(){
 		/**
 		 *  Contains all of the events.
 		 *  @private
@@ -19,16 +20,16 @@ define(["Tone/core/Tone"], function (Tone) {
 		this._events = {};
 	};
 
-	Tone.extend(Tone.Emitter);
+	Tone.extend(Emitter);
 
 	/**
 	 *  Bind a callback to a specific event.
 	 *  @param  {String}    event     The name of the event to listen for.
 	 *  @param  {Function}  callback  The callback to invoke when the
 	 *                                event is emitted
-	 *  @return  {Tone.Emitter}    this
+	 *  @return  {Emitter}    this
 	 */
-	Tone.Emitter.prototype.on = function(event, callback){
+	Emitter.prototype.on = function(event, callback){
 		//split the event
 		var events = event.split(/\W+/);
 		for (var i = 0; i < events.length; i++){
@@ -44,18 +45,18 @@ define(["Tone/core/Tone"], function (Tone) {
 	/**
 	 *  Remove the event listener.
 	 *  @param  {String}    event     The event to stop listening to.
-	 *  @param  {Function=}  callback  The callback which was bound to 
-	 *                                the event with Tone.Emitter.on.
+	 *  @param  {Function=}  callback  The callback which was bound to
+	 *                                the event with Emitter.on.
 	 *                                If no callback is given, all callbacks
 	 *                                events are removed.
-	 *  @return  {Tone.Emitter}    this
+	 *  @return  {Emitter}    this
 	 */
-	Tone.Emitter.prototype.off = function(event, callback){
+	Emitter.prototype.off = function(event, callback){
 		var events = event.split(/\W+/);
 		for (var ev = 0; ev < events.length; ev++){
 			event = events[ev];
 			if (this._events.hasOwnProperty(event)){
-				if (Tone.prototype.isUndef(callback)){
+				if (prototype.isUndef(callback)){
 					this._events[event] = [];
 				} else {
 					var eventList = this._events[event];
@@ -72,12 +73,12 @@ define(["Tone/core/Tone"], function (Tone) {
 
 	/**
 	 *  Invoke all of the callbacks bound to the event
-	 *  with any arguments passed in. 
+	 *  with any arguments passed in.
 	 *  @param  {String}  event  The name of the event.
 	 *  @param {*...} args The arguments to pass to the functions listening.
-	 *  @return  {Tone.Emitter}  this
+	 *  @return  {Emitter}  this
 	 */
-	Tone.Emitter.prototype.emit = function(event){
+	Emitter.prototype.emit = function(event){
 		if (this._events){
 			var args = Array.prototype.slice.call(arguments, 1);
 			if (this._events.hasOwnProperty(event)){
@@ -94,25 +95,22 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  Add Emitter functions (on/off/emit) to the object
 	 *  @param  {Object|Function}  object  The object or class to extend.
 	 */
-	Tone.Emitter.mixin = function(object){
+	Emitter.mixin = function(object){
 		var functions = ["on", "off", "emit"];
 		object._events = {};
 		for (var i = 0; i < functions.length; i++){
 			var func = functions[i];
-			var emitterFunc = Tone.Emitter.prototype[func];
+			var emitterFunc = Emitter.prototype[func];
 			object[func] = emitterFunc;
 		}
 	};
 
 	/**
 	 *  Clean up
-	 *  @return  {Tone.Emitter}  this
+	 *  @return  {Emitter}  this
 	 */
-	Tone.Emitter.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	Emitter.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._events = null;
 		return this;
 	};
-
-	return Tone.Emitter;
-});

@@ -1,31 +1,33 @@
-define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/component/Split", 
-	"Tone/component/Merge", "Tone/component/CrossFade"], 
-function(Tone){
+import { Tone } from 'core';
+import { Effect } from 'effect';
+import { Split } from 'component';
+import { Merge } from 'component';
+import { CrossFade } from 'component';
 
 	"use strict";
 
 	/**
-	 *  @class Base class for Stereo effects. Provides effectSendL/R and effectReturnL/R. 
+	 *  @class Base class for Stereo effects. Provides effectSendL/R and effectReturnL/R.
 	 *
 	 *	@constructor
-	 *	@extends {Tone.Effect}
+	 *	@extends {Effect}
 	 */
-	Tone.StereoEffect = function(){
+	export function StereoEffect(){
 
 		this.createInsOuts(1, 1);
 		//get the defaults
-		var options = this.optionsObject(arguments, ["wet"], Tone.Effect.defaults);
+		var options = this.optionsObject(arguments, ["wet"], Effect.defaults);
 
 		/**
 		 *  the drywet knob to control the amount of effect
-		 *  @type {Tone.CrossFade}
+		 *  @type {CrossFade}
 		 *  @private
 		 */
-		this._dryWet = new Tone.CrossFade(options.wet);
+		this._dryWet = new CrossFade(options.wet);
 
 		/**
 		 *  The wet control, i.e. how much of the effected
-		 *  will pass through to the output. 
+		 *  will pass through to the output.
 		 *  @type {NormalRange}
 		 *  @signal
 		 */
@@ -33,10 +35,10 @@ function(Tone){
 
 		/**
 		 *  then split it
-		 *  @type {Tone.Split}
+		 *  @type {Split}
 		 *  @private
 		 */
-		this._split = new Tone.Split();
+		this._split = new Split();
 
 		/**
 		 *  the effects send LEFT
@@ -54,10 +56,10 @@ function(Tone){
 
 		/**
 		 *  the stereo effect merger
-		 *  @type {Tone.Merge}
+		 *  @type {Merge}
 		 *  @private
 		 */
-		this._merge = new Tone.Merge();
+		this._merge = new Merge();
 
 		/**
 		 *  the effect return LEFT
@@ -82,14 +84,14 @@ function(Tone){
 		this._readOnly(["wet"]);
 	};
 
-	Tone.extend(Tone.StereoEffect, Tone.Effect);
+	Tone.extend(StereoEffect, Effect);
 
 	/**
-	 *  Clean up. 
-	 *  @returns {Tone.StereoEffect} this
+	 *  Clean up.
+	 *  @returns {StereoEffect} this
 	 */
-	Tone.StereoEffect.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	StereoEffect.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._dryWet.dispose();
 		this._dryWet = null;
 		this._split.dispose();
@@ -104,6 +106,3 @@ function(Tone){
 		this.wet = null;
 		return this;
 	};
-
-	return Tone.StereoEffect;
-});

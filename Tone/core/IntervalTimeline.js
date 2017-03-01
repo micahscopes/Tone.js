@@ -1,17 +1,18 @@
-define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
+import { Tone } from 'core';
+import { Type } from 'type';
 
 	"use strict";
 
 	/**
-	 *  @class Similar to Tone.Timeline, but all events represent
-	 *         intervals with both "time" and "duration" times. The 
+	 *  @class Similar to Timeline, but all events represent
+	 *         intervals with both "time" and "duration" times. The
 	 *         events are placed in a tree structure optimized
 	 *         for querying an intersection point with the timeline
 	 *         events. Internally uses an [Interval Tree](https://en.wikipedia.org/wiki/Interval_tree)
 	 *         to represent the data.
 	 *  @extends {Tone}
 	 */
-	Tone.IntervalTimeline = function(){
+	export function IntervalTimeline(){
 
 		/**
 		 *  The root node of the inteval tree
@@ -28,17 +29,17 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 		this._length = 0;
 	};
 
-	Tone.extend(Tone.IntervalTimeline);
+	Tone.extend(IntervalTimeline);
 
 	/**
-	 *  The event to add to the timeline. All events must 
+	 *  The event to add to the timeline. All events must
 	 *  have a time and duration value
 	 *  @param  {Object}  event  The event to add to the timeline
-	 *  @return  {Tone.IntervalTimeline}  this
+	 *  @return  {IntervalTimeline}  this
 	 */
-	Tone.IntervalTimeline.prototype.add = function(event){
+	IntervalTimeline.prototype.add = function(event){
 		if (this.isUndef(event.time) || this.isUndef(event.duration)){
-			throw new Error("Tone.IntervalTimeline: events must have time and duration parameters");
+			throw new Error("IntervalTimeline: events must have time and duration parameters");
 		}
 		var node = new IntervalNode(event.time, event.time + event.duration, event);
 		if (this._root === null){
@@ -60,9 +61,9 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	/**
 	 *  Remove an event from the timeline.
 	 *  @param  {Object}  event  The event to remove from the timeline
-	 *  @return  {Tone.IntervalTimeline}  this
+	 *  @return  {IntervalTimeline}  this
 	 */
-	Tone.IntervalTimeline.prototype.remove = function(event){
+	IntervalTimeline.prototype.remove = function(event){
 		if (this._root !== null){
 			var results = [];
 			this._root.search(event.time, results);
@@ -81,11 +82,11 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	/**
 	 *  The number of items in the timeline.
 	 *  @type {Number}
-	 *  @memberOf Tone.IntervalTimeline#
+	 *  @memberOf IntervalTimeline#
 	 *  @name length
 	 *  @readOnly
 	 */
-	Object.defineProperty(Tone.IntervalTimeline.prototype, "length", {
+	Object.defineProperty(IntervalTimeline.prototype, "length", {
 		get : function(){
 			return this._length;
 		}
@@ -94,9 +95,9 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	/**
 	 *  Remove events whose time time is after the given time
 	 *  @param  {Number}  time  The time to query.
-	 *  @returns {Tone.IntervalTimeline} this
+	 *  @returns {IntervalTimeline} this
 	 */
-	Tone.IntervalTimeline.prototype.cancel = function(after){
+	IntervalTimeline.prototype.cancel = function(after){
 		this.forEachAfter(after, function(event){
 			this.remove(event);
 		}.bind(this));
@@ -108,7 +109,7 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	 *  @param {IntervalNode} node
 	 *  @private
 	 */
-	Tone.IntervalTimeline.prototype._setRoot = function(node){
+	IntervalTimeline.prototype._setRoot = function(node){
 		this._root = node;
 		if (this._root !== null){
 			this._root.parent = null;
@@ -118,11 +119,11 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	/**
 	 *  Replace the references to the node in the node's parent
 	 *  with the replacement node.
-	 *  @param  {IntervalNode}  node        
-	 *  @param  {IntervalNode}  replacement 
+	 *  @param  {IntervalNode}  node
+	 *  @param  {IntervalNode}  replacement
 	 *  @private
 	 */
-	Tone.IntervalTimeline.prototype._replaceNodeInParent = function(node, replacement){
+	IntervalTimeline.prototype._replaceNodeInParent = function(node, replacement){
 		if (node.parent !== null){
 			if (node.isLeftChild()){
 				node.parent.left = replacement;
@@ -136,12 +137,12 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	};
 
 	/**
-	 *  Remove the node from the tree and replace it with 
+	 *  Remove the node from the tree and replace it with
 	 *  a successor which follows the schema.
 	 *  @param  {IntervalNode}  node
 	 *  @private
 	 */
-	Tone.IntervalTimeline.prototype._removeNode = function(node){
+	IntervalTimeline.prototype._removeNode = function(node){
 		if (node.left === null && node.right === null){
 			this._replaceNodeInParent(node, null);
 		} else if (node.right === null){
@@ -203,7 +204,7 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	 *  @param  {IntervalNode}  node
 	 *  @private
 	 */
-	Tone.IntervalTimeline.prototype._rotateLeft = function(node){
+	IntervalTimeline.prototype._rotateLeft = function(node){
 		var parent = node.parent;
 		var isLeftChild = node.isLeftChild();
 
@@ -228,10 +229,10 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	 *  @param  {IntervalNode}  node
 	 *  @private
 	 */
-	Tone.IntervalTimeline.prototype._rotateRight = function(node){
+	IntervalTimeline.prototype._rotateRight = function(node){
 		var parent = node.parent;
 		var isLeftChild = node.isLeftChild();
- 
+
 		// Make node.left the new root of this sub tree (instead of node)
 		var pivotNode = node.left;
 		node.left = pivotNode.right;
@@ -253,7 +254,7 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	 *  @param  {IntervalNode}  node
 	 *  @private
 	 */
-	Tone.IntervalTimeline.prototype._rebalance = function(node){
+	IntervalTimeline.prototype._rebalance = function(node){
 		var balance = node.getBalance();
 		if (balance > 1){
 			if (node.left.getBalance() < 0){
@@ -276,7 +277,7 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	 *  @param  {Object}  event  The event to add to the timeline
 	 *  @return  {Object}  The event which spans the desired time
 	 */
-	Tone.IntervalTimeline.prototype.get = function(time){
+	IntervalTimeline.prototype.get = function(time){
 		if (this._root !== null){
 			var results = [];
 			this._root.search(time, results);
@@ -288,7 +289,7 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 					}
 				}
 				return max.event;
-			} 
+			}
 		}
 		return null;
 	};
@@ -296,9 +297,9 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	/**
 	 *  Iterate over everything in the timeline.
 	 *  @param  {Function}  callback The callback to invoke with every item
-	 *  @returns {Tone.IntervalTimeline} this
+	 *  @returns {IntervalTimeline} this
 	 */
-	Tone.IntervalTimeline.prototype.forEach = function(callback){
+	IntervalTimeline.prototype.forEach = function(callback){
 		if (this._root !== null){
 			var allNodes = [];
 			if (this._root !== null){
@@ -321,9 +322,9 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	 *  overlaps with the time and duration time of the event.
 	 *  @param  {Number}  time The time to check if items are overlapping
 	 *  @param  {Function}  callback The callback to invoke with every item
-	 *  @returns {Tone.IntervalTimeline} this
+	 *  @returns {IntervalTimeline} this
 	 */
-	Tone.IntervalTimeline.prototype.forEachAtTime = function(time, callback){
+	IntervalTimeline.prototype.forEachAtTime = function(time, callback){
 		if (this._root !== null){
 			var results = [];
 			this._root.search(time, results);
@@ -342,9 +343,9 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	 *  than the given time.
 	 *  @param  {Number}  time The time to check if items are before
 	 *  @param  {Function}  callback The callback to invoke with every item
-	 *  @returns {Tone.IntervalTimeline} this
+	 *  @returns {IntervalTimeline} this
 	 */
-	Tone.IntervalTimeline.prototype.forEachAfter = function(time, callback){
+	IntervalTimeline.prototype.forEachAfter = function(time, callback){
 		if (this._root !== null){
 			var results = [];
 			this._root.searchAfter(time, results);
@@ -360,9 +361,9 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 
 	/**
 	 *  Clean up
-	 *  @return  {Tone.IntervalTimeline}  this
+	 *  @return  {IntervalTimeline}  this
 	 */
-	Tone.IntervalTimeline.prototype.dispose = function() {
+	IntervalTimeline.prototype.dispose = function() {
 		var allNodes = [];
 		if (this._root !== null){
 			this._root.traverse(function(node){
@@ -384,8 +385,8 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	/**
 	 *  Represents a node in the binary search tree, with the addition
 	 *  of a "high" value which keeps track of the highest value of
-	 *  its children. 
-	 *  References: 
+	 *  its children.
+	 *  References:
 	 *  https://brooknovak.wordpress.com/2013/12/07/augmented-interval-tree-in-c/
 	 *  http://www.mif.vu.lt/~valdas/ALGORITMAI/LITERATURA/Cormen/Cormen.pdf
 	 *  @param {Number} low
@@ -411,7 +412,7 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 		this.height = 0;
 	};
 
-	/** 
+	/**
 	 *  Insert a node into the correct spot in the tree
 	 *  @param  {IntervalNode}  node
 	 */
@@ -432,7 +433,7 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	};
 
 	/**
-	 *  Search the tree for nodes which overlap 
+	 *  Search the tree for nodes which overlap
 	 *  with the given point
 	 *  @param  {Number}  point  The point to query
 	 *  @param  {Array}  results  The array to put the results
@@ -463,7 +464,7 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	};
 
 	/**
-	 *  Search the tree for nodes which are less 
+	 *  Search the tree for nodes which are less
 	 *  than the given point
 	 *  @param  {Number}  point  The point to query
 	 *  @param  {Array}  results  The array to put the results
@@ -475,7 +476,7 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 			if (this.left !== null){
 				this.left.searchAfter(point, results);
 			}
-		} 
+		}
 		// search the right side
 		if (this.right !== null){
 			this.right.searchAfter(point, results);
@@ -597,6 +598,3 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	///////////////////////////////////////////////////////////////////////////
 	//	END INTERVAL NODE HELPER
 	///////////////////////////////////////////////////////////////////////////
-
-	return Tone.IntervalTimeline;
-});

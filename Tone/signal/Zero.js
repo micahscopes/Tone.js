@@ -1,35 +1,33 @@
-define(["Tone/core/Tone", "Tone/core/Gain"], function (Tone) {
+import { Tone } from 'core';
+import { Gain } from 'core';
 
 	/**
-	 *  @class Tone.Zero outputs 0's at audio-rate. The reason this has to be
-	 *         it's own class is that many browsers optimize out Tone.Signal
-	 *         with a value of 0 and will not process nodes further down the graph. 
+	 *  @class Zero outputs 0's at audio-rate. The reason this has to be
+	 *         it's own class is that many browsers optimize out Signal
+	 *         with a value of 0 and will not process nodes further down the graph.
 	 *  @extends {Tone}
 	 */
-	Tone.Zero = function(){
+	export function Zero(){
 
 		/**
 		 *  The gain node
-		 *  @type  {Tone.Gain}
+		 *  @type  {Gain}
 		 *  @private
 		 */
-		this._gain = this.input = this.output = new Tone.Gain();
+		this._gain = this.input = this.output = new Gain();
 
-		Tone.context._zeros.connect(this._gain);
+		context._zeros.connect(this._gain);
 	};
 
-	Tone.extend(Tone.Zero);
+	Tone.extend(Zero);
 
 	/**
 	 *  clean up
-	 *  @return  {Tone.Zero}  this
+	 *  @return  {Zero}  this
 	 */
-	Tone.Zero.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	Zero.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._gain.dispose();
 		this._gain = null;
 		return this;
 	};
-
-	return Tone.Zero;
-});

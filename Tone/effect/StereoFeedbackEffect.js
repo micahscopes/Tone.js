@@ -1,40 +1,42 @@
-define(["Tone/core/Tone", "Tone/effect/StereoEffect", "Tone/effect/FeedbackEffect", "Tone/core/Gain"], 
-function(Tone){
+import { Tone } from 'core';
+import { StereoEffect } from 'effect';
+import { FeedbackEffect } from 'effect';
+import { Gain } from 'core';
 
 	"use strict";
 
 	/**
 	 *  @class Base class for stereo feedback effects where the effectReturn
-	 *         is fed back into the same channel. 
+	 *         is fed back into the same channel.
 	 *
 	 *	@constructor
-	 *	@extends {Tone.FeedbackEffect}
+	 *	@extends {FeedbackEffect}
 	 */
-	Tone.StereoFeedbackEffect = function(){
+	export function StereoFeedbackEffect(){
 
-		var options = this.optionsObject(arguments, ["feedback"], Tone.FeedbackEffect.defaults);
-		Tone.StereoEffect.call(this, options);
+		var options = this.optionsObject(arguments, ["feedback"], FeedbackEffect.defaults);
+		StereoEffect.call(this, options);
 
 		/**
 		 *  controls the amount of feedback
 		 *  @type {NormalRange}
 		 *  @signal
 		 */
-		this.feedback = new Tone.Signal(options.feedback, Tone.Type.NormalRange);
+		this.feedback = new Signal(options.feedback, Type.NormalRange);
 
 		/**
 		 *  the left side feeback
-		 *  @type {Tone.Gain}
+		 *  @type {Gain}
 		 *  @private
 		 */
-		this._feedbackL = new Tone.Gain();
+		this._feedbackL = new Gain();
 
 		/**
 		 *  the right side feeback
-		 *  @type {Tone.Gain}
+		 *  @type {Gain}
 		 *  @private
 		 */
-		this._feedbackR = new Tone.Gain();
+		this._feedbackR = new Gain();
 
 		//connect it up
 		this.effectReturnL.chain(this._feedbackL, this.effectSendL);
@@ -43,14 +45,14 @@ function(Tone){
 		this._readOnly(["feedback"]);
 	};
 
-	Tone.extend(Tone.StereoFeedbackEffect, Tone.FeedbackEffect);
+	Tone.extend(StereoFeedbackEffect, FeedbackEffect);
 
 	/**
 	 *  clean up
-	 *  @returns {Tone.StereoFeedbackEffect} this
+	 *  @returns {StereoFeedbackEffect} this
 	 */
-	Tone.StereoFeedbackEffect.prototype.dispose = function(){
-		Tone.StereoEffect.prototype.dispose.call(this);
+	StereoFeedbackEffect.prototype.dispose = function(){
+		StereoEffect.prototype.dispose.call(this);
 		this._writable(["feedback"]);
 		this.feedback.dispose();
 		this.feedback = null;
@@ -61,5 +63,5 @@ function(Tone){
 		return this;
 	};
 
-	return Tone.StereoFeedbackEffect;
+	return StereoFeedbackEffect;
 });

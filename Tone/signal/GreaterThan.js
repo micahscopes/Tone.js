@@ -1,57 +1,56 @@
-define(["Tone/core/Tone", "Tone/signal/GreaterThanZero", "Tone/signal/Subtract", "Tone/signal/Signal"], 
-	function(Tone){
+import { Tone } from 'core';
+import { GreaterThanZero } from 'signal';
+import { Subtract } from 'signal';
+import { Signal } from 'signal';
 
 	"use strict";
 
 	/**
 	 *  @class  Output 1 if the signal is greater than the value, otherwise outputs 0.
-	 *          can compare two signals or a signal and a number. 
-	 *  
+	 *          can compare two signals or a signal and a number.
+	 *
 	 *  @constructor
-	 *  @extends {Tone.Signal}
+	 *  @extends {Signal}
 	 *  @param {number} [value=0] the value to compare to the incoming signal
 	 *  @example
-	 * var gt = new Tone.GreaterThan(2);
-	 * var sig = new Tone.Signal(4).connect(gt);
-	 * //output of gt is equal 1. 
+	 * var gt = new GreaterThan(2);
+	 * var sig = new Signal(4).connect(gt);
+	 * //output of gt is equal 1.
 	 */
-	Tone.GreaterThan = function(value){
+	export function GreaterThan(value){
 
 		this.createInsOuts(2, 0);
-		
+
 		/**
 		 *  subtract the amount from the incoming signal
-		 *  @type {Tone.Subtract}
+		 *  @type {Subtract}
 		 *  @private
 		 */
-		this._param = this.input[0] = new Tone.Subtract(value);
+		this._param = this.input[0] = new Subtract(value);
 		this.input[1] = this._param.input[1];
 
 		/**
 		 *  compare that amount to zero
-		 *  @type {Tone.GreaterThanZero}
+		 *  @type {GreaterThanZero}
 		 *  @private
 		 */
-		this._gtz = this.output = new Tone.GreaterThanZero();
+		this._gtz = this.output = new GreaterThanZero();
 
 		//connect
 		this._param.connect(this._gtz);
 	};
 
-	Tone.extend(Tone.GreaterThan, Tone.Signal);
+	Tone.extend(GreaterThan, Signal);
 
 	/**
 	 *  dispose method
-	 *  @returns {Tone.GreaterThan} this
+	 *  @returns {GreaterThan} this
 	 */
-	Tone.GreaterThan.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	GreaterThan.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._param.dispose();
 		this._param = null;
 		this._gtz.dispose();
 		this._gtz = null;
 		return this;
 	};
-
-	return Tone.GreaterThan;
-});

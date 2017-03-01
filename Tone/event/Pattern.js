@@ -1,46 +1,48 @@
-define(["Tone/core/Tone", "Tone/event/Loop", "Tone/control/CtrlPattern"], function (Tone) {
+import { Tone } from 'core';
+import { Loop } from 'event';
+import { CtrlPattern } from 'control';
 
 	/**
-	 *  @class Tone.Pattern arpeggiates between the given notes
-	 *         in a number of patterns. See Tone.CtrlPattern for
+	 *  @class Pattern arpeggiates between the given notes
+	 *         in a number of patterns. See CtrlPattern for
 	 *         a full list of patterns.
 	 *  @example
-	 * var pattern = new Tone.Pattern(function(time, note){
+	 * var pattern = new Pattern(function(time, note){
 	 *   //the order of the notes passed in depends on the pattern
 	 * }, ["C2", "D4", "E5", "A6"], "upDown");
-	 *  @extends {Tone.Loop}
+	 *  @extends {Loop}
 	 *  @param {Function} callback The callback to invoke with the
 	 *                             event.
 	 *  @param {Array} values The values to arpeggiate over.
 	 */
-	Tone.Pattern = function(){
+	export function Pattern(){
 
-		var options = this.optionsObject(arguments, ["callback", "values", "pattern"], Tone.Pattern.defaults);
+		var options = this.optionsObject(arguments, ["callback", "values", "pattern"], Pattern.defaults);
 
-		Tone.Loop.call(this, options);
+		Loop.call(this, options);
 
 		/**
 		 *  The pattern manager
-		 *  @type {Tone.CtrlPattern}
+		 *  @type {CtrlPattern}
 		 *  @private
 		 */
-		this._pattern = new Tone.CtrlPattern({
-			"values" : options.values, 
+		this._pattern = new CtrlPattern({
+			"values" : options.values,
 			"type" : options.pattern,
 			"index" : options.index
 		});
-		
+
 	};
 
-	Tone.extend(Tone.Pattern, Tone.Loop);
+	Tone.extend(Pattern, Loop);
 
 	/**
 	 *  The defaults
 	 *  @const
 	 *  @type  {Object}
 	 */
-	Tone.Pattern.defaults = {
-		"pattern" : Tone.CtrlPattern.Type.Up,
+	Pattern.defaults = {
+		"pattern" : CtrlPattern.Type.Up,
 		"values" : [],
 	};
 
@@ -49,18 +51,18 @@ define(["Tone/core/Tone", "Tone/event/Loop", "Tone/control/CtrlPattern"], functi
 	 *  @param  {Number}  time  The time the event occurs
 	 *  @private
 	 */
-	Tone.Pattern.prototype._tick = function(time){
+	Pattern.prototype._tick = function(time){
 		this.callback(time, this._pattern.value);
 		this._pattern.next();
 	};
 
 	/**
 	 *  The current index in the values array.
-	 *  @memberOf Tone.Pattern#
+	 *  @memberOf Pattern#
 	 *  @type {Positive}
 	 *  @name index
 	 */
-	Object.defineProperty(Tone.Pattern.prototype, "index", {
+	Object.defineProperty(Pattern.prototype, "index", {
 		get : function(){
 			return this._pattern.index;
 		},
@@ -71,11 +73,11 @@ define(["Tone/core/Tone", "Tone/event/Loop", "Tone/control/CtrlPattern"], functi
 
 	/**
 	 *  The array of events.
-	 *  @memberOf Tone.Pattern#
+	 *  @memberOf Pattern#
 	 *  @type {Array}
 	 *  @name values
 	 */
-	Object.defineProperty(Tone.Pattern.prototype, "values", {
+	Object.defineProperty(Pattern.prototype, "values", {
 		get : function(){
 			return this._pattern.values;
 		},
@@ -86,24 +88,24 @@ define(["Tone/core/Tone", "Tone/event/Loop", "Tone/control/CtrlPattern"], functi
 
 	/**
 	 *  The current value of the pattern.
-	 *  @memberOf Tone.Pattern#
+	 *  @memberOf Pattern#
 	 *  @type {*}
 	 *  @name value
 	 *  @readOnly
 	 */
-	Object.defineProperty(Tone.Pattern.prototype, "value", {
+	Object.defineProperty(Pattern.prototype, "value", {
 		get : function(){
 			return this._pattern.value;
 		}
 	});
 
 	/**
-	 *  The pattern type. See Tone.CtrlPattern for the full list of patterns.
-	 *  @memberOf Tone.Pattern#
+	 *  The pattern type. See CtrlPattern for the full list of patterns.
+	 *  @memberOf Pattern#
 	 *  @type {String}
 	 *  @name pattern
 	 */
-	Object.defineProperty(Tone.Pattern.prototype, "pattern", {
+	Object.defineProperty(Pattern.prototype, "pattern", {
 		get : function(){
 			return this._pattern.type;
 		},
@@ -114,13 +116,10 @@ define(["Tone/core/Tone", "Tone/event/Loop", "Tone/control/CtrlPattern"], functi
 
 	/**
 	 *  Clean up
-	 *  @return  {Tone.Pattern}  this
+	 *  @return  {Pattern}  this
 	 */
-	Tone.Pattern.prototype.dispose = function(){
-		Tone.Loop.prototype.dispose.call(this);
+	Pattern.prototype.dispose = function(){
+		Loop.prototype.dispose.call(this);
 		this._pattern.dispose();
 		this._pattern = null;
 	};
-
-	return Tone.Pattern;
-});

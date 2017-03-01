@@ -1,30 +1,31 @@
-define(["Tone/core/Tone", "Tone/type/Time"], function (Tone) {
+import { Tone } from 'core';
+import { Time } from 'type';
 
 	/**
-	 *  @class Tone.TransportTime is a the time along the Transport's
-	 *         timeline. It is similar to Tone.Time, but instead of evaluating
+	 *  @class TransportTime is a the time along the Transport's
+	 *         timeline. It is similar to Time, but instead of evaluating
 	 *         against the AudioContext's clock, it is evaluated against
-	 *         the Transport's position. See [TransportTime wiki](https://github.com/Tonejs/Tone.js/wiki/TransportTime).
+	 *         the Transport's position. See [TransportTime wiki](https://github.com/Tonejs/js/wiki/TransportTime).
 	 *  @constructor
 	 *  @param  {Time}  val    The time value as a number or string
 	 *  @param  {String=}  units  Unit values
-	 *  @extends {Tone.Time}
+	 *  @extends {Time}
 	 */
-	Tone.TransportTime = function(val, units){
-		if (this instanceof Tone.TransportTime){
-			
-			Tone.Time.call(this, val, units);
+	export function TransportTime(val, units){
+		if (this instanceof TransportTime){
+
+			Time.call(this, val, units);
 
 		} else {
-			return new Tone.TransportTime(val, units);
+			return new TransportTime(val, units);
 		}
 	};
 
-	Tone.extend(Tone.TransportTime, Tone.Time);
+	Tone.extend(TransportTime, Time);
 
-	//clone the expressions so that 
+	//clone the expressions so that
 	//we can add more without modifying the original
-	Tone.TransportTime.prototype._unaryExpressions = Object.create(Tone.Time.prototype._unaryExpressions);
+	TransportTime.prototype._unaryExpressions = Object.create(Time.prototype._unaryExpressions);
 
 	/**
 	 *  Adds an additional unary expression
@@ -32,11 +33,11 @@ define(["Tone/core/Tone", "Tone/type/Time"], function (Tone) {
 	 *  @type {Object}
 	 *  @private
 	 */
-	Tone.TransportTime.prototype._unaryExpressions.quantize = {
+	TransportTime.prototype._unaryExpressions.quantize = {
 		regexp : /^@/,
 		method : function(rh){
 			var subdivision = this._secondsToTicks(rh());
-			var multiple = Math.ceil(Tone.Transport.ticks / subdivision);
+			var multiple = Math.ceil(Transport.ticks / subdivision);
 			return this._ticksToUnits(multiple * subdivision);
 		}
 	};
@@ -47,26 +48,26 @@ define(["Tone/core/Tone", "Tone/type/Time"], function (Tone) {
 	 *  @return  {Ticks}
 	 *  @private
 	 */
-	Tone.TransportTime.prototype._secondsToTicks = function(seconds){
+	TransportTime.prototype._secondsToTicks = function(seconds){
 		var quarterTime = this._beatsToUnits(1);
 		var quarters = seconds / quarterTime;
-		return Math.round(quarters * Tone.Transport.PPQ);
+		return Math.round(quarters * Transport.PPQ);
 	};
 
 	/**
 	 *  Evaluate the time expression. Returns values in ticks
 	 *  @return {Ticks}
 	 */
-	Tone.TransportTime.prototype.eval = function(){
+	TransportTime.prototype.eval = function(){
 		var val = this._secondsToTicks(this._expr());
-		return val + (this._plusNow ? Tone.Transport.ticks : 0);
+		return val + (this._plusNow ? Transport.ticks : 0);
 	};
 
 	/**
 	 *  Return the time in ticks.
 	 *  @return  {Ticks}
 	 */
-	Tone.TransportTime.prototype.toTicks = function(){
+	TransportTime.prototype.toTicks = function(){
 		return this.eval();
 	};
 
@@ -74,18 +75,15 @@ define(["Tone/core/Tone", "Tone/type/Time"], function (Tone) {
 	 *  Return the time in seconds.
 	 *  @return  {Seconds}
 	 */
-	Tone.TransportTime.prototype.toSeconds = function(){
+	TransportTime.prototype.toSeconds = function(){
 		var val = this._expr();
-		return val + (this._plusNow ? Tone.Transport.seconds : 0);
+		return val + (this._plusNow ? Transport.seconds : 0);
 	};
 
 	/**
 	 *  Return the time as a frequency value
-	 *  @return  {Frequency} 
+	 *  @return  {Frequency}
 	 */
-	Tone.TransportTime.prototype.toFrequency = function(){
+	TransportTime.prototype.toFrequency = function(){
 		return 1/this.toSeconds();
 	};
-
-	return Tone.TransportTime;
-});

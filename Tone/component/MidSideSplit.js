@@ -1,11 +1,13 @@
-define(["Tone/core/Tone", "Tone/signal/Expr", "Tone/signal/Signal", "Tone/component/Split"], 
-	function(Tone){
+import { Tone } from 'core';
+import { Expr } from 'signal';
+import { Signal } from 'signal';
+import { Split } from 'component';
 
 	"use strict";
 
 	/**
-	 *  @class Mid/Side processing separates the the 'mid' signal 
-	 *         (which comes out of both the left and the right channel) 
+	 *  @class Mid/Side processing separates the the 'mid' signal
+	 *         (which comes out of both the left and the right channel)
 	 *         and the 'side' (which only comes out of the the side channels). <br><br>
 	 *         <code>
 	 *         Mid = (Left+Right)/sqrt(2);   // obtain mid-signal from left and right<br>
@@ -15,29 +17,29 @@ define(["Tone/core/Tone", "Tone/signal/Expr", "Tone/signal/Signal", "Tone/compon
 	 *  @extends {Tone}
 	 *  @constructor
 	 */
-	Tone.MidSideSplit = function(){
+	export function MidSideSplit(){
 		this.createInsOuts(0, 2);
 
 		/**
 		 *  split the incoming signal into left and right channels
-		 *  @type  {Tone.Split}
+		 *  @type  {Split}
 		 *  @private
 		 */
-		this._split = this.input = new Tone.Split();
+		this._split = this.input = new Split();
 
 		/**
 		 *  The mid send. Connect to mid processing. Alias for
 		 *  <code>output[0]</code>
-		 *  @type {Tone.Expr}
+		 *  @type {Expr}
 		 */
-		this.mid = this.output[0] = new Tone.Expr("($0 + $1) * $2");
+		this.mid = this.output[0] = new Expr("($0 + $1) * $2");
 
 		/**
 		 *  The side output. Connect to side processing. Alias for
 		 *  <code>output[1]</code>
-		 *  @type {Tone.Expr}
+		 *  @type {Expr}
 		 */
-		this.side = this.output[1] = new Tone.Expr("($0 - $1) * $2");
+		this.side = this.output[1] = new Expr("($0 - $1) * $2");
 
 		this._split.connect(this.mid, 0, 0);
 		this._split.connect(this.mid, 1, 1);
@@ -47,14 +49,14 @@ define(["Tone/core/Tone", "Tone/signal/Expr", "Tone/signal/Signal", "Tone/compon
 		this.context._sqrtTwo.connect(this.side, 0, 2);
 	};
 
-	Tone.extend(Tone.MidSideSplit);
+	Tone.extend(MidSideSplit);
 
 	/**
 	 *  clean up
-	 *  @returns {Tone.MidSideSplit} this
+	 *  @returns {MidSideSplit} this
 	 */
-	Tone.MidSideSplit.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	MidSideSplit.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this.mid.dispose();
 		this.mid = null;
 		this.side.dispose();
@@ -63,6 +65,3 @@ define(["Tone/core/Tone", "Tone/signal/Expr", "Tone/signal/Signal", "Tone/compon
 		this._split = null;
 		return this;
 	};
-
-	return Tone.MidSideSplit;
-});

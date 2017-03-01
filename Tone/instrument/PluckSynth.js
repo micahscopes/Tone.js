@@ -1,32 +1,35 @@
-define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/Noise", "Tone/component/LowpassCombFilter"], function(Tone){
+import { Tone } from 'core';
+import { Instrument } from 'instrument';
+import { Noise } from 'source';
+import { LowpassCombFilter } from 'component';
 
 	"use strict";
 
 	/**
-	 *  @class Karplus-String string synthesis. Often out of tune. 
+	 *  @class Karplus-String string synthesis. Often out of tune.
 	 *         Will change when the AudioWorkerNode is available across
-	 *         browsers. 
-	 *  
+	 *         browsers.
+	 *
 	 *  @constructor
-	 *  @extends {Tone.Instrument}
+	 *  @extends {Instrument}
 	 *  @param {Object} [options] see the defaults
 	 *  @example
-	 * var plucky = new Tone.PluckSynth().toMaster();
+	 * var plucky = new PluckSynth().toMaster();
 	 * plucky.triggerAttack("C4");
 	 */
-	Tone.PluckSynth = function(options){
+	export function PluckSynth(options){
 
-		options = this.defaultArg(options, Tone.PluckSynth.defaults);
-		Tone.Instrument.call(this, options);
+		options = this.defaultArg(options, PluckSynth.defaults);
+		Instrument.call(this, options);
 
 		/**
-		 *  @type {Tone.Noise}
+		 *  @type {Noise}
 		 *  @private
 		 */
-		this._noise = new Tone.Noise("pink");
+		this._noise = new Noise("pink");
 
 		/**
-		 *  The amount of noise at the attack. 
+		 *  The amount of noise at the attack.
 		 *  Nominal range of [0.1, 20]
 		 *  @type {number}
 		 */
@@ -34,16 +37,16 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/Noise", "To
 
 		/**
 		 *  the LFCF
-		 *  @type {Tone.LowpassCombFilter}
+		 *  @type {LowpassCombFilter}
 		 *  @private
 		 */
-		this._lfcf = new Tone.LowpassCombFilter({
+		this._lfcf = new LowpassCombFilter({
 			"resonance" : options.resonance,
 			"dampening" : options.dampening
 		});
 
 		/**
-		 *  The resonance control. 
+		 *  The resonance control.
 		 *  @type {NormalRange}
 		 *  @signal
 		 */
@@ -62,41 +65,41 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/Noise", "To
 		this._readOnly(["resonance", "dampening"]);
 	};
 
-	Tone.extend(Tone.PluckSynth, Tone.Instrument);
+	Tone.extend(PluckSynth, Instrument);
 
 	/**
 	 *  @static
 	 *  @const
 	 *  @type {Object}
 	 */
-	Tone.PluckSynth.defaults = {
+	PluckSynth.defaults = {
 		"attackNoise" : 1,
 		"dampening" : 4000,
 		"resonance" : 0.9
 	};
 
 	/**
-	 *  Trigger the note. 
+	 *  Trigger the note.
 	 *  @param {Frequency} note The note to trigger.
 	 *  @param {Time} [time=now] When the note should be triggered.
-	 *  @returns {Tone.PluckSynth} this
+	 *  @returns {PluckSynth} this
 	 */
-	Tone.PluckSynth.prototype.triggerAttack = function(note, time) {
+	PluckSynth.prototype.triggerAttack = function(note, time) {
 		note = this.toFrequency(note);
 		time = this.toSeconds(time);
 		var delayAmount = 1 / note;
-		this._lfcf.delayTime.setValueAtTime(delayAmount, time);		
+		this._lfcf.delayTime.setValueAtTime(delayAmount, time);
 		this._noise.start(time);
 		this._noise.stop(time + delayAmount * this.attackNoise);
 		return this;
 	};
 
 	/**
-	 *  Clean up. 
-	 *  @returns {Tone.PluckSynth} this
+	 *  Clean up.
+	 *  @returns {PluckSynth} this
 	 */
-	Tone.PluckSynth.prototype.dispose = function(){
-		Tone.Instrument.prototype.dispose.call(this);
+	PluckSynth.prototype.dispose = function(){
+		Instrument.prototype.dispose.call(this);
 		this._noise.dispose();
 		this._lfcf.dispose();
 		this._noise = null;
@@ -106,6 +109,3 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/Noise", "To
 		this.resonance = null;
 		return this;
 	};
-
-	return Tone.PluckSynth;
-});

@@ -1,48 +1,49 @@
-define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
+import { Tone } from 'core';
+import { TimeBase } from 'type';
 
 	/**
-	 *  @class Tone.Frequency is a primitive type for encoding Frequency values. 
+	 *  @class Frequency is a primitive type for encoding Frequency values.
 	 *         Eventually all time values are evaluated to hertz
-	 *         using the `eval` method. 
+	 *         using the `eval` method.
 	 *  @constructor
-	 *  @extends {Tone.TimeBase}
+	 *  @extends {TimeBase}
 	 *  @param  {String|Number}  val    The time value.
 	 *  @param  {String=}  units  The units of the value.
 	 *  @example
-	 * Tone.Frequency("C3").eval() // 261
-	 * Tone.Frequency(38, "midi").eval() //
-	 * Tone.Frequency("C3").transpose(4).eval();
+	 * Frequency("C3").eval() // 261
+	 * Frequency(38, "midi").eval() //
+	 * Frequency("C3").transpose(4).eval();
 	 */
-	Tone.Frequency = function(val, units){
-		if (this instanceof Tone.Frequency){
-			
-			Tone.TimeBase.call(this, val, units);
+	export function Frequency(val, units){
+		if (this instanceof Frequency){
+
+			TimeBase.call(this, val, units);
 
 		} else {
-			return new Tone.Frequency(val, units);
+			return new Frequency(val, units);
 		}
 	};
 
-	Tone.extend(Tone.Frequency, Tone.TimeBase);
+	Tone.extend(Frequency, TimeBase);
 
 	///////////////////////////////////////////////////////////////////////////
 	//	AUGMENT BASE EXPRESSIONS
 	///////////////////////////////////////////////////////////////////////////
 
-	//clone the expressions so that 
+	//clone the expressions so that
 	//we can add more without modifying the original
-	Tone.Frequency.prototype._primaryExpressions = Object.create(Tone.TimeBase.prototype._primaryExpressions);
+	Frequency.prototype._primaryExpressions = Object.create(TimeBase.prototype._primaryExpressions);
 
 	/*
 	 *  midi type primary expression
 	 *  @type {Object}
 	 *  @private
 	 */
-	Tone.Frequency.prototype._primaryExpressions.midi = {
+	Frequency.prototype._primaryExpressions.midi = {
 		regexp : /^(\d+(?:\.\d+)?midi)/,
 		method : function(value){
 			return this.midiToFrequency(value);
-		}	
+		}
 	};
 
 	/*
@@ -50,13 +51,13 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	 *  @type {Object}
 	 *  @private
 	 */
-	Tone.Frequency.prototype._primaryExpressions.note = {
+	Frequency.prototype._primaryExpressions.note = {
 		regexp : /^([a-g]{1}(?:b|#|x|bb)?)(-?[0-9]+)/i,
 		method : function(pitch, octave){
 			var index = noteToScaleIndex[pitch.toLowerCase()];
 			var noteNumber = index + (parseInt(octave) + 1) * 12;
 			return this.midiToFrequency(noteNumber);
-		}	
+		}
 	};
 
 	/*
@@ -64,7 +65,7 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	 *  @type {Object}
 	 *  @private
 	 */
-	Tone.Frequency.prototype._primaryExpressions.tr = {
+	Frequency.prototype._primaryExpressions.tr = {
 			regexp : /^(\d+(?:\.\d+)?):(\d+(?:\.\d+)?):?(\d+(?:\.\d+)?)?/,
 			method : function(m, q, s){
 			var total = 1;
@@ -88,11 +89,11 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	/**
 	 *  Transposes the frequency by the given number of semitones.
 	 *  @param  {Interval}  interval
-	 *  @return  {Tone.Frequency} this
+	 *  @return  {Frequency} this
 	 *  @example
-	 * Tone.Frequency("A4").transpose(3); //"C5"
+	 * Frequency("A4").transpose(3); //"C5"
 	 */
-	Tone.Frequency.prototype.transpose = function(interval){
+	Frequency.prototype.transpose = function(interval){
 		this._expr = function(expr, interval){
 			var val = expr();
 			return val * this.intervalToFrequencyRatio(interval);
@@ -104,11 +105,11 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	 *  Takes an array of semitone intervals and returns
 	 *  an array of frequencies transposed by those intervals.
 	 *  @param  {Array}  intervals
-	 *  @return  {Tone.Frequency} this
+	 *  @return  {Frequency} this
 	 *  @example
-	 * Tone.Frequency("A4").harmonize([0, 3, 7]); //["A4", "C5", "E5"]
+	 * Frequency("A4").harmonize([0, 3, 7]); //["A4", "C5", "E5"]
 	 */
-	Tone.Frequency.prototype.harmonize = function(intervals){
+	Frequency.prototype.harmonize = function(intervals){
 		this._expr = function(expr, intervals){
 			var val = expr();
 			var ret = [];
@@ -128,9 +129,9 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	 *  Return the value of the frequency as a MIDI note
 	 *  @return  {MIDI}
 	 *  @example
-	 * Tone.Frequency("C4").toMidi(); //60
+	 * Frequency("C4").toMidi(); //60
 	 */
-	Tone.Frequency.prototype.toMidi = function(){
+	Frequency.prototype.toMidi = function(){
 		return this.frequencyToMidi(this.eval());
 	};
 
@@ -138,11 +139,11 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	 *  Return the value of the frequency in Scientific Pitch Notation
 	 *  @return  {Note}
 	 *  @example
-	 * Tone.Frequency(69, "midi").toNote(); //"A4"
+	 * Frequency(69, "midi").toNote(); //"A4"
 	 */
-	Tone.Frequency.prototype.toNote = function(){
+	Frequency.prototype.toNote = function(){
 		var freq = this.eval();
-		var log = Math.log(freq / Tone.Frequency.A4) / Math.LN2;
+		var log = Math.log(freq / Frequency.A4) / Math.LN2;
 		var noteNumber = Math.round(12 * log) + 57;
 		var octave = Math.floor(noteNumber/12);
 		if(octave < 0){
@@ -156,7 +157,7 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	 *  Return the duration of one cycle in seconds.
 	 *  @return  {Seconds}
 	 */
-	Tone.Frequency.prototype.toSeconds = function(){
+	Frequency.prototype.toSeconds = function(){
 		return 1 / this.eval();
 	};
 
@@ -164,7 +165,7 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	 *  Return the value in Hertz
 	 *  @return  {Frequency}
 	 */
-	Tone.Frequency.prototype.toFrequency = function(){
+	Frequency.prototype.toFrequency = function(){
 		return this.eval();
 	};
 
@@ -172,10 +173,10 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	 *  Return the duration of one cycle in ticks
 	 *  @return  {Ticks}
 	 */
-	Tone.Frequency.prototype.toTicks = function(){
+	Frequency.prototype.toTicks = function(){
 		var quarterTime = this._beatsToUnits(1);
 		var quarters = this.eval() / quarterTime;
-		return Math.floor(quarters * Tone.Transport.PPQ);
+		return Math.floor(quarters * Transport.PPQ);
 	};
 
 	///////////////////////////////////////////////////////////////////////////
@@ -188,7 +189,7 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	 *  @return  {Number}
 	 *  @private
 	 */
-	Tone.Frequency.prototype._frequencyToUnits = function(freq){
+	Frequency.prototype._frequencyToUnits = function(freq){
 		return freq;
 	};
 
@@ -198,8 +199,8 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	 *  @return  {Number}
 	 *  @private
 	 */
-	Tone.Frequency.prototype._ticksToUnits = function(ticks){
-		return 1 / ((ticks * 60) / (Tone.Transport.bpm.value * Tone.Transport.PPQ));
+	Frequency.prototype._ticksToUnits = function(ticks){
+		return 1 / ((ticks * 60) / (Transport.bpm.value * Transport.PPQ));
 	};
 
 	/**
@@ -208,8 +209,8 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	 *  @return  {Number}
 	 *  @private
 	 */
-	Tone.Frequency.prototype._beatsToUnits = function(beats){
-		return 1 / Tone.TimeBase.prototype._beatsToUnits.call(this, beats);
+	Frequency.prototype._beatsToUnits = function(beats){
+		return 1 / TimeBase.prototype._beatsToUnits.call(this, beats);
 	};
 
 	/**
@@ -218,7 +219,7 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	 *  @return  {Number}
 	 *  @private
 	 */
-	Tone.Frequency.prototype._secondsToUnits = function(seconds){
+	Frequency.prototype._secondsToUnits = function(seconds){
 		return 1 / seconds;
 	};
 
@@ -226,7 +227,7 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	 *  The default units if none are given.
 	 *  @private
 	 */
-	Tone.Frequency.prototype._defaultUnits = "hz";
+	Frequency.prototype._defaultUnits = "hz";
 
 	///////////////////////////////////////////////////////////////////////////
 	//	FREQUENCY CONVERSIONS
@@ -237,9 +238,9 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	 *  @type  {Object}
 	 */
 	var noteToScaleIndex = {
-		"cbb" : -2, "cb" : -1, "c" : 0,  "c#" : 1,  "cx" : 2, 
+		"cbb" : -2, "cb" : -1, "c" : 0,  "c#" : 1,  "cx" : 2,
 		"dbb" : 0,  "db" : 1,  "d" : 2,  "d#" : 3,  "dx" : 4,
-		"ebb" : 2,  "eb" : 3,  "e" : 4,  "e#" : 5,  "ex" : 6, 
+		"ebb" : 2,  "eb" : 3,  "e" : 4,  "e#" : 5,  "ex" : 6,
 		"fbb" : 3,  "fb" : 4,  "f" : 5,  "f#" : 6,  "fx" : 7,
 		"gbb" : 5,  "gb" : 6,  "g" : 7,  "g#" : 8,  "gx" : 9,
 		"abb" : 7,  "ab" : 8,  "a" : 9,  "a#" : 10, "ax" : 11,
@@ -254,21 +255,21 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 
 	/**
 	 *  The [concert pitch](https://en.wikipedia.org/wiki/Concert_pitch)
-	 *  A4's values in Hertz. 
+	 *  A4's values in Hertz.
 	 *  @type {Frequency}
 	 *  @static
 	 */
-	Tone.Frequency.A4 = 440;
+	Frequency.A4 = 440;
 
 	/**
-	 *  Convert a MIDI note to frequency value. 
+	 *  Convert a MIDI note to frequency value.
 	 *  @param  {MIDI} midi The midi number to convert.
 	 *  @return {Frequency} the corresponding frequency value
 	 *  @example
 	 * tone.midiToFrequency(69); // returns 440
 	 */
-	Tone.Frequency.prototype.midiToFrequency = function(midi){
-		return Tone.Frequency.A4 * Math.pow(2, (midi - 69) / 12);
+	Frequency.prototype.midiToFrequency = function(midi){
+		return Frequency.A4 * Math.pow(2, (midi - 69) / 12);
 	};
 
 	/**
@@ -278,9 +279,6 @@ define(["Tone/core/Tone", "Tone/type/TimeBase"], function (Tone) {
 	 *  @example
 	 * tone.midiToFrequency(440); // returns 69
 	 */
-	Tone.Frequency.prototype.frequencyToMidi = function(frequency){
-		return 69 + 12 * Math.log(frequency / Tone.Frequency.A4) / Math.LN2;
+	Frequency.prototype.frequencyToMidi = function(frequency){
+		return 69 + 12 * Math.log(frequency / Frequency.A4) / Math.LN2;
 	};
-
-	return Tone.Frequency;
-});

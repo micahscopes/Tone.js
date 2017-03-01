@@ -1,61 +1,63 @@
-define(["Tone/core/Tone", "Tone/component/MultibandSplit", "Tone/core/Gain"], function(Tone){
+import { Tone } from 'core';
+import { MultibandSplit } from 'component';
+import { Gain } from 'core';
 
 	"use strict";
 
 	/**
-	 *  @class Tone.EQ3 is a three band EQ with control over low, mid, and high gain as
+	 *  @class EQ3 is a three band EQ with control over low, mid, and high gain as
 	 *         well as the low and high crossover frequencies.
 	 *
 	 *  @constructor
 	 *  @extends {Tone}
-	 *  
+	 *
 	 *  @param {Decibels|Object} [lowLevel] The gain applied to the lows.
 	 *  @param {Decibels} [midLevel] The gain applied to the mid.
 	 *  @param {Decibels} [highLevel] The gain applied to the high.
 	 *  @example
-	 * var eq = new Tone.EQ3(-10, 3, -20);
+	 * var eq = new EQ3(-10, 3, -20);
 	 */
-	Tone.EQ3 = function(){
+	export function EQ3(){
 
-		var options = this.optionsObject(arguments, ["low", "mid", "high"], Tone.EQ3.defaults);
+		var options = this.optionsObject(arguments, ["low", "mid", "high"], EQ3.defaults);
 
 		/**
 		 *  the output node
 		 *  @type {GainNode}
 		 *  @private
 		 */
-		this.output = new Tone.Gain();
+		this.output = new Gain();
 
 		/**
 		 *  the multiband split
-		 *  @type {Tone.MultibandSplit}
+		 *  @type {MultibandSplit}
 		 *  @private
 		 */
-		this._multibandSplit = this.input = new Tone.MultibandSplit({
+		this._multibandSplit = this.input = new MultibandSplit({
 			"lowFrequency" : options.lowFrequency,
 			"highFrequency" : options.highFrequency
 		});
 
 		/**
 		 *  The gain for the lower signals
-		 *  @type  {Tone.Gain}
+		 *  @type  {Gain}
 		 *  @private
 		 */
-		this._lowGain = new Tone.Gain(options.low, Tone.Type.Decibels);
+		this._lowGain = new Gain(options.low, Type.Decibels);
 
 		/**
 		 *  The gain for the mid signals
-		 *  @type  {Tone.Gain}
+		 *  @type  {Gain}
 		 *  @private
 		 */
-		this._midGain = new Tone.Gain(options.mid, Tone.Type.Decibels);
+		this._midGain = new Gain(options.mid, Type.Decibels);
 
 		/**
 		 * The gain in decibels of the high part
-		 * @type {Tone.Gain}
+		 * @type {Gain}
 		 * @private
 		 */
-		this._highGain = new Tone.Gain(options.high, Tone.Type.Decibels);
+		this._highGain = new Gain(options.high, Type.Decibels);
 
 		/**
 		 * The gain in decibels of the low part
@@ -79,21 +81,21 @@ define(["Tone/core/Tone", "Tone/component/MultibandSplit", "Tone/core/Gain"], fu
 		this.high = this._highGain.gain;
 
 		/**
-		 *  The Q value for all of the filters. 
+		 *  The Q value for all of the filters.
 		 *  @type {Positive}
 		 *  @signal
 		 */
 		this.Q = this._multibandSplit.Q;
 
 		/**
-		 *  The low/mid crossover frequency. 
+		 *  The low/mid crossover frequency.
 		 *  @type {Frequency}
 		 *  @signal
 		 */
 		this.lowFrequency = this._multibandSplit.lowFrequency;
 
 		/**
-		 *  The mid/high crossover frequency. 
+		 *  The mid/high crossover frequency.
 		 *  @type {Frequency}
 		 *  @signal
 		 */
@@ -106,12 +108,12 @@ define(["Tone/core/Tone", "Tone/component/MultibandSplit", "Tone/core/Gain"], fu
 		this._readOnly(["low", "mid", "high", "lowFrequency", "highFrequency"]);
 	};
 
-	Tone.extend(Tone.EQ3);
+	Tone.extend(EQ3);
 
 	/**
 	 *  the default values
 	 */
-	Tone.EQ3.defaults = {
+	EQ3.defaults = {
 		"low" : 0,
 		"mid" : 0,
 		"high" : 0,
@@ -121,10 +123,10 @@ define(["Tone/core/Tone", "Tone/component/MultibandSplit", "Tone/core/Gain"], fu
 
 	/**
 	 *  clean up
-	 *  @returns {Tone.EQ3} this
+	 *  @returns {EQ3} this
 	 */
-	Tone.EQ3.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	EQ3.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._writable(["low", "mid", "high", "lowFrequency", "highFrequency"]);
 		this._multibandSplit.dispose();
 		this._multibandSplit = null;
@@ -142,6 +144,3 @@ define(["Tone/core/Tone", "Tone/component/MultibandSplit", "Tone/core/Gain"], fu
 		this.Q = null;
 		return this;
 	};
-
-	return Tone.EQ3;
-});

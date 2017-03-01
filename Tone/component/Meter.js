@@ -1,33 +1,35 @@
-define(["Tone/core/Tone", "Tone/component/Analyser"], function(Tone){
+import { Tone } from 'core';
+/*
+import { Analyser } from 'component';*/
 
 	"use strict";
 
 	/**
-	 *  @class  Tone.Meter gets the [RMS](https://en.wikipedia.org/wiki/Root_mean_square)
-	 *          of an input signal with some averaging applied. It can also get the raw 
+	 *  @class  Meter gets the [RMS](https://en.wikipedia.org/wiki/Root_mean_square)
+	 *          of an input signal with some averaging applied. It can also get the raw
 	 *          value of the input signal.
 	 *
 	 *  @constructor
 	 *  @extends {Tone}
-	 *  @param {String} type Either "level" or "signal". 
+	 *  @param {String} type Either "level" or "signal".
 	 *  @param {Number} smoothing The amount of smoothing applied between frames.
 	 *  @example
-	 * var meter = new Tone.Meter();
-	 * var mic = new Tone.UserMedia().start();
+	 * var meter = new Meter();
+	 * var mic = new UserMedia().start();
 	 * //connect mic to the meter
 	 * mic.connect(meter);
 	 * //the current level of the mic input
 	 * var level = meter.value;
 	 */
-	Tone.Meter = function(){
+	export function Meter(){
 
-		var options = this.optionsObject(arguments, ["type", "smoothing"], Tone.Meter.defaults);
-		
+		var options = this.optionsObject(arguments, ["type", "smoothing"], Meter.defaults);
+
 		/**
-		 *  The type of the meter, either "level" or "signal". 
-		 *  A "level" meter will return the volume level (rms) of the 
+		 *  The type of the meter, either "level" or "signal".
+		 *  A "level" meter will return the volume level (rms) of the
 		 *  input signal and a "signal" meter will return
-		 *  the signal value of the input. 
+		 *  the signal value of the input.
 		 *  @type  {String}
 		 */
 		this.type = options.type;
@@ -35,13 +37,13 @@ define(["Tone/core/Tone", "Tone/component/Analyser"], function(Tone){
 		/**
 		 *  The analyser node which computes the levels.
 		 *  @private
-		 *  @type  {Tone.Analyser}
+		 *  @type  {Analyser}
 		 */
-		this.input = this.output = this._analyser = new Tone.Analyser("waveform", 512);
+		this.input = this.output = this._analyser = new Analyser("waveform", 512);
 		this._analyser.returnType = "float";
 
 		/**
-		 *  The amount of carryover between the current and last frame. 
+		 *  The amount of carryover between the current and last frame.
 		 *  Only applied meter for "level" type.
 		 *  @type  {Number}
 		 */
@@ -55,13 +57,13 @@ define(["Tone/core/Tone", "Tone/component/Analyser"], function(Tone){
 		this._lastValue = 0;
 	};
 
-	Tone.extend(Tone.Meter);
+	Tone.extend(Meter);
 
 	/**
 	 *  @private
 	 *  @enum {String}
 	 */
-	Tone.Meter.Type = {
+	Meter.Type = {
 		Level : "level",
 		Signal : "signal"
 	};
@@ -72,23 +74,23 @@ define(["Tone/core/Tone", "Tone/component/Analyser"], function(Tone){
 	 *  @static
 	 *  @const
 	 */
-	Tone.Meter.defaults = {
+	Meter.defaults = {
 		"smoothing" : 0.8,
-		"type" : Tone.Meter.Type.Level
+		"type" : Meter.Type.Level
 	};
 
 	/**
 	 * The current value of the meter. A value of 1 is
 	 * "unity".
-	 * @memberOf Tone.Meter#
+	 * @memberOf Meter#
 	 * @type {Number}
 	 * @name value
 	 * @readOnly
 	 */
-	Object.defineProperty(Tone.Meter.prototype, "value", {
+	Object.defineProperty(Meter.prototype, "value", {
 		get : function(){
 			var signal = this._analyser.analyse();
-			if (this.type === Tone.Meter.Type.Level){
+			if (this.type === Meter.Type.Level){
 				//rms
 				var sum = 0;
 				for (var i = 0; i < signal.length; i++){
@@ -111,14 +113,11 @@ define(["Tone/core/Tone", "Tone/component/Analyser"], function(Tone){
 
 	/**
 	 *  Clean up.
-	 *  @returns {Tone.Meter} this
+	 *  @returns {Meter} this
 	 */
-	Tone.Meter.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	Meter.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._analyser.dispose();
 		this._analyser = null;
 		return this;
 	};
-
-	return Tone.Meter;
-});

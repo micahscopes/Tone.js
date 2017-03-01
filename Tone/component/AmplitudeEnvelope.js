@@ -1,60 +1,60 @@
-define(["Tone/core/Tone", "Tone/component/Envelope", "Tone/core/Gain"], function(Tone){
+import { Tone } from 'core';
+import { Gain } from 'core';
+import { Envelope } from 'component';
 
-	"use strict";
+"use strict";
 
-	/**
-	 *  @class  Tone.AmplitudeEnvelope is a Tone.Envelope connected to a gain node. 
-	 *          Unlike Tone.Envelope, which outputs the envelope's value, Tone.AmplitudeEnvelope accepts
-	 *          an audio signal as the input and will apply the envelope to the amplitude
-	 *          of the signal. Read more about ADSR Envelopes on [Wikipedia](https://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope).
-	 *  
-	 *  @constructor
-	 *  @extends {Tone.Envelope}
-	 *  @param {Time|Object} [attack] The amount of time it takes for the envelope to go from 
-	 *                               0 to it's maximum value. 
-	 *  @param {Time} [decay]	The period of time after the attack that it takes for the envelope
-	 *                       	to fall to the sustain value. 
-	 *  @param {NormalRange} [sustain]	The percent of the maximum value that the envelope rests at until
-	 *                                	the release is triggered. 
-	 *  @param {Time} [release]	The amount of time after the release is triggered it takes to reach 0. 
-	 *  @example
-	 * var ampEnv = new Tone.AmplitudeEnvelope({
-	 * 	"attack": 0.1,
-	 * 	"decay": 0.2,
-	 * 	"sustain": 1.0,
-	 * 	"release": 0.8
-	 * }).toMaster();
-	 * //create an oscillator and connect it
-	 * var osc = new Tone.Oscillator().connect(ampEnv).start();
-	 * //trigger the envelopes attack and release "8t" apart
-	 * ampEnv.triggerAttackRelease("8t");
-	 */
-	Tone.AmplitudeEnvelope = function(){
+/**
+ *  @class  AmplitudeEnvelope is a Envelope connected to a gain node.
+ *          Unlike Envelope, which outputs the envelope's value, AmplitudeEnvelope accepts
+ *          an audio signal as the input and will apply the envelope to the amplitude
+ *          of the signal. Read more about ADSR Envelopes on [Wikipedia](https://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope).
+ *
+ *  @constructor
+ *  @extends {Envelope}
+ *  @param {Time|Object} [attack] The amount of time it takes for the envelope to go from
+ *                               0 to it's maximum value.
+ *  @param {Time} [decay]	The period of time after the attack that it takes for the envelope
+ *                       	to fall to the sustain value.
+ *  @param {NormalRange} [sustain]	The percent of the maximum value that the envelope rests at until
+ *                                	the release is triggered.
+ *  @param {Time} [release]	The amount of time after the release is triggered it takes to reach 0.
+ *  @example
+ * var ampEnv = new AmplitudeEnvelope({
+ * 	"attack": 0.1,
+ * 	"decay": 0.2,
+ * 	"sustain": 1.0,
+ * 	"release": 0.8
+ * }).toMaster();
+ * //create an oscillator and connect it
+ * var osc = new Oscillator().connect(ampEnv).start();
+ * //trigger the envelopes attack and release "8t" apart
+ * ampEnv.triggerAttackRelease("8t");
+ */
 
-		Tone.Envelope.apply(this, arguments);
+export function AmplitudeEnvelope(){
 
-		/**
-		 *  the input node
-		 *  @type {GainNode}
-		 *  @private
-		 */
-		this.input = this.output = new Tone.Gain();
-
-		this._sig.connect(this.output.gain);
-	};
-
-	Tone.extend(Tone.AmplitudeEnvelope, Tone.Envelope);
+	Envelope.apply(this, arguments);
 
 	/**
-	 *  Clean up
-	 *  @return  {Tone.AmplitudeEnvelope}  this
+	 *  the input node
+	 *  @type {GainNode}
+	 *  @private
 	 */
-	Tone.AmplitudeEnvelope.prototype.dispose = function(){
-		this.input.dispose();
-		this.input = null;
-		Tone.Envelope.prototype.dispose.call(this);
-		return this;
-	};
+	this.input = this.output = new Gain();
 
-	return Tone.AmplitudeEnvelope;
-});
+	this._sig.connect(this.output.gain);
+};
+
+extend(AmplitudeEnvelope, Envelope);
+
+/**
+ *  Clean up
+ *  @return  {AmplitudeEnvelope}  this
+ */
+AmplitudeEnvelope.prototype.dispose = function(){
+	this.input.dispose();
+	this.input = null;
+	Envelope.prototype.dispose.call(this);
+	return this;
+};

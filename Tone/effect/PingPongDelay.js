@@ -1,59 +1,61 @@
-define(["Tone/core/Tone", "Tone/effect/StereoXFeedbackEffect", "Tone/signal/Signal", "Tone/core/Delay"], 
-function(Tone){
+import { Tone } from 'core';
+import { StereoXFeedbackEffect } from 'effect';
+import { Signal } from 'signal';
+import { Delay } from 'core';
 
 	"use strict";
 
 	/**
-	 *  @class  Tone.PingPongDelay is a feedback delay effect where the echo is heard
+	 *  @class  PingPongDelay is a feedback delay effect where the echo is heard
 	 *          first in one channel and next in the opposite channel. In a stereo
 	 *          system these are the right and left channels.
-	 *          PingPongDelay in more simplified terms is two Tone.FeedbackDelays 
+	 *          PingPongDelay in more simplified terms is two FeedbackDelays
 	 *          with independent delay values. Each delay is routed to one channel
-	 *          (left or right), and the channel triggered second will always 
+	 *          (left or right), and the channel triggered second will always
 	 *          trigger at the same interval after the first.
 	 *
 	 * 	@constructor
-	 * 	@extends {Tone.StereoXFeedbackEffect}
+	 * 	@extends {StereoXFeedbackEffect}
 	 *  @param {Time|Object} [delayTime] The delayTime between consecutive echos.
-	 *  @param {NormalRange=} feedback The amount of the effected signal which 
+	 *  @param {NormalRange=} feedback The amount of the effected signal which
 	 *                                 is fed back through the delay.
 	 *  @example
-	 * var pingPong = new Tone.PingPongDelay("4n", 0.2).toMaster();
-	 * var drum = new Tone.DrumSynth().connect(pingPong);
+	 * var pingPong = new PingPongDelay("4n", 0.2).toMaster();
+	 * var drum = new DrumSynth().connect(pingPong);
 	 * drum.triggerAttackRelease("C4", "32n");
 	 */
-	Tone.PingPongDelay = function(){
-		
-		var options = this.optionsObject(arguments, ["delayTime", "feedback"], Tone.PingPongDelay.defaults);
-		Tone.StereoXFeedbackEffect.call(this, options);
+	export function PingPongDelay(){
+
+		var options = this.optionsObject(arguments, ["delayTime", "feedback"], PingPongDelay.defaults);
+		StereoXFeedbackEffect.call(this, options);
 
 		/**
 		 *  the delay node on the left side
-		 *  @type {Tone.Delay}
+		 *  @type {Delay}
 		 *  @private
 		 */
-		this._leftDelay = new Tone.Delay(0, options.maxDelayTime);
+		this._leftDelay = new Delay(0, options.maxDelayTime);
 
 		/**
 		 *  the delay node on the right side
-		 *  @type {Tone.Delay}
+		 *  @type {Delay}
 		 *  @private
 		 */
-		this._rightDelay = new Tone.Delay(0, options.maxDelayTime);
+		this._rightDelay = new Delay(0, options.maxDelayTime);
 
 		/**
 		 *  the predelay on the right side
-		 *  @type {Tone.Delay}
+		 *  @type {Delay}
 		 *  @private
 		 */
-		this._rightPreDelay = new Tone.Delay(0, options.maxDelayTime);
+		this._rightPreDelay = new Delay(0, options.maxDelayTime);
 
 		/**
 		 *  the delay time signal
 		 *  @type {Time}
 		 *  @signal
 		 */
-		this.delayTime = new Tone.Signal(options.delayTime, Tone.Type.Time);
+		this.delayTime = new Signal(options.delayTime, Type.Time);
 
 		//connect it up
 		this.effectSendL.chain(this._leftDelay, this.effectReturnL);
@@ -65,23 +67,23 @@ function(Tone){
 		this._readOnly(["delayTime"]);
 	};
 
-	Tone.extend(Tone.PingPongDelay, Tone.StereoXFeedbackEffect);
+	Tone.extend(PingPongDelay, StereoXFeedbackEffect);
 
 	/**
 	 *  @static
 	 *  @type {Object}
 	 */
-	Tone.PingPongDelay.defaults = {
+	PingPongDelay.defaults = {
 		"delayTime" : 0.25,
 		"maxDelayTime" : 1
 	};
 
 	/**
-	 *  Clean up. 
-	 *  @returns {Tone.PingPongDelay} this
+	 *  Clean up.
+	 *  @returns {PingPongDelay} this
 	 */
-	Tone.PingPongDelay.prototype.dispose = function(){
-		Tone.StereoXFeedbackEffect.prototype.dispose.call(this);
+	PingPongDelay.prototype.dispose = function(){
+		StereoXFeedbackEffect.prototype.dispose.call(this);
 		this._leftDelay.dispose();
 		this._leftDelay = null;
 		this._rightDelay.dispose();
@@ -93,6 +95,3 @@ function(Tone){
 		this.delayTime = null;
 		return this;
 	};
-
-	return Tone.PingPongDelay;
-});

@@ -4,7 +4,6 @@
  *  @license http://opensource.org/licenses/MIT MIT License
  *  @copyright 2014-2017 Yotam Mann
  */
-define(function(){
 
 	"use strict";
 
@@ -13,16 +12,16 @@ define(function(){
 	///////////////////////////////////////////////////////////////////////////
 
 	/**
-	 *  @class  Tone is the base class of all other classes. It provides 
+	 *  @class  Tone is the base class of all other classes. It provides
 	 *          a lot of methods and functionality to all classes that extend
-	 *          it. 
-	 *  
+	 *          it.
+	 *
 	 *  @constructor
 	 *  @alias Tone
 	 *  @param {number} [inputs=1] the number of input nodes
 	 *  @param {number} [outputs=1] the number of output nodes
 	 */
-	var Tone = function(inputs, outputs){
+	export function Tone(inputs, outputs){
 
 		/**
 		 *  the input node(s)
@@ -49,7 +48,7 @@ define(function(){
 	 *  Set the parameters at once. Either pass in an
 	 *  object mapping parameters to values, or to set a
 	 *  single parameter, by passing in a string and value.
-	 *  The last argument is an optional ramp time which 
+	 *  The last argument is an optional ramp time which
 	 *  will ramp any signal values to their destination value
 	 *  over the duration of the rampTime.
 	 *  @param {Object|string} params
@@ -65,7 +64,7 @@ define(function(){
 	 *  @example
 	 * filter.set("type", "highpass");
 	 *  @example
-	 * //ramp to the value 220 over 3 seconds. 
+	 * //ramp to the value 220 over 3 seconds.
 	 * oscillator.set({
 	 * 	"frequency" : 220
 	 * }, 3);
@@ -100,7 +99,7 @@ define(function(){
 			if (this.isUndef(param)){
 				continue;
 			}
-			if ((Tone.Signal && param instanceof Tone.Signal) || 
+			if ((Tone.Signal && param instanceof Tone.Signal) ||
 					(Tone.Param && param instanceof Tone.Param)){
 				if (param.value !== value){
 					if (this.isUndef(rampTime)){
@@ -112,7 +111,7 @@ define(function(){
 			} else if (param instanceof AudioParam){
 				if (param.value !== value){
 					param.value = value;
-				}				
+				}
 			} else if (param instanceof Tone){
 				param.set(value);
 			} else if (param !== value){
@@ -138,7 +137,7 @@ define(function(){
 	 * //use dot notation to access deep properties
 	 * synth.get(["envelope.attack", "envelope.release"]);
 	 * //returns {"envelope" : {"attack" : 0.2, "release" : 0.4}}
-	 *  @param {Array=|string|undefined} params the parameters to get, otherwise will return 
+	 *  @param {Array=|string|undefined} params the parameters to get, otherwise will return
 	 *  					                  all available.
 	 *  @returns {Object}
 	 */
@@ -147,7 +146,7 @@ define(function(){
 			params = this._collectDefaults(this.constructor);
 		} else if (this.isString(params)){
 			params = [params];
-		} 
+		}
 		var ret = {};
 		for (var i = 0; i < params.length; i++){
 			var attr = params[i];
@@ -176,7 +175,7 @@ define(function(){
 				subRet[attr] = param.get();
 			} else if (!this.isFunction(param) && !this.isUndef(param)){
 				subRet[attr] = param;
-			} 
+			}
 		}
 		return ret;
 	};
@@ -223,7 +222,7 @@ define(function(){
 	///////////////////////////////////////////////////////////////////////////
 
 	/**
-	 *  The number of inputs feeding into the AudioNode. 
+	 *  The number of inputs feeding into the AudioNode.
 	 *  For source nodes, this will be 0.
 	 *  @memberOf Tone#
 	 *  @name numberOfInputs
@@ -244,7 +243,7 @@ define(function(){
 	});
 
 	/**
-	 *  The number of outputs coming out of the AudioNode. 
+	 *  The number of outputs coming out of the AudioNode.
 	 *  For source nodes, this will be 0.
 	 *  @memberOf Tone#
 	 *  @name numberOfInputs
@@ -263,7 +262,7 @@ define(function(){
 			}
 		}
 	});
-	
+
 	///////////////////////////////////////////////////////////////////////////
 	//	CONNECTIONS
 	///////////////////////////////////////////////////////////////////////////
@@ -276,13 +275,13 @@ define(function(){
 		if (!this.isUndef(this.input)){
 			if (this.input instanceof AudioNode){
 				this.input.disconnect();
-			} 
+			}
 			this.input = null;
 		}
 		if (!this.isUndef(this.output)){
 			if (this.output instanceof AudioNode){
 				this.output.disconnect();
-			} 
+			}
 			this.output = null;
 		}
 		return this;
@@ -290,7 +289,7 @@ define(function(){
 
 	/**
 	 *  connect the output of a ToneNode to an AudioParam, AudioNode, or ToneNode
-	 *  @param  {Tone | AudioParam | AudioNode} unit 
+	 *  @param  {Tone | AudioParam | AudioNode} unit
 	 *  @param {number} [outputNum=0] optionally which output to connect from
 	 *  @param {number} [inputNum=0] optionally which input to connect to
 	 *  @returns {Tone} this
@@ -385,18 +384,18 @@ define(function(){
 	///////////////////////////////////////////////////////////////////////////
 
 	/**
-	 *  If the `given` parameter is undefined, use the `fallback`. 
+	 *  If the `given` parameter is undefined, use the `fallback`.
 	 *  If both `given` and `fallback` are object literals, it will
-	 *  return a deep copy which includes all of the parameters from both 
+	 *  return a deep copy which includes all of the parameters from both
 	 *  objects. If a parameter is undefined in given, it will return
-	 *  the fallback property. 
+	 *  the fallback property.
 	 *  <br><br>
-	 *  WARNING: if object is self referential, it will go into an an 
+	 *  WARNING: if object is self referential, it will go into an an
 	 *  infinite recursive loop.
-	 *  
-	 *  @param  {*} given    
-	 *  @param  {*} fallback 
-	 *  @return {*}          
+	 *
+	 *  @param  {*} given
+	 *  @param  {*} fallback
+	 *  @return {*}
 	 */
 	Tone.prototype.defaultArg = function(given, fallback){
 		if (this.isObject(given) && this.isObject(fallback)){
@@ -416,16 +415,16 @@ define(function(){
 
 	/**
 	 *  returns the args as an options object with given arguments
-	 *  mapped to the names provided. 
+	 *  mapped to the names provided.
 	 *
 	 *  if the args given is an array containing only one object, it is assumed
-	 *  that that's already the options object and will just return it. 
-	 *  
+	 *  that that's already the options object and will just return it.
+	 *
 	 *  @param  {Array} values  the 'arguments' object of the function
 	 *  @param  {Array} keys the names of the arguments as they
 	 *                                 should appear in the options object
-	 *  @param {Object=} defaults optional defaults to mixin to the returned 
-	 *                            options object                              
+	 *  @param {Object=} defaults optional defaults to mixin to the returned
+	 *                            options object
 	 *  @return {Object}       the options object with the names mapped to the arguments
 	 */
 	Tone.prototype.optionsObject = function(values, keys, defaults){
@@ -520,7 +519,7 @@ define(function(){
 	Tone.noOp = function(){};
 
 	/**
-	 *  Make the property not writable. Internal use only. 
+	 *  Make the property not writable. Internal use only.
 	 *  @private
 	 *  @param  {string}  property  the property to make not writable
 	 */
@@ -530,7 +529,7 @@ define(function(){
 				this._readOnly(property[i]);
 			}
 		} else {
-			Object.defineProperty(this, property, { 
+			Object.defineProperty(this, property, {
 				writable: false,
 				enumerable : true,
 			});
@@ -538,7 +537,7 @@ define(function(){
 	};
 
 	/**
-	 *  Make an attribute writeable. Interal use only. 
+	 *  Make an attribute writeable. Interal use only.
 	 *  @private
 	 *  @param  {string}  property  the property to make writable
 	 */
@@ -548,14 +547,14 @@ define(function(){
 				this._writable(property[i]);
 			}
 		} else {
-			Object.defineProperty(this, property, { 
+			Object.defineProperty(this, property, {
 				writable: true,
 			});
 		}
 	};
 
 	/**
-	 * Possible play states. 
+	 * Possible play states.
 	 * @enum {string}
 	 */
 	Tone.State = {
@@ -581,7 +580,7 @@ define(function(){
 	/**
 	 *  Convert decibels into gain.
 	 *  @param  {Decibels} db
-	 *  @return {Number}   
+	 *  @return {Number}
 	 */
 	Tone.prototype.dbToGain = function(db) {
 		return Math.pow(2, db / 6);
@@ -590,7 +589,7 @@ define(function(){
 	/**
 	 *  Convert gain to decibels.
 	 *  @param  {Number} gain (0-1)
-	 *  @return {Decibels}   
+	 *  @return {Decibels}
 	 */
 	Tone.prototype.gainToDb = function(gain) {
 		return  20 * (Math.log(gain) / Math.LN10);
@@ -636,13 +635,13 @@ define(function(){
 
 	/**
 	 *  have a child inherit all of Tone's (or a parent's) prototype
-	 *  to inherit the parent's properties, make sure to call 
+	 *  to inherit the parent's properties, make sure to call
 	 *  Parent.call(this) in the child's constructor
 	 *
 	 *  based on closure library's inherit function
 	 *
 	 *  @static
-	 *  @param  {function} 	child  
+	 *  @param  {function} 	child
 	 *  @param  {function=} parent (optional) parent to inherit from
 	 *                             if no parent is supplied, the child
 	 *                             will inherit from Tone
@@ -664,14 +663,14 @@ define(function(){
 	///////////////////////////////////////////////////////////////////////////
 
 	/**
-	 *  The private audio context shared by all Tone Nodes. 
+	 *  The private audio context shared by all Tone Nodes.
 	 *  @private
 	 *  @type {Tone.Context|undefined}
 	 */
 	var audioContext;
 
 	/**
-	 *  A static pointer to the audio context accessible as Tone.context. 
+	 *  A static pointer to the audio context accessible as Tone.context.
 	 *  @type {Tone.Context}
 	 *  @name context
 	 *  @memberOf Tone
@@ -709,7 +708,7 @@ define(function(){
 	/**
 	 *  Tone automatically creates a context on init, but if you are working
 	 *  with other libraries which also create an AudioContext, it can be
-	 *  useful to set your own. If you are going to set your own context, 
+	 *  useful to set your own. If you are going to set your own context,
 	 *  be sure to do it at the start of your code, before creating any objects.
 	 *  @static
 	 *  @param {AudioContext} ctx The new audio context to set
@@ -745,7 +744,7 @@ define(function(){
 	});
 
 	/**
-	 *  Whether or not all the technologies that Tone.js relies on are supported by the current browser. 
+	 *  Whether or not all the technologies that Tone.js relies on are supported by the current browser.
 	 *  @type {Boolean}
 	 *  @name supported
 	 *  @memberOf Tone
@@ -761,14 +760,14 @@ define(function(){
 
 	/**
 	 *  array of callbacks to be invoked when a new context is added
-	 *  @private 
+	 *  @private
 	 */
 	var newContextCallbacks = [];
 
 	/**
 	 *  invoke this callback when a new context is added
 	 *  will be invoked initially with the first context
-	 *  @private 
+	 *  @private
 	 *  @static
 	 *  @param {function(AudioContext)} callback the callback to be invoked with the audio context
 	 */

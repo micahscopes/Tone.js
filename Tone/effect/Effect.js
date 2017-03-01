@@ -1,34 +1,35 @@
-define(["Tone/core/Tone", "Tone/component/CrossFade"], function(Tone){
+import { Tone } from 'core';
+import { CrossFade } from 'component';
 
 	"use strict";
-	
+
 	/**
-	 * 	@class  Tone.Effect is the base class for effects. Connect the effect between
+	 * 	@class  Effect is the base class for effects. Connect the effect between
 	 * 	        the effectSend and effectReturn GainNodes, then control the amount of
 	 * 	        effect which goes to the output using the wet control.
 	 *
 	 *  @constructor
 	 *  @extends {Tone}
-	 *  @param {NormalRange|Object} [wet] The starting wet value. 
+	 *  @param {NormalRange|Object} [wet] The starting wet value.
 	 */
-	Tone.Effect = function(){
+	export function Effect(){
 
 		this.createInsOuts(1, 1);
 
 		//get all of the defaults
-		var options = this.optionsObject(arguments, ["wet"], Tone.Effect.defaults);
+		var options = this.optionsObject(arguments, ["wet"], Effect.defaults);
 
 		/**
 		 *  the drywet knob to control the amount of effect
-		 *  @type {Tone.CrossFade}
+		 *  @type {CrossFade}
 		 *  @private
 		 */
-		this._dryWet = new Tone.CrossFade(options.wet);
+		this._dryWet = new CrossFade(options.wet);
 
 		/**
 		 *  The wet control is how much of the effected
 		 *  will pass through to the output. 1 = 100% effected
-		 *  signal, 0 = 100% dry signal. 
+		 *  signal, 0 = 100% dry signal.
 		 *  @type {NormalRange}
 		 *  @signal
 		 */
@@ -36,17 +37,17 @@ define(["Tone/core/Tone", "Tone/component/CrossFade"], function(Tone){
 
 		/**
 		 *  connect the effectSend to the input of hte effect
-		 *  @type {Tone.Gain}
+		 *  @type {Gain}
 		 *  @private
 		 */
-		this.effectSend = new Tone.Gain();
+		this.effectSend = new Gain();
 
 		/**
 		 *  connect the output of the effect to the effectReturn
-		 *  @type {Tone.Gain}
+		 *  @type {Gain}
 		 *  @private
 		 */
-		this.effectReturn = new Tone.Gain();
+		this.effectReturn = new Gain();
 
 		//connections
 		this.input.connect(this._dryWet.a);
@@ -56,13 +57,13 @@ define(["Tone/core/Tone", "Tone/component/CrossFade"], function(Tone){
 		this._readOnly(["wet"]);
 	};
 
-	Tone.extend(Tone.Effect);
+	Tone.extend(Effect);
 
 	/**
 	 *  @static
 	 *  @type {Object}
 	 */
-	Tone.Effect.defaults = {
+	Effect.defaults = {
 		"wet" : 1
 	};
 
@@ -70,19 +71,19 @@ define(["Tone/core/Tone", "Tone/component/CrossFade"], function(Tone){
 	 *  chains the effect in between the effectSend and effectReturn
 	 *  @param  {Tone} effect
 	 *  @private
-	 *  @returns {Tone.Effect} this
+	 *  @returns {Effect} this
 	 */
-	Tone.Effect.prototype.connectEffect = function(effect){
+	Effect.prototype.connectEffect = function(effect){
 		this.effectSend.chain(effect, this.effectReturn);
 		return this;
 	};
 
 	/**
-	 *  Clean up. 
-	 *  @returns {Tone.Effect} this
+	 *  Clean up.
+	 *  @returns {Effect} this
 	 */
-	Tone.Effect.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	Effect.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._dryWet.dispose();
 		this._dryWet = null;
 		this.effectSend.dispose();
@@ -93,6 +94,3 @@ define(["Tone/core/Tone", "Tone/component/CrossFade"], function(Tone){
 		this.wet = null;
 		return this;
 	};
-
-	return Tone.Effect;
-});

@@ -1,25 +1,26 @@
-define(["Tone/core/Tone", "Tone/signal/WaveShaper", "Tone/signal/SignalBase"], 
-function(Tone){
+import { Tone } from 'core';
+import { WaveShaper } from 'signal';
+import { SignalBase } from 'signal';
 
 	"use strict";
 
 	/**
-	 *  @class Return the absolute value of an incoming signal. 
-	 *  
+	 *  @class Return the absolute value of an incoming signal.
+	 *
 	 *  @constructor
-	 *  @extends {Tone.SignalBase}
+	 *  @extends {SignalBase}
 	 *  @example
-	 * var signal = new Tone.Signal(-1);
-	 * var abs = new Tone.Abs();
+	 * var signal = new Signal(-1);
+	 * var abs = new Abs();
 	 * signal.connect(abs);
-	 * //the output of abs is 1. 
+	 * //the output of abs is 1.
 	 */
-	Tone.Abs = function(){
+	export function Abs(){
 		/**
-		 *  @type {Tone.LessThan}
+		 *  @type {LessThan}
 		 *  @private
 		 */
-		this._abs = this.input = this.output = new Tone.WaveShaper(function(val){
+		this._abs = this.input = this.output = new WaveShaper(function(val){
 			if (val === 0){
 				return 0;
 			} else {
@@ -28,18 +29,15 @@ function(Tone){
 		}, 127);
 	};
 
-	Tone.extend(Tone.Abs, Tone.SignalBase);
+	Tone.extend(Abs, SignalBase);
 
 	/**
 	 *  dispose method
-	 *  @returns {Tone.Abs} this
+	 *  @returns {Abs} this
 	 */
-	Tone.Abs.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	Abs.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._abs.dispose();
 		this._abs = null;
 		return this;
-	}; 
-
-	return Tone.Abs;
-});
+	};

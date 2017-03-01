@@ -1,6 +1,10 @@
-define(["Tone/core/Tone", "Tone/component/LowpassCombFilter", "Tone/effect/StereoEffect", 
-	"Tone/signal/Signal", "Tone/component/Split", "Tone/component/Merge", "Tone/signal/ScaleExp"], 
-function(Tone){
+import { Tone } from 'core';
+import { LowpassCombFilter } from 'component';
+import { StereoEffect } from 'effect';
+import { Signal } from 'signal';
+import { Split } from 'component';
+import { Merge } from 'component';
+import { ScaleExp } from 'signal';
 
 	"use strict";
 
@@ -21,39 +25,39 @@ function(Tone){
 	var allpassFilterFrequencies = [225, 556, 441, 341];
 
 	/**
-	 *  @class Tone.Freeverb is a reverb based on [Freeverb](https://ccrma.stanford.edu/~jos/pasp/Freeverb.html).
+	 *  @class Freeverb is a reverb based on [Freeverb](https://ccrma.stanford.edu/~jos/pasp/Freeverb.html).
 	 *         Read more on reverb on [SoundOnSound](http://www.soundonsound.com/sos/may00/articles/reverb.htm).
 	 *
-	 *  @extends {Tone.Effect}
+	 *  @extends {Effect}
 	 *  @constructor
-	 *  @param {NormalRange|Object} [roomSize] Correlated to the decay time. 
-	 *  @param {Frequency} [dampening] The cutoff frequency of a lowpass filter as part 
-	 *                                 of the reverb. 
+	 *  @param {NormalRange|Object} [roomSize] Correlated to the decay time.
+	 *  @param {Frequency} [dampening] The cutoff frequency of a lowpass filter as part
+	 *                                 of the reverb.
 	 *  @example
-	 * var freeverb = new Tone.Freeverb().toMaster();
+	 * var freeverb = new Freeverb().toMaster();
 	 * freeverb.dampening.value = 1000;
 	 * //routing synth through the reverb
-	 * var synth = new Tone.AMSynth().connect(freeverb);
+	 * var synth = new AMSynth().connect(freeverb);
 	 */
-	Tone.Freeverb = function(){
+	export function Freeverb(){
 
-		var options = this.optionsObject(arguments, ["roomSize", "dampening"], Tone.Freeverb.defaults);
-		Tone.StereoEffect.call(this, options);
+		var options = this.optionsObject(arguments, ["roomSize", "dampening"], Freeverb.defaults);
+		StereoEffect.call(this, options);
 
 		/**
 		 *  The roomSize value between. A larger roomSize
-		 *  will result in a longer decay. 
+		 *  will result in a longer decay.
 		 *  @type {NormalRange}
 		 *  @signal
 		 */
-		this.roomSize = new Tone.Signal(options.roomSize, Tone.Type.NormalRange);
+		this.roomSize = new Signal(options.roomSize, Type.NormalRange);
 
 		/**
-		 *  The amount of dampening of the reverberant signal. 
+		 *  The amount of dampening of the reverberant signal.
 		 *  @type {Frequency}
 		 *  @signal
 		 */
-		this.dampening = new Tone.Signal(options.dampening, Tone.Type.Frequency);
+		this.dampening = new Signal(options.dampening, Type.Frequency);
 
 		/**
 		 *  the comb filters
@@ -94,7 +98,7 @@ function(Tone){
 
 		//make the comb filters
 		for (var c = 0; c < combFilterTunings.length; c++){
-			var lfpf = new Tone.LowpassCombFilter(combFilterTunings[c]);
+			var lfpf = new LowpassCombFilter(combFilterTunings[c]);
 			if (c < combFilterTunings.length / 2){
 				this.effectSendL.chain(lfpf, this._allpassFiltersL[0]);
 			} else {
@@ -113,23 +117,23 @@ function(Tone){
 		this._readOnly(["roomSize", "dampening"]);
 	};
 
-	Tone.extend(Tone.Freeverb, Tone.StereoEffect);
+	Tone.extend(Freeverb, StereoEffect);
 
 	/**
 	 *  @static
 	 *  @type {Object}
 	 */
-	Tone.Freeverb.defaults = {
-		"roomSize" : 0.7, 
+	Freeverb.defaults = {
+		"roomSize" : 0.7,
 		"dampening" : 3000
 	};
 
 	/**
-	 *  Clean up. 
-	 *  @returns {Tone.Freeverb} this
+	 *  Clean up.
+	 *  @returns {Freeverb} this
 	 */
-	Tone.Freeverb.prototype.dispose = function(){
-		Tone.StereoEffect.prototype.dispose.call(this);
+	Freeverb.prototype.dispose = function(){
+		StereoEffect.prototype.dispose.call(this);
 		for (var al = 0; al < this._allpassFiltersL.length; al++) {
 			this._allpassFiltersL[al].disconnect();
 			this._allpassFiltersL[al] = null;
@@ -152,6 +156,3 @@ function(Tone){
 		this.dampening = null;
 		return this;
 	};
-
-	return Tone.Freeverb;
-});

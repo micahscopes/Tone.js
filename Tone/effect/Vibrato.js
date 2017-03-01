@@ -1,36 +1,39 @@
-define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/core/Delay", "Tone/component/LFO"], function (Tone) {
+import { Tone } from 'core';
+import { Effect } from 'effect';
+import { Delay } from 'core';
+import { LFO } from 'component';
 
 	"use strict";
 
 	/**
-	 *  @class A Vibrato effect composed of a Tone.Delay and a Tone.LFO. The LFO
+	 *  @class A Vibrato effect composed of a Delay and a LFO. The LFO
 	 *         modulates the delayTime of the delay, causing the pitch to rise
-	 *         and fall. 
-	 *  @extends {Tone.Effect}
+	 *         and fall.
+	 *  @extends {Effect}
 	 *  @param {Frequency} frequency The frequency of the vibrato.
 	 *  @param {NormalRange} depth The amount the pitch is modulated.
 	 */
-	Tone.Vibrato = function(){
+	export function Vibrato(){
 
-		var options = this.optionsObject(arguments, ["frequency", "depth"], Tone.Vibrato.defaults);
-		Tone.Effect.call(this, options);
+		var options = this.optionsObject(arguments, ["frequency", "depth"], Vibrato.defaults);
+		Effect.call(this, options);
 
 		/**
 		 *  The delay node used for the vibrato effect
-		 *  @type {Tone.Delay}
+		 *  @type {Delay}
 		 *  @private
 		 */
-		this._delayNode = new Tone.Delay(0, options.maxDelay);
+		this._delayNode = new Delay(0, options.maxDelay);
 
 		/**
 		 *  The LFO used to control the vibrato
-		 *  @type {Tone.LFO}
+		 *  @type {LFO}
 		 *  @private
 		 */
-		this._lfo = new Tone.LFO({
+		this._lfo = new LFO({
 			"type" : options.type,
 			"min" : 0,
-			"max" : options.maxDelay, 
+			"max" : options.maxDelay,
 			"frequency"  : options.frequency,
 			"phase" : -90 //offse the phase so the resting position is in the center
 		}).start().connect(this._delayNode.delayTime);
@@ -43,7 +46,7 @@ define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/core/Delay", "Tone/compone
 		this.frequency = this._lfo.frequency;
 
 		/**
-		 *  The depth of the vibrato. 
+		 *  The depth of the vibrato.
 		 *  @type {NormalRange}
 		 *  @signal
 		 */
@@ -54,14 +57,14 @@ define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/core/Delay", "Tone/compone
 		this.effectSend.chain(this._delayNode, this.effectReturn);
 	};
 
-	Tone.extend(Tone.Vibrato, Tone.Effect);
+	Tone.extend(Vibrato, Effect);
 
 	/**
 	 *  The defaults
 	 *  @type  {Object}
 	 *  @const
 	 */
-	Tone.Vibrato.defaults = {
+	Vibrato.defaults = {
 		"maxDelay" : 0.005,
 		"frequency" : 5,
 		"depth" : 0.1,
@@ -70,11 +73,11 @@ define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/core/Delay", "Tone/compone
 
 	/**
 	 * Type of oscillator attached to the Vibrato.
-	 * @memberOf Tone.Vibrato#
+	 * @memberOf Vibrato#
 	 * @type {string}
 	 * @name type
 	 */
-	Object.defineProperty(Tone.Vibrato.prototype, "type", {
+	Object.defineProperty(Vibrato.prototype, "type", {
 		get : function(){
 			return this._lfo.type;
 		},
@@ -85,10 +88,10 @@ define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/core/Delay", "Tone/compone
 
 	/**
 	 *  Clean up.
-	 *  @returns {Tone.Vibrato} this
+	 *  @returns {Vibrato} this
 	 */
-	Tone.Vibrato.prototype.dispose = function(){
-		Tone.Effect.prototype.dispose.call(this);
+	Vibrato.prototype.dispose = function(){
+		Effect.prototype.dispose.call(this);
 		this._delayNode.dispose();
 		this._delayNode = null;
 		this._lfo.dispose();
@@ -97,6 +100,3 @@ define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/core/Delay", "Tone/compone
 		this.frequency = null;
 		this.depth = null;
 	};
-
-	return Tone.Vibrato;
-});

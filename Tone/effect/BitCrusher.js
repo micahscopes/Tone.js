@@ -1,42 +1,44 @@
-define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/signal/Subtract", "Tone/signal/Modulo"],
-function(Tone){
+import { Tone } from 'core';
+import { Effect } from 'effect';
+import { Subtract } from 'signal';
+import { Modulo } from 'signal';
 
 	"use strict";
 
 	/**
-	 *  @class Tone.Bitcrusher downsamples the incoming signal to a different bitdepth. 
+	 *  @class Bitcrusher downsamples the incoming signal to a different bitdepth.
 	 *         Lowering the bitdepth of the signal creates distortion. Read more about Bitcrushing
 	 *         on [Wikipedia](https://en.wikipedia.org/wiki/Bitcrusher).
 	 *
 	 *  @constructor
-	 *  @extends {Tone.Effect}
+	 *  @extends {Effect}
 	 *  @param {Number} bits The number of bits to downsample the signal. Nominal range
-	 *                       of 1 to 8. 
+	 *                       of 1 to 8.
 	 *  @example
 	 * //initialize crusher and route a synth through it
-	 * var crusher = new Tone.BitCrusher(4).toMaster();
-	 * var synth = new Tone.MonoSynth().connect(crusher);
+	 * var crusher = new BitCrusher(4).toMaster();
+	 * var synth = new MonoSynth().connect(crusher);
 	 */
-	Tone.BitCrusher = function(){
+	export function BitCrusher(){
 
-		var options = this.optionsObject(arguments, ["bits"], Tone.BitCrusher.defaults);
-		Tone.Effect.call(this, options);
+		var options = this.optionsObject(arguments, ["bits"], BitCrusher.defaults);
+		Effect.call(this, options);
 
 		var invStepSize = 1 / Math.pow(2, options.bits - 1);
 
 		/**
 		 *  Subtract the input signal and the modulus of the input signal
-		 *  @type {Tone.Subtract}
+		 *  @type {Subtract}
 		 *  @private
 		 */
-		this._subtract = new Tone.Subtract();
+		this._subtract = new Subtract();
 
 		/**
 		 *  The mod function
-		 *  @type  {Tone.Modulo}
+		 *  @type  {Modulo}
 		 *  @private
 		 */
-		this._modulo = new Tone.Modulo(invStepSize);
+		this._modulo = new Modulo(invStepSize);
 
 		/**
 		 *  keeps track of the bits
@@ -51,24 +53,24 @@ function(Tone){
 		this._subtract.connect(this.effectReturn);
 	};
 
-	Tone.extend(Tone.BitCrusher, Tone.Effect);
+	Tone.extend(BitCrusher, Effect);
 
 	/**
 	 *  the default values
 	 *  @static
 	 *  @type {Object}
 	 */
-	Tone.BitCrusher.defaults = {
+	BitCrusher.defaults = {
 		"bits" : 4
 	};
 
 	/**
-	 * The bit depth of the effect. Nominal range of 1-8. 
-	 * @memberOf Tone.BitCrusher#
+	 * The bit depth of the effect. Nominal range of 1-8.
+	 * @memberOf BitCrusher#
 	 * @type {number}
 	 * @name bits
 	 */
-	Object.defineProperty(Tone.BitCrusher.prototype, "bits", {
+	Object.defineProperty(BitCrusher.prototype, "bits", {
 		get : function(){
 			return this._bits;
 		},
@@ -80,17 +82,14 @@ function(Tone){
 	});
 
 	/**
-	 *  Clean up. 
-	 *  @returns {Tone.BitCrusher} this
+	 *  Clean up.
+	 *  @returns {BitCrusher} this
 	 */
-	Tone.BitCrusher.prototype.dispose = function(){
-		Tone.Effect.prototype.dispose.call(this);
+	BitCrusher.prototype.dispose = function(){
+		Effect.prototype.dispose.call(this);
 		this._subtract.dispose();
 		this._subtract = null;
 		this._modulo.dispose();
 		this._modulo = null;
 		return this;
-	}; 
-
-	return Tone.BitCrusher;
-});
+	};

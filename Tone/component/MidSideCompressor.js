@@ -1,60 +1,62 @@
-define(["Tone/core/Tone", "Tone/component/MidSideSplit", "Tone/component/MidSideMerge", 
-	"Tone/component/Compressor"], function(Tone){
+import { Tone } from 'core';
+import { MidSideSplit } from 'component';
+import { MidSideMerge } from 'component';
+import { Compressor } from 'component';
 
 	"use strict";
 
 	/**
-	 *  @class Tone.MidSideCompressor applies two different compressors to the mid
-	 *         and side signal components. See Tone.MidSideSplit. 
+	 *  @class MidSideCompressor applies two different compressors to the mid
+	 *         and side signal components. See MidSideSplit.
 	 *
 	 *  @extends {Tone}
 	 *  @param {Object} options The options that are passed to the mid and side
-	 *                          compressors. 
+	 *                          compressors.
 	 *  @constructor
 	 */
-	Tone.MidSideCompressor = function(options){
+	export function MidSideCompressor(options){
 
-		options = this.defaultArg(options, Tone.MidSideCompressor.defaults);
+		options = this.defaultArg(options, MidSideCompressor.defaults);
 
 		/**
 		 *  the mid/side split
-		 *  @type  {Tone.MidSideSplit}
+		 *  @type  {MidSideSplit}
 		 *  @private
 		 */
-		this._midSideSplit = this.input = new Tone.MidSideSplit();
+		this._midSideSplit = this.input = new MidSideSplit();
 
 		/**
 		 *  the mid/side recombination
-		 *  @type  {Tone.MidSideMerge}
+		 *  @type  {MidSideMerge}
 		 *  @private
 		 */
-		this._midSideMerge = this.output = new Tone.MidSideMerge();
+		this._midSideMerge = this.output = new MidSideMerge();
 
 		/**
 		 *  The compressor applied to the mid signal
-		 *  @type  {Tone.Compressor}
+		 *  @type  {Compressor}
 		 */
-		this.mid = new Tone.Compressor(options.mid);
+		this.mid = new Compressor(options.mid);
 
 		/**
 		 *  The compressor applied to the side signal
-		 *  @type  {Tone.Compressor}
+		 *  @type  {Compressor}
 		 */
-		this.side = new Tone.Compressor(options.side);
+		this.side = new Compressor(options.side);
 
 		this._midSideSplit.mid.chain(this.mid, this._midSideMerge.mid);
 		this._midSideSplit.side.chain(this.side, this._midSideMerge.side);
 		this._readOnly(["mid", "side"]);
 	};
 
-	Tone.extend(Tone.MidSideCompressor);
+	Tone.extend(MidSideCompressor);
 
 	/**
 	 *  @const
 	 *  @static
 	 *  @type {Object}
 	 */
-	Tone.MidSideCompressor.defaults = {
+	MidSideCompressor.defaults = {
 		"mid" : {
 			"ratio" : 3,
 			"threshold" : -24,
@@ -73,10 +75,10 @@ define(["Tone/core/Tone", "Tone/component/MidSideSplit", "Tone/component/MidSide
 
 	/**
 	 *  Clean up.
-	 *  @returns {Tone.MidSideCompressor} this
+	 *  @returns {MidSideCompressor} this
 	 */
-	Tone.MidSideCompressor.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	MidSideCompressor.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._writable(["mid", "side"]);
 		this.mid.dispose();
 		this.mid = null;
@@ -88,6 +90,3 @@ define(["Tone/core/Tone", "Tone/component/MidSideSplit", "Tone/component/MidSide
 		this._midSideMerge = null;
 		return this;
 	};
-
-	return Tone.MidSideCompressor;
-});

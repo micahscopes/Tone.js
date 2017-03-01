@@ -1,27 +1,29 @@
-define(["Tone/core/Tone", "Tone/signal/Signal", "Tone/core/Gain"], function(Tone){
+import { Tone } from 'core';
+import { Signal } from 'signal';
+import { Gain } from 'core';
 
 	"use strict";
 
 	/**
-	 *  @class Tone.Volume is a simple volume node, useful for creating a volume fader. 
+	 *  @class Volume is a simple volume node, useful for creating a volume fader.
 	 *
 	 *  @extends {Tone}
 	 *  @constructor
 	 *  @param {Decibels} [volume=0] the initial volume
 	 *  @example
-	 * var vol = new Tone.Volume(-12);
-	 * instrument.chain(vol, Tone.Master);
+	 * var vol = new Volume(-12);
+	 * instrument.chain(vol, Master);
 	 */
-	Tone.Volume = function(){
+	export function Volume(){
 
-		var options = this.optionsObject(arguments, ["volume"], Tone.Volume.defaults);
+		var options = this.optionsObject(arguments, ["volume"], Volume.defaults);
 
 		/**
 		 * the output node
 		 * @type {GainNode}
 		 * @private
 		 */
-		this.output = this.input = new Tone.Gain(options.volume, Tone.Type.Decibels);
+		this.output = this.input = new Gain(options.volume, Type.Decibels);
 
 		/**
 		 * The unmuted volume
@@ -38,7 +40,7 @@ define(["Tone/core/Tone", "Tone/signal/Signal", "Tone/core/Gain"], function(Tone
 		this._muted = false;
 
 		/**
-		 *  The volume control in decibels. 
+		 *  The volume control in decibels.
 		 *  @type {Decibels}
 		 *  @signal
 		 */
@@ -50,7 +52,7 @@ define(["Tone/core/Tone", "Tone/signal/Signal", "Tone/core/Gain"], function(Tone
 		this.mute = options.mute;
 	};
 
-	Tone.extend(Tone.Volume);
+	Tone.extend(Volume);
 
 	/**
 	 *  Defaults
@@ -58,24 +60,24 @@ define(["Tone/core/Tone", "Tone/signal/Signal", "Tone/core/Gain"], function(Tone
 	 *  @const
 	 *  @static
 	 */
-	Tone.Volume.defaults = {
+	Volume.defaults = {
 		"volume" : 0,
 		"mute" : false
 	};
 
 	/**
-	 * Mute the output. 
-	 * @memberOf Tone.Volume#
+	 * Mute the output.
+	 * @memberOf Volume#
 	 * @type {boolean}
 	 * @name mute
 	 * @example
 	 * //mute the output
 	 * volume.mute = true;
 	 */
-	Object.defineProperty(Tone.Volume.prototype, "mute", {
+	Object.defineProperty(Volume.prototype, "mute", {
 		get : function(){
 			return this._muted;
-		}, 
+		},
 		set : function(mute){
 			if (!this._muted && mute){
 				this._unmutedVolume = this.volume.value;
@@ -90,16 +92,13 @@ define(["Tone/core/Tone", "Tone/signal/Signal", "Tone/core/Gain"], function(Tone
 
 	/**
 	 *  clean up
-	 *  @returns {Tone.Volume} this
+	 *  @returns {Volume} this
 	 */
-	Tone.Volume.prototype.dispose = function(){
+	Volume.prototype.dispose = function(){
 		this.input.dispose();
-		Tone.prototype.dispose.call(this);
+		prototype.dispose.call(this);
 		this._writable("volume");
 		this.volume.dispose();
 		this.volume = null;
 		return this;
 	};
-
-	return Tone.Volume;
-});

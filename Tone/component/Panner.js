@@ -1,21 +1,25 @@
-define(["Tone/core/Tone", "Tone/component/CrossFade", "Tone/component/Merge", "Tone/component/Split", 
-	"Tone/signal/Signal", "Tone/signal/AudioToGain", "Tone/signal/Zero"], 
-function(Tone){
+import { Tone } from 'core';
+import { CrossFade } from 'component';
+import { Merge } from 'component';
+import { Split } from 'component';
+import { Signal } from 'signal';
+import { AudioToGain } from 'signal';
+import { Zero } from 'signal';
 
 	"use strict";
 
 	/**
-	 *  @class  Tone.Panner is an equal power Left/Right Panner and does not
-	 *          support 3D. Panner uses the StereoPannerNode when available. 
-	 *  
+	 *  @class  Panner is an equal power Left/Right Panner and does not
+	 *          support 3D. Panner uses the StereoPannerNode when available.
+	 *
 	 *  @constructor
 	 *  @extends {Tone}
 	 *  @param {NormalRange} [initialPan=0] The initail panner value (defaults to 0 = center)
 	 *  @example
-	 *  //pan the input signal hard right. 
-	 *  var panner = new Tone.Panner(1);
+	 *  //pan the input signal hard right.
+	 *  var panner = new Panner(1);
 	 */
-	Tone.Panner = function(initialPan){
+	export function Panner(initialPan){
 
 		if (this._hasStereoPanner){
 
@@ -27,53 +31,53 @@ function(Tone){
 			this._panner = this.input = this.output = this.context.createStereoPanner();
 
 			/**
-			 *  The pan control. -1 = hard left, 1 = hard right. 
+			 *  The pan control. -1 = hard left, 1 = hard right.
 			 *  @type {NormalRange}
 			 *  @signal
-			 */	
+			 */
 			this.pan = this._panner.pan;
-			
+
 		} else {
 
 			/**
 			 *  the dry/wet knob
-			 *  @type {Tone.CrossFade}
+			 *  @type {CrossFade}
 			 *  @private
 			 */
-			this._crossFade = new Tone.CrossFade();
-			
+			this._crossFade = new CrossFade();
+
 			/**
-			 *  @type {Tone.Merge}
+			 *  @type {Merge}
 			 *  @private
 			 */
-			this._merger = this.output = new Tone.Merge();
-			
+			this._merger = this.output = new Merge();
+
 			/**
-			 *  @type {Tone.Split}
+			 *  @type {Split}
 			 *  @private
 			 */
-			this._splitter = this.input = new Tone.Split();
-			
+			this._splitter = this.input = new Split();
+
 			/**
-			 *  The pan control. -1 = hard left, 1 = hard right. 
+			 *  The pan control. -1 = hard left, 1 = hard right.
 			 *  @type {AudioRange}
 			 *  @signal
-			 */	
-			this.pan = new Tone.Signal(0, Tone.Type.AudioRange);
+			 */
+			this.pan = new Signal(0, Type.AudioRange);
 
 			/**
 			 *  always sends 0
-			 *  @type {Tone.Zero}
+			 *  @type {Zero}
 			 *  @private
 			 */
-			this._zero = new Tone.Zero();
+			this._zero = new Zero();
 
 			/**
 			 *  The analog to gain conversion
-			 *  @type  {Tone.AudioToGain}
+			 *  @type  {AudioToGain}
 			 *  @private
 			 */
-			this._a2g = new Tone.AudioToGain();
+			this._a2g = new AudioToGain();
 
 			//CONNECTIONS:
 			this._zero.connect(this._a2g);
@@ -90,21 +94,21 @@ function(Tone){
 		this._readOnly("pan");
 	};
 
-	Tone.extend(Tone.Panner);
+	Tone.extend(Panner);
 
 	/**
 	 *  indicates if the panner is using the new StereoPannerNode internally
 	 *  @type  {boolean}
 	 *  @private
 	 */
-	Tone.Panner.prototype._hasStereoPanner = Tone.prototype.isFunction(Tone.context.createStereoPanner);
+	Panner.prototype._hasStereoPanner = prototype.isFunction(context.createStereoPanner);
 
 	/**
 	 *  Clean up.
-	 *  @returns {Tone.Panner} this
+	 *  @returns {Panner} this
 	 */
-	Tone.Panner.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	Panner.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._writable("pan");
 		if (this._hasStereoPanner){
 			this._panner.disconnect();
@@ -126,6 +130,3 @@ function(Tone){
 		}
 		return this;
 	};
-
-	return Tone.Panner;
-});

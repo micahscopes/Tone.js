@@ -1,38 +1,41 @@
-define(["Tone/core/Tone", "Tone/effect/FeedbackEffect", "Tone/signal/Signal", "Tone/core/Delay"], function(Tone){
+import { Tone } from 'core';
+import { FeedbackEffect } from 'effect';
+import { Signal } from 'signal';
+import { Delay } from 'core';
 
 	"use strict";
-	
+
 	/**
-	 *  @class  Tone.FeedbackDelay is a DelayNode in which part of output
-	 *          signal is fed back into the delay. 
+	 *  @class  FeedbackDelay is a DelayNode in which part of output
+	 *          signal is fed back into the delay.
 	 *
 	 *  @constructor
-	 *  @extends {Tone.FeedbackEffect}
-	 *  @param {Time|Object} [delayTime] The delay applied to the incoming signal. 
-	 *  @param {NormalRange=} feedback The amount of the effected signal which 
+	 *  @extends {FeedbackEffect}
+	 *  @param {Time|Object} [delayTime] The delay applied to the incoming signal.
+	 *  @param {NormalRange=} feedback The amount of the effected signal which
 	 *                            is fed back through the delay.
 	 *  @example
-	 * var feedbackDelay = new Tone.FeedbackDelay("8n", 0.5).toMaster();
-	 * var tom = new Tone.DrumSynth({
+	 * var feedbackDelay = new FeedbackDelay("8n", 0.5).toMaster();
+	 * var tom = new DrumSynth({
 	 * 	"octaves" : 4,
 	 * 	"pitchDecay" : 0.1
 	 * }).connect(feedbackDelay);
 	 * tom.triggerAttackRelease("A2","32n");
 	 */
-	Tone.FeedbackDelay = function(){
-		
-		var options = this.optionsObject(arguments, ["delayTime", "feedback"], Tone.FeedbackDelay.defaults);
-		Tone.FeedbackEffect.call(this, options);
+	export function FeedbackDelay(){
+
+		var options = this.optionsObject(arguments, ["delayTime", "feedback"], FeedbackDelay.defaults);
+		FeedbackEffect.call(this, options);
 
 		/**
 		 *  the delay node
-		 *  @type {Tone.Delay}
+		 *  @type {Delay}
 		 *  @private
 		 */
-		this._delayNode = new Tone.Delay(options.delayTime);
+		this._delayNode = new Delay(options.delayTime);
 
 		/**
-		 *  The delayTime of the DelayNode. 
+		 *  The delayTime of the DelayNode.
 		 *  @type {Time}
 		 *  @signal
 		 */
@@ -44,30 +47,27 @@ define(["Tone/core/Tone", "Tone/effect/FeedbackEffect", "Tone/signal/Signal", "T
 		this._readOnly(["delayTime"]);
 	};
 
-	Tone.extend(Tone.FeedbackDelay, Tone.FeedbackEffect);
+	Tone.extend(FeedbackDelay, FeedbackEffect);
 
 	/**
-	 *  The default values. 
+	 *  The default values.
 	 *  @const
 	 *  @static
 	 *  @type {Object}
 	 */
-	Tone.FeedbackDelay.defaults = {
+	FeedbackDelay.defaults = {
 		"delayTime" : 0.25,
 	};
 
 	/**
 	 *  clean up
-	 *  @returns {Tone.FeedbackDelay} this
+	 *  @returns {FeedbackDelay} this
 	 */
-	Tone.FeedbackDelay.prototype.dispose = function(){
-		Tone.FeedbackEffect.prototype.dispose.call(this);
+	FeedbackDelay.prototype.dispose = function(){
+		FeedbackEffect.prototype.dispose.call(this);
 		this._delayNode.dispose();
 		this._delayNode = null;
 		this._writable(["delayTime"]);
 		this.delayTime = null;
 		return this;
 	};
-
-	return Tone.FeedbackDelay;
-});

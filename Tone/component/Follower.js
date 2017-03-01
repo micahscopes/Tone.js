@@ -1,34 +1,40 @@
-define(["Tone/core/Tone", "Tone/signal/Abs", "Tone/signal/Subtract", "Tone/signal/Multiply", 
-	"Tone/signal/Signal", "Tone/signal/WaveShaper", "Tone/type/Type", "Tone/core/Delay"], 
-function(Tone){
+import { Tone } from 'core';
+/*
+import { Abs } from 'signal';
+import { Subtract } from 'signal';
+import { Multiply } from 'signal';
+import { Signal } from 'signal';
+import { WaveShaper } from 'signal';
+import { Type } from 'type';
+import { Delay } from 'core';*/
 
 	"use strict";
 
 	/**
-	 *  @class  Tone.Follower is a  crude envelope follower which will follow 
-	 *          the amplitude of an incoming signal. 
-	 *          Take care with small (< 0.02) attack or decay values 
+	 *  @class  Follower is a  crude envelope follower which will follow
+	 *          the amplitude of an incoming signal.
+	 *          Take care with small (< 0.02) attack or decay values
 	 *          as follower has some ripple which is exaggerated
-	 *          at these values. Read more about envelope followers (also known 
+	 *          at these values. Read more about envelope followers (also known
 	 *          as envelope detectors) on [Wikipedia](https://en.wikipedia.org/wiki/Envelope_detector).
-	 *  
+	 *
 	 *  @constructor
 	 *  @extends {Tone}
 	 *  @param {Time|Object} [attack] The rate at which the follower rises.
-	 *  @param {Time=} release The rate at which the folower falls. 
+	 *  @param {Time=} release The rate at which the folower falls.
 	 *  @example
-	 * var follower = new Tone.Follower(0.2, 0.4);
+	 * var follower = new Follower(0.2, 0.4);
 	 */
-	Tone.Follower = function(){
+	export function Follower(){
 
 		this.createInsOuts(1, 1);
-		var options = this.optionsObject(arguments, ["attack", "release"], Tone.Follower.defaults);
+		var options = this.optionsObject(arguments, ["attack", "release"], Follower.defaults);
 
 		/**
-		 *  @type {Tone.Abs}
+		 *  @type {Abs}
 		 *  @private
 		 */
-		this._abs = new Tone.Abs();
+		this._abs = new Abs();
 
 		/**
 		 *  the lowpass filter which smooths the input
@@ -44,26 +50,26 @@ function(Tone){
 		 *  @type {WaveShaperNode}
 		 *  @private
 		 */
-		this._frequencyValues = new Tone.WaveShaper();
-		
-		/**
-		 *  @type {Tone.Subtract}
-		 *  @private
-		 */
-		this._sub = new Tone.Subtract();
+		this._frequencyValues = new WaveShaper();
 
 		/**
-		 *  @type {Tone.Delay}
+		 *  @type {Subtract}
 		 *  @private
 		 */
-		this._delay = new Tone.Delay(this.blockTime);
+		this._sub = new Subtract();
+
+		/**
+		 *  @type {Delay}
+		 *  @private
+		 */
+		this._delay = new Delay(this.blockTime);
 
 		/**
 		 *  this keeps it far from 0, even for very small differences
-		 *  @type {Tone.Multiply}
+		 *  @type {Multiply}
 		 *  @private
 		 */
-		this._mult = new Tone.Multiply(10000);
+		this._mult = new Multiply(10000);
 
 		/**
 		 *  @private
@@ -88,27 +94,27 @@ function(Tone){
 		this._setAttackRelease(this._attack, this._release);
 	};
 
-	Tone.extend(Tone.Follower);
+	Tone.extend(Follower);
 
 	/**
 	 *  @static
 	 *  @type {Object}
 	 */
-	Tone.Follower.defaults = {
-		"attack" : 0.05, 
+	Follower.defaults = {
+		"attack" : 0.05,
 		"release" : 0.5
 	};
 
 	/**
 	 *  sets the attack and release times in the wave shaper
-	 *  @param   {Time} attack  
-	 *  @param   {Time} release 
+	 *  @param   {Time} attack
+	 *  @param   {Time} release
 	 *  @private
 	 */
-	Tone.Follower.prototype._setAttackRelease = function(attack, release){
+	Follower.prototype._setAttackRelease = function(attack, release){
 		var minTime = this.blockTime;
-		attack = Tone.Time(attack).toFrequency();
-		release = Tone.Time(release).toFrequency();
+		attack = Time(attack).toFrequency();
+		release = Time(release).toFrequency();
 		attack = Math.max(attack, minTime);
 		release = Math.max(release, minTime);
 		this._frequencyValues.setMap(function(val){
@@ -116,55 +122,55 @@ function(Tone){
 				return attack;
 			} else {
 				return release;
-			} 
+			}
 		});
 	};
 
 	/**
 	 * The attack time.
-	 * @memberOf Tone.Follower#
+	 * @memberOf Follower#
 	 * @type {Time}
 	 * @name attack
 	 */
-	Object.defineProperty(Tone.Follower.prototype, "attack", {
+	Object.defineProperty(Follower.prototype, "attack", {
 		get : function(){
 			return this._attack;
 		},
 		set : function(attack){
 			this._attack = attack;
-			this._setAttackRelease(this._attack, this._release);	
+			this._setAttackRelease(this._attack, this._release);
 		}
 	});
 
 	/**
 	 * The release time.
-	 * @memberOf Tone.Follower#
+	 * @memberOf Follower#
 	 * @type {Time}
 	 * @name release
 	 */
-	Object.defineProperty(Tone.Follower.prototype, "release", {
+	Object.defineProperty(Follower.prototype, "release", {
 		get : function(){
 			return this._release;
 		},
 		set : function(release){
 			this._release = release;
-			this._setAttackRelease(this._attack, this._release);	
+			this._setAttackRelease(this._attack, this._release);
 		}
 	});
 
 	/**
 	 *  Borrows the connect method from Signal so that the output can be used
-	 *  as a Tone.Signal control signal.
+	 *  as a Signal control signal.
 	 *  @function
 	 */
-	Tone.Follower.prototype.connect = Tone.Signal.prototype.connect;
+	Follower.prototype.connect = Signal.prototype.connect;
 
 	/**
 	 *  dispose
-	 *  @returns {Tone.Follower} this
+	 *  @returns {Follower} this
 	 */
-	Tone.Follower.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	Follower.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._filter.disconnect();
 		this._filter = null;
 		this._frequencyValues.disconnect();
@@ -181,5 +187,5 @@ function(Tone){
 		return this;
 	};
 
-	return Tone.Follower;
+	return Follower;
 });

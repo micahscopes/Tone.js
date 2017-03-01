@@ -1,7 +1,8 @@
-define(["Tone/core/Tone"], function (Tone) {
+import { Tone } from 'core';
+import { Tone } from 'core';
 
 	/**
-	 *  @class Tone.TimeBase is a flexible encoding of time
+	 *  @class TimeBase is a flexible encoding of time
 	 *         which can be evaluated to and from a string.
 	 *         Parsing code modified from https://code.google.com/p/tapdigit/
 	 *         Copyright 2011 2012 Ariya Hidayat, New BSD License
@@ -9,15 +10,15 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @param  {Time}  val    The time value as a number or string
 	 *  @param  {String=}  units  Unit values
 	 *  @example
-	 * Tone.TimeBase(4, "n")
-	 * Tone.TimeBase(2, "t")
-	 * Tone.TimeBase("2t").add("1m")
-	 * Tone.TimeBase("2t + 1m");
+	 * TimeBase(4, "n")
+	 * TimeBase(2, "t")
+	 * TimeBase("2t").add("1m")
+	 * TimeBase("2t + 1m");
 	 */
-	Tone.TimeBase = function(val, units){
+	export function TimeBase(val, units){
 
 		//allows it to be constructed with or without 'new'
-		if (this instanceof Tone.TimeBase) {
+		if (this instanceof TimeBase) {
 
 			/**
 			 *  Any expressions parsed from the Time
@@ -26,7 +27,7 @@ define(["Tone/core/Tone"], function (Tone) {
 			 */
 			this._expr = this._noOp;
 
-			if (val instanceof Tone.TimeBase){
+			if (val instanceof TimeBase){
 				this.copy(val);
 			} else if (!this.isUndef(units) || this.isNumber(val)){
 				//default units
@@ -41,28 +42,28 @@ define(["Tone/core/Tone"], function (Tone) {
 			}
 		} else {
 
-			return new Tone.TimeBase(val, units);
+			return new TimeBase(val, units);
 		}
 	};
 
-	Tone.extend(Tone.TimeBase);
+	Tone.extend(TimeBase);
 
 	/**
 	 *  Repalce the current time value with the value
 	 *  given by the expression string.
 	 *  @param  {String}  exprString
-	 *  @return {Tone.TimeBase} this
+	 *  @return {TimeBase} this
 	 */
-	Tone.TimeBase.prototype.set = function(exprString){
+	TimeBase.prototype.set = function(exprString){
 		this._expr = this._parseExprString(exprString);
 		return this;
 	};
 
 	/**
 	 *  Return a clone of the TimeBase object.
-	 *  @return  {Tone.TimeBase} The new cloned Tone.TimeBase
+	 *  @return  {TimeBase} The new cloned TimeBase
 	 */
-	Tone.TimeBase.prototype.clone = function(){
+	TimeBase.prototype.clone = function(){
 		var instance = new this.constructor();
 		instance.copy(this);
 		return instance;
@@ -70,10 +71,10 @@ define(["Tone/core/Tone"], function (Tone) {
 
 	/**
 	 *  Copies the value of time to this Time
-	 *  @param {Tone.TimeBase} time
+	 *  @param {TimeBase} time
 	 *  @return  {TimeBase}
 	 */
-	Tone.TimeBase.prototype.copy = function(time){
+	TimeBase.prototype.copy = function(time){
 		var val = time._expr();
 		return this.set(val);
 	};
@@ -87,7 +88,7 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @private
 	 *  @type  {Object}
 	 */
-	Tone.TimeBase.prototype._primaryExpressions = {
+	TimeBase.prototype._primaryExpressions = {
 		"n" : {
 			regexp : /^(\d+)n/i,
 			method : function(value){
@@ -165,7 +166,7 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @private
 	 *  @type  {Object}
 	 */
-	Tone.TimeBase.prototype._binaryExpressions = {
+	TimeBase.prototype._binaryExpressions = {
 		"+" : {
 			regexp : /^\+/,
 			precedence : 2,
@@ -201,7 +202,7 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @private
 	 *  @type  {Object}
 	 */
-	Tone.TimeBase.prototype._unaryExpressions = {
+	TimeBase.prototype._unaryExpressions = {
 		"neg" : {
 			regexp : /^\-/,
 			method : function(lh){
@@ -215,7 +216,7 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @private
 	 *  @type  {Object}
 	 */
-	Tone.TimeBase.prototype._syntaxGlue = {
+	TimeBase.prototype._syntaxGlue = {
 		"(" : {
 			regexp : /^\(/
 		},
@@ -226,11 +227,11 @@ define(["Tone/core/Tone"], function (Tone) {
 
 	/**
 	 *  tokenize the expression based on the Expressions object
-	 *  @param   {string} expr 
+	 *  @param   {string} expr
 	 *  @return  {Object}      returns two methods on the tokenized list, next and peek
 	 *  @private
 	 */
-	Tone.TimeBase.prototype._tokenize = function(expr){
+	TimeBase.prototype._tokenize = function(expr){
 		var position = -1;
 		var tokens = [];
 
@@ -259,7 +260,7 @@ define(["Tone/core/Tone"], function (Tone) {
 					}
 				}
 			}
-			throw new SyntaxError("Tone.TimeBase: Unexpected token "+expr);
+			throw new SyntaxError("TimeBase: Unexpected token "+expr);
 		}
 
 		return {
@@ -279,14 +280,14 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @param {Number} precedence
 	 *  @private
 	 */
-	Tone.TimeBase.prototype._matchGroup = function(token, group, prec) {
+	TimeBase.prototype._matchGroup = function(token, group, prec) {
 		var ret = false;
 		if (!this.isUndef(token)){
 			for (var opName in group){
 				var op = group[opName];
 				if (op.regexp.test(token.value)){
 					if (!this.isUndef(prec)){
-						if(op.precedence === prec){	
+						if(op.precedence === prec){
 							return op;
 						}
 					} else {
@@ -304,7 +305,7 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @param {Number} precedence
 	 *  @private
 	 */
-	Tone.TimeBase.prototype._parseBinary = function(lexer, precedence){
+	TimeBase.prototype._parseBinary = function(lexer, precedence){
 		if (this.isUndef(precedence)){
 			precedence = 2;
 		}
@@ -328,7 +329,7 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @param {Lexer} lexer
 	 *  @private
 	 */
-	Tone.TimeBase.prototype._parseUnary = function(lexer){
+	TimeBase.prototype._parseUnary = function(lexer){
 		var token, expr;
 		token = lexer.peek();
 		var op = this._matchGroup(token, this._unaryExpressions);
@@ -345,11 +346,11 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @param {Lexer} lexer
 	 *  @private
 	 */
-	Tone.TimeBase.prototype._parsePrimary = function(lexer){
+	TimeBase.prototype._parsePrimary = function(lexer){
 		var token, expr;
 		token = lexer.peek();
 		if (this.isUndef(token)) {
-			throw new SyntaxError("Tone.TimeBase: Unexpected end of expression");
+			throw new SyntaxError("TimeBase: Unexpected end of expression");
 		}
 		if (this._matchGroup(token, this._primaryExpressions)) {
 			token = lexer.next();
@@ -365,16 +366,16 @@ define(["Tone/core/Tone"], function (Tone) {
 			}
 			return expr;
 		}
-		throw new SyntaxError("Tone.TimeBase: Cannot process token " + token.value);
+		throw new SyntaxError("TimeBase: Cannot process token " + token.value);
 	};
 
 	/**
 	 *  Recursively parse the string expression into a syntax tree.
-	 *  @param   {string} expr 
+	 *  @param   {string} expr
 	 *  @return  {Function} the bound method to be evaluated later
 	 *  @private
 	 */
-	Tone.TimeBase.prototype._parseExprString = function(exprString){
+	TimeBase.prototype._parseExprString = function(exprString){
 		if (!this.isString(exprString)){
 			exprString = exprString.toString();
 		}
@@ -392,7 +393,7 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @return  {Number}  The initial value 0
 	 *  @private
 	 */
-	Tone.TimeBase.prototype._noOp = function(){
+	TimeBase.prototype._noOp = function(){
 		return 0;
 	};
 
@@ -400,7 +401,7 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  The default expression value if no arguments are given
 	 *  @private
 	 */
-	Tone.TimeBase.prototype._defaultExpr = function(){
+	TimeBase.prototype._defaultExpr = function(){
 		return this._noOp;
 	};
 
@@ -408,7 +409,7 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  The default units if none are given.
 	 *  @private
 	 */
-	Tone.TimeBase.prototype._defaultUnits = "s";
+	TimeBase.prototype._defaultUnits = "s";
 
 	///////////////////////////////////////////////////////////////////////////
 	//	UNIT CONVERSIONS
@@ -420,7 +421,7 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @return  {Number}
 	 *  @private
 	 */
-	Tone.TimeBase.prototype._frequencyToUnits = function(freq){
+	TimeBase.prototype._frequencyToUnits = function(freq){
 		return 1/freq;
 	};
 
@@ -430,8 +431,8 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @return  {Number}
 	 *  @private
 	 */
-	Tone.TimeBase.prototype._beatsToUnits = function(beats){
-		return (60 / Tone.Transport.bpm.value) * beats;
+	TimeBase.prototype._beatsToUnits = function(beats){
+		return (60 / Transport.bpm.value) * beats;
 	};
 
 	/**
@@ -440,7 +441,7 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @return  {Number}
 	 *  @private
 	 */
-	Tone.TimeBase.prototype._secondsToUnits = function(seconds){
+	TimeBase.prototype._secondsToUnits = function(seconds){
 		return seconds;
 	};
 
@@ -450,8 +451,8 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @return  {Number}
 	 *  @private
 	 */
-	Tone.TimeBase.prototype._ticksToUnits = function(ticks){
-		return ticks * (this._beatsToUnits(1) / Tone.Transport.PPQ);
+	TimeBase.prototype._ticksToUnits = function(ticks){
+		return ticks * (this._beatsToUnits(1) / Transport.PPQ);
 	};
 
 	/**
@@ -459,8 +460,8 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @return  {Number}
 	 *  @private
 	 */
-	Tone.TimeBase.prototype._timeSignature = function(){
-		return Tone.Transport.timeSignature;
+	TimeBase.prototype._timeSignature = function(){
+		return Transport.timeSignature;
 	};
 
 	///////////////////////////////////////////////////////////////////////////
@@ -472,12 +473,12 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  @param  {Time}  val
 	 *  @param  {String}  type
 	 *  @param  {String}  units
-	 *  @return  {Tone.TimeBase} 
+	 *  @return  {TimeBase}
 	 *  @private
 	 */
-	Tone.TimeBase.prototype._pushExpr = function(val, name, units){
+	TimeBase.prototype._pushExpr = function(val, name, units){
 		//create the expression
-		if (!(val instanceof Tone.TimeBase)){
+		if (!(val instanceof TimeBase)){
 			val = new this.constructor(val, units);
 		}
 		this._expr = this._binaryExpressions[name].method.bind(this, this._expr, val._expr);
@@ -488,11 +489,11 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  Add to the current value.
 	 *  @param  {Time}  val    The value to add
 	 *  @param  {String=}  units  Optional units to use with the value.
-	 *  @return  {Tone.TimeBase}  this
+	 *  @return  {TimeBase}  this
 	 *  @example
-	 * Tone.TimeBase("2m").add("1m"); //"3m"
+	 * TimeBase("2m").add("1m"); //"3m"
 	 */
-	Tone.TimeBase.prototype.add = function(val, units){
+	TimeBase.prototype.add = function(val, units){
 		return this._pushExpr(val, "+", units);
 	};
 
@@ -500,11 +501,11 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  Subtract the value from the current time.
 	 *  @param  {Time}  val    The value to subtract
 	 *  @param  {String=}  units  Optional units to use with the value.
-	 *  @return  {Tone.TimeBase}  this
+	 *  @return  {TimeBase}  this
 	 *  @example
-	 * Tone.TimeBase("2m").sub("1m"); //"1m"
+	 * TimeBase("2m").sub("1m"); //"1m"
 	 */
-	Tone.TimeBase.prototype.sub = function(val, units){
+	TimeBase.prototype.sub = function(val, units){
 		return this._pushExpr(val, "-", units);
 	};
 
@@ -512,11 +513,11 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  Multiply the current value by the given time.
 	 *  @param  {Time}  val    The value to multiply
 	 *  @param  {String=}  units  Optional units to use with the value.
-	 *  @return  {Tone.TimeBase}  this
+	 *  @return  {TimeBase}  this
 	 *  @example
-	 * Tone.TimeBase("2m").mult("2"); //"4m"
+	 * TimeBase("2m").mult("2"); //"4m"
 	 */
-	Tone.TimeBase.prototype.mult = function(val, units){
+	TimeBase.prototype.mult = function(val, units){
 		return this._pushExpr(val, "*", units);
 	};
 
@@ -524,30 +525,30 @@ define(["Tone/core/Tone"], function (Tone) {
 	 *  Divide the current value by the given time.
 	 *  @param  {Time}  val    The value to divide by
 	 *  @param  {String=}  units  Optional units to use with the value.
-	 *  @return  {Tone.TimeBase}  this
+	 *  @return  {TimeBase}  this
 	 *  @example
-	 * Tone.TimeBase("2m").div(2); //"1m"
+	 * TimeBase("2m").div(2); //"1m"
 	 */
-	Tone.TimeBase.prototype.div = function(val, units){
+	TimeBase.prototype.div = function(val, units){
 		return this._pushExpr(val, "/", units);
 	};
 
 	/**
 	 *  Evaluate the time value. Returns the time
 	 *  in seconds.
-	 *  @return  {Seconds} 
+	 *  @return  {Seconds}
 	 */
-	Tone.TimeBase.prototype.eval = function(){
+	TimeBase.prototype.eval = function(){
 		return this._expr();
 	};
 
 	/**
 	 *  Clean up
-	 *  @return {Tone.TimeBase} this
+	 *  @return {TimeBase} this
 	 */
-	Tone.TimeBase.prototype.dispose = function(){
+	TimeBase.prototype.dispose = function(){
 		this._expr = null;
 	};
 
-	return Tone.TimeBase;
+	return TimeBase;
 });

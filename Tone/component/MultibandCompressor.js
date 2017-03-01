@@ -1,4 +1,6 @@
-define(["Tone/core/Tone", "Tone/component/MultibandSplit", "Tone/component/Compressor"], function(Tone){
+import { Tone } from 'core';
+import { MultibandSplit } from 'component';
+import { Compressor } from 'component';
 
 	"use strict";
 
@@ -9,7 +11,7 @@ define(["Tone/core/Tone", "Tone/component/MultibandSplit", "Tone/component/Compr
 	 *  @constructor
 	 *  @param {Object} options The low/mid/high compressor settings.
 	 *  @example
-	 *  var multiband = new Tone.MultibandCompressor({
+	 *  var multiband = new MultibandCompressor({
 	 *  	"lowFrequency" : 200,
 	 *  	"highFrequency" : 1300
 	 *  	"low" : {
@@ -17,16 +19,16 @@ define(["Tone/core/Tone", "Tone/component/MultibandSplit", "Tone/component/Compr
 	 *  	}
 	 *  })
 	 */
-	Tone.MultibandCompressor = function(options){
+	export function MultibandCompressor(options){
 
-		options = this.defaultArg(arguments, Tone.MultibandCompressor.defaults);
+		options = this.defaultArg(arguments, MultibandCompressor.defaults);
 
 		/**
 		 *  split the incoming signal into high/mid/low
-		 *  @type {Tone.MultibandSplit}
+		 *  @type {MultibandSplit}
 		 *  @private
 		 */
-		this._splitter = this.input = new Tone.MultibandSplit({
+		this._splitter = this.input = new MultibandSplit({
 			"lowFrequency" : options.lowFrequency,
 			"highFrequency" : options.highFrequency
 		});
@@ -47,28 +49,28 @@ define(["Tone/core/Tone", "Tone/component/MultibandSplit", "Tone/component/Compr
 
 		/**
 		 *  the output
-		 *  @type {Tone.Gain}
+		 *  @type {Gain}
 		 *  @private
 		 */
-		this.output = new Tone.Gain();
+		this.output = new Gain();
 
 		/**
 		 *  The compressor applied to the low frequencies.
-		 *  @type {Tone.Compressor}
+		 *  @type {Compressor}
 		 */
-		this.low = new Tone.Compressor(options.low);
+		this.low = new Compressor(options.low);
 
 		/**
 		 *  The compressor applied to the mid frequencies.
-		 *  @type {Tone.Compressor}
+		 *  @type {Compressor}
 		 */
-		this.mid = new Tone.Compressor(options.mid);
+		this.mid = new Compressor(options.mid);
 
 		/**
 		 *  The compressor applied to the high frequencies.
-		 *  @type {Tone.Compressor}
+		 *  @type {Compressor}
 		 */
-		this.high = new Tone.Compressor(options.high);
+		this.high = new Compressor(options.high);
 
 		//connect the compressor
 		this._splitter.low.chain(this.low, this.output);
@@ -78,27 +80,27 @@ define(["Tone/core/Tone", "Tone/component/MultibandSplit", "Tone/component/Compr
 		this._readOnly(["high", "mid", "low", "highFrequency", "lowFrequency"]);
 	};
 
-	Tone.extend(Tone.MultibandCompressor);
+	Tone.extend(MultibandCompressor);
 
 	/**
 	 *  @const
 	 *  @static
 	 *  @type {Object}
 	 */
-	Tone.MultibandCompressor.defaults = {
-		"low" : Tone.Compressor.defaults,
-		"mid" : Tone.Compressor.defaults,
-		"high" : Tone.Compressor.defaults,
+	MultibandCompressor.defaults = {
+		"low" : Compressor.defaults,
+		"mid" : Compressor.defaults,
+		"high" : Compressor.defaults,
 		"lowFrequency" : 250,
 		"highFrequency" : 2000
 	};
 
 	/**
 	 *  clean up
-	 *  @returns {Tone.MultibandCompressor} this
+	 *  @returns {MultibandCompressor} this
 	 */
-	Tone.MultibandCompressor.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	MultibandCompressor.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._splitter.dispose();
 		this._writable(["high", "mid", "low", "highFrequency", "lowFrequency"]);
 		this.low.dispose();
@@ -112,6 +114,3 @@ define(["Tone/core/Tone", "Tone/component/MultibandSplit", "Tone/component/Compr
 		this.highFrequency = null;
 		return this;
 	};
-
-	return Tone.MultibandCompressor;
-});

@@ -1,20 +1,21 @@
-define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
+import { Tone } from 'core';
+import { Type } from 'type';
 
 	"use strict";
 
 	/**
-	 *  @class Tone.CtrlInterpolate will interpolate between given values based
+	 *  @class CtrlInterpolate will interpolate between given values based
 	 *         on the "index" property. Passing in an array or object literal
 	 *         will interpolate each of the parameters. Note (i.e. "C3")
 	 *         and Time (i.e. "4n + 2") can be interpolated. All other values are
-	 *         assumed to be numbers. 
+	 *         assumed to be numbers.
 	 *  @example
-	 * var interp = new Tone.CtrlInterpolate([0, 2, 9, 4]);
+	 * var interp = new CtrlInterpolate([0, 2, 9, 4]);
 	 * interp.index = 0.75;
 	 * interp.value; //returns 1.5
 	 *
 	 *  @example
-	 * var interp = new Tone.CtrlInterpolate([
+	 * var interp = new CtrlInterpolate([
 	 * 	[2, 4, 5],
 	 * 	[9, 3, 2],
 	 * ]);
@@ -22,9 +23,9 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	 * @param {Positive} index The initial interpolation index.
 	 * @extends {Tone}
 	 */
-	Tone.CtrlInterpolate = function(){
+	export function CtrlInterpolate(){
 
-		var options = this.optionsObject(arguments, ["values", "index"], Tone.CtrlInterpolate.defaults);
+		var options = this.optionsObject(arguments, ["values", "index"], CtrlInterpolate.defaults);
 
 		/**
 		 *  The values to interpolate between
@@ -35,25 +36,25 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 		/**
 		 *  The interpolated index between values. For example: a value of 1.5
 		 *  would interpolate equally between the value at index 1
-		 *  and the value at index 2. 
+		 *  and the value at index 2.
 		 *  @example
-		 * interp.index = 0; 
+		 * interp.index = 0;
 		 * interp.value; //returns the value at 0
 		 * interp.index = 0.5;
-		 * interp.value; //returns the value between indices 0 and 1. 
+		 * interp.value; //returns the value between indices 0 and 1.
 		 *  @type  {Positive}
 		 */
 		this.index = options.index;
 	};
 
-	Tone.extend(Tone.CtrlInterpolate);
+	Tone.extend(CtrlInterpolate);
 
 	/**
 	 *  The defaults
 	 *  @const
 	 *  @type  {Object}
 	 */
-	Tone.CtrlInterpolate.defaults = {
+	CtrlInterpolate.defaults = {
 		"index" : 0,
 		"values" : []
 	};
@@ -61,11 +62,11 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	/**
 	 *  The current interpolated value based on the index
 	 *  @readOnly
-	 *  @memberOf Tone.CtrlInterpolate#
+	 *  @memberOf CtrlInterpolate#
 	 *  @type {*}
 	 *  @name value
 	 */
-	Object.defineProperty(Tone.CtrlInterpolate.prototype, "value", {
+	Object.defineProperty(CtrlInterpolate.prototype, "value", {
 		get : function(){
 			var index = this.index;
 			index = Math.min(index, this.values.length - 1);
@@ -79,12 +80,12 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	/**
 	 *  Internal interpolation routine
 	 *  @param  {NormalRange}  index  The index between the lower and upper
-	 *  @param  {*}  lower 
-	 *  @param  {*}  upper 
+	 *  @param  {*}  lower
+	 *  @param  {*}  upper
 	 *  @return  {*}  The interpolated value
 	 *  @private
 	 */
-	Tone.CtrlInterpolate.prototype._interpolate = function(index, lower, upper){
+	CtrlInterpolate.prototype._interpolate = function(index, lower, upper){
 		if (this.isArray(lower)){
 			var retArray = [];
 			for (var i = 0; i < lower.length; i++){
@@ -110,7 +111,7 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	 *  @return  {Number}
 	 *  @private
 	 */
-	Tone.CtrlInterpolate.prototype._toNumber = function(val){
+	CtrlInterpolate.prototype._toNumber = function(val){
 		if (this.isNumber(val)){
 			return val;
 		} else {
@@ -121,11 +122,8 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 
 	/**
 	 *  Clean up
-	 *  @return  {Tone.CtrlInterpolate}  this
+	 *  @return  {CtrlInterpolate}  this
 	 */
-	Tone.CtrlInterpolate.prototype.dispose = function(){
+	CtrlInterpolate.prototype.dispose = function(){
 		this.values = null;
 	};
-
-	return Tone.CtrlInterpolate;
-});

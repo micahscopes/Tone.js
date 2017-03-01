@@ -1,31 +1,34 @@
-define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/component/LFO", "Tone/component/Panner"], function(Tone){
+import { Tone } from 'core';
+import { Effect } from 'effect';
+import { LFO } from 'component';
+import { Panner } from 'component';
 
 	"use strict";
 
 	/**
-	 *  @class Tone.AutoPanner is a Tone.Panner with an LFO connected to the pan amount. 
+	 *  @class AutoPanner is a Panner with an LFO connected to the pan amount.
 	 *         More on using autopanners [here](https://www.ableton.com/en/blog/autopan-chopper-effect-and-more-liveschool/).
 	 *
 	 *  @constructor
-	 *  @extends {Tone.Effect}
-	 *  @param {Frequency|Object} [frequency] Rate of left-right oscillation. 
+	 *  @extends {Effect}
+	 *  @param {Frequency|Object} [frequency] Rate of left-right oscillation.
 	 *  @example
 	 * //create an autopanner and start it's LFO
-	 * var autoPanner = new Tone.AutoPanner("4n").toMaster().start();
+	 * var autoPanner = new AutoPanner("4n").toMaster().start();
 	 * //route an oscillator through the panner and start it
-	 * var oscillator = new Tone.Oscillator().connect(autoPanner).start();
+	 * var oscillator = new Oscillator().connect(autoPanner).start();
 	 */
-	Tone.AutoPanner = function(){
+	export function AutoPanner(){
 
-		var options = this.optionsObject(arguments, ["frequency"], Tone.AutoPanner.defaults);
-		Tone.Effect.call(this, options);
+		var options = this.optionsObject(arguments, ["frequency"], AutoPanner.defaults);
+		Effect.call(this, options);
 
 		/**
 		 *  the lfo which drives the panning
-		 *  @type {Tone.LFO}
+		 *  @type {LFO}
 		 *  @private
 		 */
-		this._lfo = new Tone.LFO({
+		this._lfo = new LFO({
 			"frequency" : options.frequency,
 			"amplitude" : options.depth,
 			"min" : -1,
@@ -33,8 +36,8 @@ define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/component/LFO", "Tone/comp
 		});
 
 		/**
-		 * The amount of panning between left and right. 
-		 * 0 = always center. 1 = full range between left and right. 
+		 * The amount of panning between left and right.
+		 * 0 = always center. 1 = full range between left and right.
 		 * @type {NormalRange}
 		 * @signal
 		 */
@@ -42,13 +45,13 @@ define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/component/LFO", "Tone/comp
 
 		/**
 		 *  the panner node which does the panning
-		 *  @type {Tone.Panner}
+		 *  @type {Panner}
 		 *  @private
 		 */
-		this._panner = new Tone.Panner();
+		this._panner = new Panner();
 
 		/**
-		 * How fast the panner modulates between left and right. 
+		 * How fast the panner modulates between left and right.
 		 * @type {Frequency}
 		 * @signal
 		 */
@@ -62,35 +65,35 @@ define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/component/LFO", "Tone/comp
 	};
 
 	//extend Effect
-	Tone.extend(Tone.AutoPanner, Tone.Effect);
+	Tone.extend(AutoPanner, Effect);
 
 	/**
 	 *  defaults
 	 *  @static
 	 *  @type {Object}
 	 */
-	Tone.AutoPanner.defaults = {
+	AutoPanner.defaults = {
 		"frequency" : 1,
 		"type" : "sine",
 		"depth" : 1
 	};
-	
+
 	/**
 	 * Start the effect.
-	 * @param {Time} [time=now] When the LFO will start. 
-	 * @returns {Tone.AutoPanner} this
+	 * @param {Time} [time=now] When the LFO will start.
+	 * @returns {AutoPanner} this
 	 */
-	Tone.AutoPanner.prototype.start = function(time){
+	AutoPanner.prototype.start = function(time){
 		this._lfo.start(time);
 		return this;
 	};
 
 /**
 	 * Stop the effect.
-	 * @param {Time} [time=now] When the LFO will stop. 
-	 * @returns {Tone.AutoPanner} this
+	 * @param {Time} [time=now] When the LFO will stop.
+	 * @returns {AutoPanner} this
 	 */
-	Tone.AutoPanner.prototype.stop = function(time){
+	AutoPanner.prototype.stop = function(time){
 		this._lfo.stop(time);
 		return this;
 	};
@@ -98,31 +101,31 @@ define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/component/LFO", "Tone/comp
 	/**
 	 * Sync the panner to the transport.
 	 * @param {Time} [delay=0] Delay time before starting the effect after the
-	 *                               Transport has started. 
-	 * @returns {Tone.AutoPanner} this
+	 *                               Transport has started.
+	 * @returns {AutoPanner} this
 	 */
-	Tone.AutoPanner.prototype.sync = function(delay){
+	AutoPanner.prototype.sync = function(delay){
 		this._lfo.sync(delay);
 		return this;
 	};
 
 	/**
 	 * Unsync the panner from the transport
-	 * @returns {Tone.AutoPanner} this
+	 * @returns {AutoPanner} this
 	 */
-	Tone.AutoPanner.prototype.unsync = function(){
+	AutoPanner.prototype.unsync = function(){
 		this._lfo.unsync();
 		return this;
 	};
 
 	/**
-	 * Type of oscillator attached to the AutoFilter. 
+	 * Type of oscillator attached to the AutoFilter.
 	 * Possible values: "sine", "square", "triangle", "sawtooth".
-	 * @memberOf Tone.AutoFilter#
+	 * @memberOf AutoFilter#
 	 * @type {string}
 	 * @name type
 	 */
-	Object.defineProperty(Tone.AutoPanner.prototype, "type", {
+	Object.defineProperty(AutoPanner.prototype, "type", {
 		get : function(){
 			return this._lfo.type;
 		},
@@ -133,10 +136,10 @@ define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/component/LFO", "Tone/comp
 
 	/**
 	 *  clean up
-	 *  @returns {Tone.AutoPanner} this
+	 *  @returns {AutoPanner} this
 	 */
-	Tone.AutoPanner.prototype.dispose = function(){
-		Tone.Effect.prototype.dispose.call(this);
+	AutoPanner.prototype.dispose = function(){
+		Effect.prototype.dispose.call(this);
 		this._lfo.dispose();
 		this._lfo = null;
 		this._panner.dispose();
@@ -146,6 +149,3 @@ define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/component/LFO", "Tone/comp
 		this.depth = null;
 		return this;
 	};
-
-	return Tone.AutoPanner;
-});

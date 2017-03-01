@@ -1,13 +1,16 @@
-define(["Tone/core/Tone", "Tone/source/Player", "Tone/component/AmplitudeEnvelope", "Tone/instrument/Instrument"], 
-function(Tone){
+import { Tone } from 'core';
+/*
+import { Player } from 'source';
+import { AmplitudeEnvelope } from 'component';
+import { Instrument } from 'instrument';*/
 
 	"use strict";
 
 	/**
-	 *  @class Sampler wraps Tone.Player in an AmplitudeEnvelope.
+	 *  @class Sampler wraps Player in an AmplitudeEnvelope.
 	 *
 	 *  @constructor
-	 *  @extends {Tone.Instrument}
+	 *  @extends {Instrument}
 	 *  @param {String} url the url of the audio file
 	 *  @param {Function=} onload The callback to invoke when the sample is loaded.
 	 *  @example
@@ -16,23 +19,23 @@ function(Tone){
 	 * 	sampler.triggerAttack(-1);
 	 * }).toMaster();
 	 */
-	Tone.Sampler = function(){
+	export function Sampler(){
 
-		var options = this.optionsObject(arguments, ["url", "onload"], Tone.Sampler.defaults);
-		Tone.Instrument.call(this, options);
+		var options = this.optionsObject(arguments, ["url", "onload"], Sampler.defaults);
+		Instrument.call(this, options);
 
 		/**
 		 *  The sample player.
-		 *  @type {Tone.Player}
+		 *  @type {Player}
 		 */
-		this.player = new Tone.Player(options.url, options.onload);
+		this.player = new Player(options.url, options.onload);
 		this.player.retrigger = true;
 
 		/**
-		 *  The amplitude envelope. 
-		 *  @type {Tone.AmplitudeEnvelope}
+		 *  The amplitude envelope.
+		 *  @type {AmplitudeEnvelope}
 		 */
-		this.envelope = new Tone.AmplitudeEnvelope(options.envelope);
+		this.envelope = new AmplitudeEnvelope(options.envelope);
 
 		this.player.chain(this.envelope, this.output);
 		this._readOnly(["player", "envelope"]);
@@ -40,13 +43,13 @@ function(Tone){
 		this.reverse = options.reverse;
 	};
 
-	Tone.extend(Tone.Sampler, Tone.Instrument);
+	Tone.extend(Sampler, Instrument);
 
 	/**
 	 *  the default parameters
 	 *  @static
 	 */
-	Tone.Sampler.defaults = {
+	Sampler.defaults = {
 		"onload" : Tone.noOp,
 		"loop" : false,
 		"reverse" : false,
@@ -59,16 +62,16 @@ function(Tone){
 	};
 
 	/**
-	 *  Trigger the start of the sample. 
+	 *  Trigger the start of the sample.
 	 *  @param {Interval} [pitch=0] The amount the sample should
-	 *                              be repitched. 
+	 *                              be repitched.
 	 *  @param {Time} [time=now] The time when the sample should start
 	 *  @param {NormalRange} [velocity=1] The velocity of the note
-	 *  @returns {Tone.Sampler} this
+	 *  @returns {Sampler} this
 	 *  @example
 	 * sampler.triggerAttack(0, "+0.1", 0.5);
 	 */
-	Tone.Sampler.prototype.triggerAttack = function(pitch, time, velocity){
+	Sampler.prototype.triggerAttack = function(pitch, time, velocity){
 		time = this.toSeconds(time);
 		pitch = this.defaultArg(pitch, 0);
 		this.player.playbackRate = this.intervalToFrequencyRatio(pitch);
@@ -78,15 +81,15 @@ function(Tone){
 	};
 
 	/**
-	 *  Start the release portion of the sample. Will stop the sample once the 
-	 *  envelope has fully released. 
-	 *  
+	 *  Start the release portion of the sample. Will stop the sample once the
+	 *  envelope has fully released.
+	 *
 	 *  @param {Time} [time=now] The time when the note should release
-	 *  @returns {Tone.Sampler} this
+	 *  @returns {Sampler} this
 	 *  @example
 	 * sampler.triggerRelease();
 	 */
-	Tone.Sampler.prototype.triggerRelease = function(time){
+	Sampler.prototype.triggerRelease = function(time){
 		time = this.toSeconds(time);
 		this.envelope.triggerRelease(time);
 		this.player.stop(this.toSeconds(this.envelope.release) + time);
@@ -94,29 +97,29 @@ function(Tone){
 	};
 
 	/**
-	 *  Trigger the attack and then the release after the duration. 
+	 *  Trigger the attack and then the release after the duration.
 	 *  @param  {Interval} interval     The interval in half-steps that the
 	 *                                  sample should be pitch shifted.
 	 *  @param  {Time} duration How long the note should be held for before
 	 *                          triggering the release.
 	 *  @param {Time} [time=now]  When the note should be triggered.
 	 *  @param  {NormalRange} [velocity=1] The velocity the note should be triggered at.
-	 *  @returns {Tone.Sampler} this
+	 *  @returns {Sampler} this
 	 *  @example
 	 * //trigger the unpitched note for the duration of an 8th note
 	 * synth.triggerAttackRelease(0, "8n");
-	 *  @memberOf Tone.Sampler#
+	 *  @memberOf Sampler#
 	 *  @name triggerAttackRelease
 	 *  @method triggerAttackRelease
 	 */
 
 	/**
 	 * If the output sample should loop or not.
-	 * @memberOf Tone.Sampler#
+	 * @memberOf Sampler#
 	 * @type {number|string}
 	 * @name loop
 	 */
-	Object.defineProperty(Tone.Sampler.prototype, "loop", {
+	Object.defineProperty(Sampler.prototype, "loop", {
 		get : function(){
 			return this.player.loop;
 		},
@@ -127,14 +130,14 @@ function(Tone){
 
 	/**
 	 * The direction the buffer should play in
-	 * @memberOf Tone.Sampler#
+	 * @memberOf Sampler#
 	 * @type {boolean}
 	 * @name reverse
 	 */
-	Object.defineProperty(Tone.Sampler.prototype, "reverse", {
+	Object.defineProperty(Sampler.prototype, "reverse", {
 		get : function(){
 			return this.player.reverse;
-		}, 
+		},
 		set : function(rev){
 			this.player.reverse = rev;
 		}
@@ -142,14 +145,14 @@ function(Tone){
 
 	/**
 	 * The buffer to play.
-	 * @memberOf Tone.Sampler#
-	 * @type {Tone.Buffer}
+	 * @memberOf Sampler#
+	 * @type {Buffer}
 	 * @name buffer
 	 */
-	Object.defineProperty(Tone.Sampler.prototype, "buffer", {
+	Object.defineProperty(Sampler.prototype, "buffer", {
 		get : function(){
 			return this.player.buffer;
-		}, 
+		},
 		set : function(buff){
 			this.player.buffer = buff;
 		}
@@ -157,10 +160,10 @@ function(Tone){
 
 	/**
 	 *  Clean up.
-	 *  @returns {Tone.Sampler} this
+	 *  @returns {Sampler} this
 	 */
-	Tone.Sampler.prototype.dispose = function(){
-		Tone.Instrument.prototype.dispose.call(this);
+	Sampler.prototype.dispose = function(){
+		Instrument.prototype.dispose.call(this);
 		this._writable(["player", "envelope"]);
 		this.player.dispose();
 		this.player = null;
@@ -168,6 +171,3 @@ function(Tone){
 		this.envelope = null;
 		return this;
 	};
-
-	return Tone.Sampler;
-});

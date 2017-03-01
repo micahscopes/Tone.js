@@ -1,13 +1,14 @@
-define(["Tone/core/Tone", "Tone/core/Emitter"], function (Tone) {
+import { Tone } from 'core';
+import { Emitter } from 'core';
 
 	/**
 	 *  @class Wrapper around the native AudioContext.
-	 *  @extends {Tone.Emitter}
+	 *  @extends {Emitter}
 	 *  @param {AudioContext=} context optionally pass in a context
 	 */
-	Tone.Context = function(context){
+	export function Context(context){
 
-		Tone.Emitter.call(this);
+		Emitter.call(this);
 
 		if (!context){
 			context = new window.AudioContext();
@@ -54,7 +55,7 @@ define(["Tone/core/Tone", "Tone/core/Emitter"], function (Tone) {
 
 		/**
 		 *  The web worker which is used to update
-		 *  Tone.Clock
+		 *  Clock
 		 *  @private
 		 *  @type  {WebWorker}
 		 */
@@ -86,17 +87,17 @@ define(["Tone/core/Tone", "Tone/core/Emitter"], function (Tone) {
 		this._sqrtTwo = this._createConstant(1 / Math.sqrt(2));
 	};
 
-	Tone.extend(Tone.Context, Tone.Emitter);
-	Tone.Emitter.mixin(Tone.Context);
+	Tone.extend(Context, Emitter);
+	Emitter.mixin(Context);
 
 	/**
-	 *  Define a property on this Tone.Context. 
+	 *  Define a property on this Context.
 	 *  This is used to extend the native AudioContext
 	 *  @param  {AudioContext}  context
-	 *  @param  {String}  prop 
+	 *  @param  {String}  prop
 	 *  @private
 	 */
-	Tone.Context.prototype._defineProperty = function(context, prop){
+	Context.prototype._defineProperty = function(context, prop){
 		if (this.isUndef(this[prop])){
 			Object.defineProperty(this, prop, {
 				get : function(){
@@ -117,7 +118,7 @@ define(["Tone/core/Tone", "Tone/core/Emitter"], function (Tone) {
 	 *  The current audio context time
 	 *  @return  {Number}
 	 */
-	Tone.Context.prototype.now = function(){
+	Context.prototype.now = function(){
 		return this._context.currentTime;
 	};
 
@@ -126,8 +127,8 @@ define(["Tone/core/Tone", "Tone/core/Emitter"], function (Tone) {
 	 *  @return  {WebWorker}
 	 *  @private
 	 */
-	Tone.Context.prototype._createWorker = function(){
-		
+	Context.prototype._createWorker = function(){
+
 		//URL Shim
 		window.URL = window.URL || window.webkitURL;
 
@@ -136,8 +137,8 @@ define(["Tone/core/Tone", "Tone/core/Emitter"], function (Tone) {
 			"var timeoutTime = "+(this._updateInterval * 1000).toFixed(1)+";" +
 			//onmessage callback
 			"self.onmessage = function(msg){" +
-			"	timeoutTime = parseInt(msg.data);" + 
-			"};" + 
+			"	timeoutTime = parseInt(msg.data);" +
+			"};" +
 			//the tick function which posts a message
 			//and schedules a new tick
 			"function tick(){" +
@@ -174,7 +175,7 @@ define(["Tone/core/Tone", "Tone/core/Emitter"], function (Tone) {
 	 *  @return  {BufferSourceNode}
 	 *  @private
 	 */
-	Tone.Context.prototype._createConstant = function(val){
+	Context.prototype._createConstant = function(val){
 		var buffer = this._context.createBuffer(1, 128, this._context.sampleRate);
 		var arr = buffer.getChannelData(0);
 		for (var i = 0; i < arr.length; i++){
@@ -194,12 +195,12 @@ define(["Tone/core/Tone", "Tone/core/Emitter"], function (Tone) {
 	 *  the scheduled update interval. The Context automatically
 	 *  adjusts for the lag and schedules further in advance.
 	 *  @type {Number}
-	 *  @memberOf Tone.Context
+	 *  @memberOf Context
 	 *  @name lag
 	 *  @static
 	 *  @readOnly
 	 */
-	Object.defineProperty(Tone.Context.prototype, "lag", {
+	Object.defineProperty(Context.prototype, "lag", {
 		get : function(){
 			var diff = this._computedUpdateInterval - this._updateInterval;
 			diff = Math.max(diff, 0);
@@ -209,14 +210,14 @@ define(["Tone/core/Tone", "Tone/core/Emitter"], function (Tone) {
 
 	/**
 	 *  The amount of time in advance that events are scheduled.
-	 *  The lookAhead will adjust slightly in response to the 
+	 *  The lookAhead will adjust slightly in response to the
 	 *  measured update time to try to avoid clicks.
 	 *  @type {Number}
-	 *  @memberOf Tone.Context
+	 *  @memberOf Context
 	 *  @name lookAhead
 	 *  @static
 	 */
-	Object.defineProperty(Tone.Context.prototype, "lookAhead", {
+	Object.defineProperty(Context.prototype, "lookAhead", {
 		get : function(){
 			return this._lookAhead;
 		},
@@ -231,37 +232,37 @@ define(["Tone/core/Tone", "Tone/core/Emitter"], function (Tone) {
 	 *  can be. Context.updateInterval + Context.lookAhead gives you the
 	 *  total latency between scheduling an event and hearing it.
 	 *  @type {Number}
-	 *  @memberOf Tone.Context
+	 *  @memberOf Context
 	 *  @name updateInterval
 	 *  @static
 	 */
-	Object.defineProperty(Tone.Context.prototype, "updateInterval", {
+	Object.defineProperty(Context.prototype, "updateInterval", {
 		get : function(){
 			return this._updateInterval;
 		},
 		set : function(interval){
-			this._updateInterval = Math.max(interval, Tone.prototype.blockTime);
+			this._updateInterval = Math.max(interval, prototype.blockTime);
 			this._worker.postMessage(Math.max(interval * 1000, 1));
 		}
 	});
 
 	/**
-	 *  The type of playback, which affects tradeoffs between audio 
-	 *  output latency and responsiveness. 
-	 *  
+	 *  The type of playback, which affects tradeoffs between audio
+	 *  output latency and responsiveness.
+	 *
 	 *  In addition to setting the value in seconds, the latencyHint also
-	 *  accepts the strings "interactive" (prioritizes low latency), 
+	 *  accepts the strings "interactive" (prioritizes low latency),
 	 *  "playback" (prioritizes sustained playback), "balanced" (balances
-	 *  latency and performance), and "fastest" (lowest latency, might glitch more often). 
+	 *  latency and performance), and "fastest" (lowest latency, might glitch more often).
 	 *  @type {String|Seconds}
-	 *  @memberOf Tone.Context#
+	 *  @memberOf Context#
 	 *  @name latencyHint
 	 *  @static
 	 *  @example
 	 * //set the lookAhead to 0.3 seconds
-	 * Tone.context.latencyHint = 0.3;
+	 * context.latencyHint = 0.3;
 	 */
-	Object.defineProperty(Tone.Context.prototype, "latencyHint", {
+	Object.defineProperty(Context.prototype, "latencyHint", {
 		get : function(){
 			return this._latencyHint;
 		},
@@ -308,8 +309,8 @@ define(["Tone/core/Tone", "Tone/core/Emitter"], function (Tone) {
 			window.OfflineAudioContext = window.webkitOfflineAudioContext;
 		}
 
-		var isUndef = Tone.prototype.isUndef;
-		var isFunction = Tone.prototype.isFunction;
+		var isUndef = prototype.isUndef;
+		var isFunction = prototype.isFunction;
 
 		var nativeConnect = AudioNode.prototype.connect;
 		//replace the old connect method
@@ -374,20 +375,17 @@ define(["Tone/core/Tone", "Tone/core/Emitter"], function (Tone) {
 			OscillatorNode.prototype.start = OscillatorNode.prototype.noteOn;
 		}
 		if (!isFunction(OscillatorNode.prototype.stop)){
-			OscillatorNode.prototype.stop = OscillatorNode.prototype.noteOff;	
+			OscillatorNode.prototype.stop = OscillatorNode.prototype.noteOff;
 		}
 		if (!isFunction(OscillatorNode.prototype.setPeriodicWave)){
-			OscillatorNode.prototype.setPeriodicWave = OscillatorNode.prototype.setWaveTable;	
+			OscillatorNode.prototype.setPeriodicWave = OscillatorNode.prototype.setWaveTable;
 		}
 	}
 
 	// set the audio context initially
-	if (Tone.supported){
+	if (supported){
 		shimAudioContext();
-		Tone.context = new Tone.Context();
+		context = new Context();
 	} else {
-		console.warn("This browser does not support Tone.js");
+		console.warn("This browser does not support js");
 	}
-
-	return Tone.Context;
-});

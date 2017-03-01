@@ -1,11 +1,13 @@
-define(["Tone/core/Tone", "Tone/effect/MidSideEffect", "Tone/signal/Signal", 
-	"Tone/signal/Multiply", "Tone/signal/Expr"], 
-	function(Tone){
+import { Tone } from 'core';
+import { MidSideEffect } from 'effect';
+import { Signal } from 'signal';
+import { Multiply } from 'signal';
+import { Expr } from 'signal';
 
 	"use strict";
 
 	/**
-	 *  @class Applies a width factor to the mid/side seperation. 
+	 *  @class Applies a width factor to the mid/side seperation.
 	 *         0 is all mid and 1 is all side.
 	 *         Algorithm found in [kvraudio forums](http://www.kvraudio.com/forum/viewtopic.php?t=212587).
 	 *         <br><br>
@@ -14,42 +16,42 @@ define(["Tone/core/Tone", "Tone/effect/MidSideEffect", "Tone/signal/Signal",
 	 *         Side *= 2*width
 	 *         </code>
 	 *
-	 *  @extends {Tone.MidSideEffect}
+	 *  @extends {MidSideEffect}
 	 *  @constructor
 	 *  @param {NormalRange|Object} [width] The stereo width. A width of 0 is mono and 1 is stereo. 0.5 is no change.
 	 */
-	Tone.StereoWidener = function(){
+	export function StereoWidener(){
 
-		var options = this.optionsObject(arguments, ["width"], Tone.StereoWidener.defaults);
-		Tone.MidSideEffect.call(this, options);
+		var options = this.optionsObject(arguments, ["width"], StereoWidener.defaults);
+		MidSideEffect.call(this, options);
 
 		/**
-		 *  The width control. 0 = 100% mid. 1 = 100% side. 0.5 = no change. 
+		 *  The width control. 0 = 100% mid. 1 = 100% side. 0.5 = no change.
 		 *  @type {NormalRange}
 		 *  @signal
 		 */
-		this.width = new Tone.Signal(options.width, Tone.Type.NormalRange);
+		this.width = new Signal(options.width, Type.NormalRange);
 
 		/**
 		 *  Mid multiplier
-		 *  @type {Tone.Expr}
+		 *  @type {Expr}
 		 *  @private
 		 */
-		this._midMult = new Tone.Expr("$0 * ($1 * (1 - $2))");
+		this._midMult = new Expr("$0 * ($1 * (1 - $2))");
 
 		/**
 		 *  Side multiplier
-		 *  @type {Tone.Expr}
+		 *  @type {Expr}
 		 *  @private
 		 */
-		this._sideMult = new Tone.Expr("$0 * ($1 * $2)");
+		this._sideMult = new Expr("$0 * ($1 * $2)");
 
 		/**
 		 *  constant output of 2
 		 *  @type {Tone}
 		 *  @private
 		 */
-		this._two = new Tone.Signal(2);
+		this._two = new Signal(2);
 
 		//the mid chain
 		this._two.connect(this._midMult, 0, 1);
@@ -63,23 +65,23 @@ define(["Tone/core/Tone", "Tone/effect/MidSideEffect", "Tone/signal/Signal",
 		this._readOnly(["width"]);
 	};
 
-	Tone.extend(Tone.StereoWidener, Tone.MidSideEffect);
+	Tone.extend(StereoWidener, MidSideEffect);
 
 	/**
 	 *  the default values
 	 *  @static
 	 *  @type {Object}
 	 */
-	Tone.StereoWidener.defaults = {
+	StereoWidener.defaults = {
 		"width" : 0.5
 	};
 
 	/**
-	 *  Clean up. 
-	 *  @returns {Tone.StereoWidener} this
+	 *  Clean up.
+	 *  @returns {StereoWidener} this
 	 */
-	Tone.StereoWidener.prototype.dispose = function(){
-		Tone.MidSideEffect.prototype.dispose.call(this);
+	StereoWidener.prototype.dispose = function(){
+		MidSideEffect.prototype.dispose.call(this);
 		this._writable(["width"]);
 		this.width.dispose();
 		this.width = null;
@@ -91,6 +93,3 @@ define(["Tone/core/Tone", "Tone/effect/MidSideEffect", "Tone/signal/Signal",
 		this._two = null;
 		return this;
 	};
-
-	return Tone.StereoWidener;
-});

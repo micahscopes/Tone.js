@@ -1,38 +1,41 @@
-define(["Tone/core/Tone", "Tone/source/Source", "Tone/source/Oscillator", "Tone/signal/Multiply", "Tone/core/Gain"], 
-function(Tone){
+import { Tone } from 'core';
+import { Source } from 'source';
+import { Oscillator } from 'source';
+import { Multiply } from 'signal';
+import { Gain } from 'core';
 
 	"use strict";
 
 	/**
-	 *  @class Tone.FMOscillator 
+	 *  @class FMOscillator
 	 *
-	 *  @extends {Tone.Oscillator}
+	 *  @extends {Oscillator}
 	 *  @constructor
-	 *  @param {Frequency} frequency The starting frequency of the oscillator. 
+	 *  @param {Frequency} frequency The starting frequency of the oscillator.
 	 *  @param {String} type The type of the carrier oscillator.
 	 *  @param {String} modulationType The type of the modulator oscillator.
 	 *  @example
 	 * //a sine oscillator frequency-modulated by a square wave
-	 * var fmOsc = new Tone.FMOscillator("Ab3", "sine", "square").toMaster().start();
+	 * var fmOsc = new FMOscillator("Ab3", "sine", "square").toMaster().start();
 	 */
-	Tone.FMOscillator = function(){
+	export function FMOscillator(){
 
-		var options = this.optionsObject(arguments, ["frequency", "type", "modulationType"], Tone.FMOscillator.defaults);
-		Tone.Source.call(this, options);
+		var options = this.optionsObject(arguments, ["frequency", "type", "modulationType"], FMOscillator.defaults);
+		Source.call(this, options);
 
 		/**
 		 *  The carrier oscillator
-		 *  @type {Tone.Oscillator}
+		 *  @type {Oscillator}
 		 *  @private
 		 */
-		this._carrier = new Tone.Oscillator(options.frequency, options.type);
+		this._carrier = new Oscillator(options.frequency, options.type);
 
 		/**
 		 *  The oscillator's frequency
 		 *  @type {Frequency}
 		 *  @signal
 		 */
-		this.frequency = new Tone.Signal(options.frequency, Tone.Type.Frequency);
+		this.frequency = new Signal(options.frequency, Type.Frequency);
 
 		/**
 		 *  The detune control signal.
@@ -43,41 +46,41 @@ function(Tone){
 		this.detune.value = options.detune;
 
 		/**
-		 *  The modulation index which is in essence the depth or amount of the modulation. In other terms it is the 
-		 *  ratio of the frequency of the modulating signal (mf) to the amplitude of the 
-		 *  modulating signal (ma) -- as in ma/mf. 
+		 *  The modulation index which is in essence the depth or amount of the modulation. In other terms it is the
+		 *  ratio of the frequency of the modulating signal (mf) to the amplitude of the
+		 *  modulating signal (ma) -- as in ma/mf.
 		 *	@type {Positive}
 		 *	@signal
 		 */
-		this.modulationIndex = new Tone.Multiply(options.modulationIndex);
-		this.modulationIndex.units = Tone.Type.Positive;
+		this.modulationIndex = new Multiply(options.modulationIndex);
+		this.modulationIndex.units = Type.Positive;
 
 		/**
 		 *  The modulating oscillator
-		 *  @type  {Tone.Oscillator}
+		 *  @type  {Oscillator}
 		 *  @private
 		 */
-		this._modulator = new Tone.Oscillator(options.frequency, options.modulationType);
+		this._modulator = new Oscillator(options.frequency, options.modulationType);
 
 		/**
-		 *  Harmonicity is the frequency ratio between the carrier and the modulator oscillators. 
-		 *  A harmonicity of 1 gives both oscillators the same frequency. 
-		 *  Harmonicity = 2 means a change of an octave. 
+		 *  Harmonicity is the frequency ratio between the carrier and the modulator oscillators.
+		 *  A harmonicity of 1 gives both oscillators the same frequency.
+		 *  Harmonicity = 2 means a change of an octave.
 		 *  @type {Positive}
 		 *  @signal
 		 *  @example
 		 * //pitch the modulator an octave below carrier
 		 * synth.harmonicity.value = 0.5;
 		 */
-		this.harmonicity = new Tone.Multiply(options.harmonicity);
-		this.harmonicity.units = Tone.Type.Positive;
+		this.harmonicity = new Multiply(options.harmonicity);
+		this.harmonicity.units = Type.Positive;
 
 		/**
 		 *  the node where the modulation happens
-		 *  @type {Tone.Gain}
+		 *  @type {Gain}
 		 *  @private
 		 */
-		this._modulationNode = new Tone.Gain(0);
+		this._modulationNode = new Gain(0);
 
 		//connections
 		this.frequency.connect(this._carrier.frequency);
@@ -93,7 +96,7 @@ function(Tone){
 		this._readOnly(["modulationIndex", "frequency", "detune", "harmonicity"]);
 	};
 
-	Tone.extend(Tone.FMOscillator, Tone.Oscillator);
+	Tone.extend(FMOscillator, Oscillator);
 
 	/**
 	 *  default values
@@ -101,7 +104,7 @@ function(Tone){
 	 *  @type {Object}
 	 *  @const
 	 */
-	Tone.FMOscillator.defaults = {
+	FMOscillator.defaults = {
 		"frequency" : 440,
 		"detune" : 0,
 		"phase" : 0,
@@ -115,7 +118,7 @@ function(Tone){
 	 *  @param  {Time} [time=now]
 	 *  @private
 	 */
-	Tone.FMOscillator.prototype._start = function(time){
+	FMOscillator.prototype._start = function(time){
 		time = this.toSeconds(time);
 		this._modulator.start(time);
 		this._carrier.start(time);
@@ -126,7 +129,7 @@ function(Tone){
 	 *  @param  {Time} time (optional) timing parameter
 	 *  @private
 	 */
-	Tone.FMOscillator.prototype._stop = function(time){
+	FMOscillator.prototype._stop = function(time){
 		time = this.toSeconds(time);
 		this._modulator.stop(time);
 		this._carrier.stop(time);
@@ -134,44 +137,44 @@ function(Tone){
 
 	/**
 	 * The type of the carrier oscillator
-	 * @memberOf Tone.FMOscillator#
+	 * @memberOf FMOscillator#
 	 * @type {string}
 	 * @name type
 	 */
-	Object.defineProperty(Tone.FMOscillator.prototype, "type", {
+	Object.defineProperty(FMOscillator.prototype, "type", {
 		get : function(){
 			return this._carrier.type;
 		},
 		set : function(type){
-			this._carrier.type = type;	
+			this._carrier.type = type;
 		}
 	});
 
 	/**
 	 * The type of the modulator oscillator
-	 * @memberOf Tone.FMOscillator#
+	 * @memberOf FMOscillator#
 	 * @type {String}
 	 * @name modulationType
 	 */
-	Object.defineProperty(Tone.FMOscillator.prototype, "modulationType", {
+	Object.defineProperty(FMOscillator.prototype, "modulationType", {
 		get : function(){
 			return this._modulator.type;
 		},
 		set : function(type){
-			this._modulator.type = type;	
+			this._modulator.type = type;
 		}
 	});
 
 	/**
 	 * The phase of the oscillator in degrees.
-	 * @memberOf Tone.FMOscillator#
+	 * @memberOf FMOscillator#
 	 * @type {number}
 	 * @name phase
 	 */
-	Object.defineProperty(Tone.FMOscillator.prototype, "phase", {
+	Object.defineProperty(FMOscillator.prototype, "phase", {
 		get : function(){
 			return this._carrier.phase;
-		}, 
+		},
 		set : function(phase){
 			this._carrier.phase = phase;
 			this._modulator.phase = phase;
@@ -179,22 +182,22 @@ function(Tone){
 	});
 
 	/**
-	 * The partials of the carrier waveform. A partial represents 
-	 * the amplitude at a harmonic. The first harmonic is the 
+	 * The partials of the carrier waveform. A partial represents
+	 * the amplitude at a harmonic. The first harmonic is the
 	 * fundamental frequency, the second is the octave and so on
-	 * following the harmonic series. 
-	 * Setting this value will automatically set the type to "custom". 
-	 * The value is an empty array when the type is not "custom". 
-	 * @memberOf Tone.FMOscillator#
+	 * following the harmonic series.
+	 * Setting this value will automatically set the type to "custom".
+	 * The value is an empty array when the type is not "custom".
+	 * @memberOf FMOscillator#
 	 * @type {Array}
 	 * @name partials
 	 * @example
 	 * osc.partials = [1, 0.2, 0.01];
 	 */
-	Object.defineProperty(Tone.FMOscillator.prototype, "partials", {
+	Object.defineProperty(FMOscillator.prototype, "partials", {
 		get : function(){
 			return this._carrier.partials;
-		}, 
+		},
 		set : function(partials){
 			this._carrier.partials = partials;
 		}
@@ -202,10 +205,10 @@ function(Tone){
 
 	/**
 	 *  Clean up.
-	 *  @return {Tone.FMOscillator} this
+	 *  @return {FMOscillator} this
 	 */
-	Tone.FMOscillator.prototype.dispose = function(){
-		Tone.Source.prototype.dispose.call(this);
+	FMOscillator.prototype.dispose = function(){
+		Source.prototype.dispose.call(this);
 		this._writable(["modulationIndex", "frequency", "detune", "harmonicity"]);
 		this.frequency.dispose();
 		this.frequency = null;
@@ -222,6 +225,3 @@ function(Tone){
 		this.modulationIndex = null;
 		return this;
 	};
-
-	return Tone.FMOscillator;
-});

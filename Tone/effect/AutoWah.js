@@ -1,24 +1,26 @@
-define(["Tone/core/Tone", "Tone/component/Follower", "Tone/signal/ScaleExp", 
-"Tone/effect/Effect", "Tone/component/Filter"], 
-function(Tone){
+import { Tone } from 'core';
+import { Follower } from 'component';
+import { ScaleExp } from 'signal';
+import { Effect } from 'effect';
+import { Filter } from 'component';
 
 	"use strict";
 
 	/**
-	 *  @class  Tone.AutoWah connects a Tone.Follower to a bandpass filter (Tone.Filter).
-	 *          The frequency of the filter is adjusted proportionally to the 
+	 *  @class  AutoWah connects a Follower to a bandpass filter (Filter).
+	 *          The frequency of the filter is adjusted proportionally to the
 	 *          incoming signal's amplitude. Inspiration from [Tuna.js](https://github.com/Dinahmoe/tuna).
 	 *
 	 *  @constructor
-	 *  @extends {Tone.Effect}
-	 *  @param {Frequency|Object} [baseFrequency] The frequency the filter is set 
+	 *  @extends {Effect}
+	 *  @param {Frequency|Object} [baseFrequency] The frequency the filter is set
 	 *                                            to at the low point of the wah
 	 *  @param {Positive} [octaves] The number of octaves above the baseFrequency
 	 *                                the filter will sweep to when fully open
-	 *  @param {Decibels} [sensitivity] The decibel threshold sensitivity for 
-	 *                                   the incoming signal. Normal range of -40 to 0. 
+	 *  @param {Decibels} [sensitivity] The decibel threshold sensitivity for
+	 *                                   the incoming signal. Normal range of -40 to 0.
 	 *  @example
-	 * var autoWah = new Tone.AutoWah(50, 6, -30).toMaster();
+	 * var autoWah = new AutoWah(50, 6, -30).toMaster();
 	 * //initialize the synth and connect to autowah
 	 * var synth = new Synth.connect(autoWah);
 	 * //Q value influences the effect of the wah - default is 2
@@ -26,25 +28,25 @@ function(Tone){
 	 * //more audible on higher notes
 	 * synth.triggerAttackRelease("C4", "8n")
 	 */
-	Tone.AutoWah = function(){
+	export function AutoWah(){
 
-		var options = this.optionsObject(arguments, ["baseFrequency", "octaves", "sensitivity"], Tone.AutoWah.defaults);
-		Tone.Effect.call(this, options);
+		var options = this.optionsObject(arguments, ["baseFrequency", "octaves", "sensitivity"], AutoWah.defaults);
+		Effect.call(this, options);
 
 		/**
 		 *  The envelope follower. Set the attack/release
-		 *  timing to adjust how the envelope is followed. 
-		 *  @type {Tone.Follower}
+		 *  timing to adjust how the envelope is followed.
+		 *  @type {Follower}
 		 *  @private
 		 */
-		this.follower = new Tone.Follower(options.follower);
+		this.follower = new Follower(options.follower);
 
 		/**
 		 *  scales the follower value to the frequency domain
 		 *  @type {Tone}
 		 *  @private
 		 */
-		this._sweepRange = new Tone.ScaleExp(0, 1, 0.5);
+		this._sweepRange = new ScaleExp(0, 1, 0.5);
 
 		/**
 		 *  @type {number}
@@ -60,26 +62,26 @@ function(Tone){
 
 		/**
 		 *  the input gain to adjust the sensitivity
-		 *  @type {Tone.Gain}
+		 *  @type {Gain}
 		 *  @private
 		 */
-		this._inputBoost = new Tone.Gain();
+		this._inputBoost = new Gain();
 
 		/**
 		 *  @type {BiquadFilterNode}
 		 *  @private
 		 */
-		this._bandpass = new Tone.Filter({
+		this._bandpass = new Filter({
 			"rolloff" : -48,
 			"frequency" : 0,
 			"Q" : options.Q,
 		});
-	
+
 		/**
-		 *  @type {Tone.Filter}
+		 *  @type {Filter}
 		 *  @private
 		 */
-		this._peaking = new Tone.Filter(0, "peaking");
+		this._peaking = new Filter(0, "peaking");
 		this._peaking.gain.value = options.gain;
 
 		/**
@@ -109,13 +111,13 @@ function(Tone){
 		this._readOnly(["gain", "Q"]);
 	};
 
-	Tone.extend(Tone.AutoWah, Tone.Effect);
+	Tone.extend(AutoWah, Effect);
 
 	/**
 	 *  @static
 	 *  @type {Object}
 	 */
-	Tone.AutoWah.defaults = {
+	AutoWah.defaults = {
 		"baseFrequency" : 100,
 		"octaves" : 6,
 		"sensitivity" : 0,
@@ -128,16 +130,16 @@ function(Tone){
 	};
 
 	/**
-	 * The number of octaves that the filter will sweep above the 
-	 * baseFrequency. 
-	 * @memberOf Tone.AutoWah#
+	 * The number of octaves that the filter will sweep above the
+	 * baseFrequency.
+	 * @memberOf AutoWah#
 	 * @type {Number}
 	 * @name octaves
 	 */
-	Object.defineProperty(Tone.AutoWah.prototype, "octaves", {
+	Object.defineProperty(AutoWah.prototype, "octaves", {
 		get : function(){
 			return this._octaves;
-		}, 
+		},
 		set : function(octaves){
 			this._octaves = octaves;
 			this._setSweepRange();
@@ -146,14 +148,14 @@ function(Tone){
 
 	/**
 	 * The base frequency from which the sweep will start from.
-	 * @memberOf Tone.AutoWah#
+	 * @memberOf AutoWah#
 	 * @type {Frequency}
 	 * @name baseFrequency
 	 */
-	Object.defineProperty(Tone.AutoWah.prototype, "baseFrequency", {
+	Object.defineProperty(AutoWah.prototype, "baseFrequency", {
 		get : function(){
 			return this._baseFrequency;
-		}, 
+		},
 		set : function(baseFreq){
 			this._baseFrequency = baseFreq;
 			this._setSweepRange();
@@ -161,15 +163,15 @@ function(Tone){
 	});
 
 	/**
-	 * The sensitivity to control how responsive to the input signal the filter is. 
-	 * @memberOf Tone.AutoWah#
+	 * The sensitivity to control how responsive to the input signal the filter is.
+	 * @memberOf AutoWah#
 	 * @type {Decibels}
 	 * @name sensitivity
 	 */
-	Object.defineProperty(Tone.AutoWah.prototype, "sensitivity", {
+	Object.defineProperty(AutoWah.prototype, "sensitivity", {
 		get : function(){
 			return this.gainToDb(1 / this._inputBoost.gain.value);
-		}, 
+		},
 		set : function(sensitivy){
 			this._inputBoost.gain.value = 1 / this.dbToGain(sensitivy);
 		}
@@ -179,17 +181,17 @@ function(Tone){
 	 *  sets the sweep range of the scaler
 	 *  @private
 	 */
-	Tone.AutoWah.prototype._setSweepRange = function(){
+	AutoWah.prototype._setSweepRange = function(){
 		this._sweepRange.min = this._baseFrequency;
 		this._sweepRange.max = Math.min(this._baseFrequency * Math.pow(2, this._octaves), this.context.sampleRate / 2);
 	};
 
 	/**
 	 *  Clean up.
-	 *  @returns {Tone.AutoWah} this
+	 *  @returns {AutoWah} this
 	 */
-	Tone.AutoWah.prototype.dispose = function(){
-		Tone.Effect.prototype.dispose.call(this);
+	AutoWah.prototype.dispose = function(){
+		Effect.prototype.dispose.call(this);
 		this.follower.dispose();
 		this.follower = null;
 		this._sweepRange.dispose();
@@ -205,6 +207,3 @@ function(Tone){
 		this.Q = null;
 		return this;
 	};
-
-	return Tone.AutoWah;
-});

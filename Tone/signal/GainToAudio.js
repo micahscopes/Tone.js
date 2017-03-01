@@ -1,39 +1,38 @@
-define(["Tone/core/Tone", "Tone/signal/WaveShaper", "Tone/signal/Signal"], function(Tone){
+import { Tone } from 'core';
+import { WaveShaper } from 'signal';
+import { Signal } from 'signal';
 
 	"use strict";
 
 	/**
-	 *  @class Maps a NormalRange [0, 1] to an AudioRange [-1, 1]. 
-	 *         See also Tone.AudioToGain. 
+	 *  @class Maps a NormalRange [0, 1] to an AudioRange [-1, 1].
+	 *         See also AudioToGain.
 	 *
-	 *  @extends {Tone.SignalBase}
+	 *  @extends {SignalBase}
 	 *  @constructor
 	 *  @example
-	 * var g2a = new Tone.GainToAudio();
+	 * var g2a = new GainToAudio();
 	 */
-	Tone.GainToAudio = function(){
+	export function GainToAudio(){
 
 		/**
 		 *  @type {WaveShaperNode}
 		 *  @private
 		 */
-		this._norm = this.input = this.output = new Tone.WaveShaper(function(x){
+		this._norm = this.input = this.output = new WaveShaper(function(x){
 			return Math.abs(x) * 2 - 1;
 		});
 	};
 
-	Tone.extend(Tone.GainToAudio, Tone.SignalBase);
+	Tone.extend(GainToAudio, SignalBase);
 
 	/**
 	 *  clean up
-	 *  @returns {Tone.GainToAudio} this
+	 *  @returns {GainToAudio} this
 	 */
-	Tone.GainToAudio.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	GainToAudio.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._norm.dispose();
 		this._norm = null;
 		return this;
 	};
-
-	return Tone.GainToAudio;
-});

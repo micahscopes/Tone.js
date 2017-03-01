@@ -1,5 +1,6 @@
-define(["Tone/core/Tone", "Tone/effect/StereoEffect", "Tone/effect/FeedbackEffect"], 
-function(Tone){
+import { Tone } from 'core';
+import { StereoEffect } from 'effect';
+import { FeedbackEffect } from 'effect';
 
 	"use strict";
 
@@ -8,12 +9,12 @@ function(Tone){
 	 *         and right to left instead of on the same channel.
 	 *
 	 *	@constructor
-	 *	@extends {Tone.FeedbackEffect}
+	 *	@extends {FeedbackEffect}
 	 */
-	Tone.StereoXFeedbackEffect = function(){
+	export function StereoXFeedbackEffect(){
 
-		var options = this.optionsObject(arguments, ["feedback"], Tone.FeedbackEffect.defaults);
-		Tone.StereoEffect.call(this, options);
+		var options = this.optionsObject(arguments, ["feedback"], FeedbackEffect.defaults);
+		StereoEffect.call(this, options);
 
 		/**
 		 *  The amount of feedback from the output
@@ -22,21 +23,21 @@ function(Tone){
 		 *  @type {NormalRange}
 		 *  @signal
 		 */
-		this.feedback = new Tone.Signal(options.feedback, Tone.Type.NormalRange);
+		this.feedback = new Signal(options.feedback, Type.NormalRange);
 
 		/**
 		 *  the left side feeback
-		 *  @type {Tone.Gain}
+		 *  @type {Gain}
 		 *  @private
 		 */
-		this._feedbackLR = new Tone.Gain();
+		this._feedbackLR = new Gain();
 
 		/**
 		 *  the right side feeback
-		 *  @type {Tone.Gain}
+		 *  @type {Gain}
 		 *  @private
 		 */
-		this._feedbackRL = new Tone.Gain();
+		this._feedbackRL = new Gain();
 
 		//connect it up
 		this.effectReturnL.chain(this._feedbackLR, this.effectSendR);
@@ -45,14 +46,14 @@ function(Tone){
 		this._readOnly(["feedback"]);
 	};
 
-	Tone.extend(Tone.StereoXFeedbackEffect, Tone.FeedbackEffect);
+	Tone.extend(StereoXFeedbackEffect, FeedbackEffect);
 
 	/**
 	 *  clean up
-	 *  @returns {Tone.StereoXFeedbackEffect} this
+	 *  @returns {StereoXFeedbackEffect} this
 	 */
-	Tone.StereoXFeedbackEffect.prototype.dispose = function(){
-		Tone.StereoEffect.prototype.dispose.call(this);
+	StereoXFeedbackEffect.prototype.dispose = function(){
+		StereoEffect.prototype.dispose.call(this);
 		this._writable(["feedback"]);
 		this.feedback.dispose();
 		this.feedback = null;
@@ -62,6 +63,3 @@ function(Tone){
 		this._feedbackRL = null;
 		return this;
 	};
-
-	return Tone.StereoXFeedbackEffect;
-});

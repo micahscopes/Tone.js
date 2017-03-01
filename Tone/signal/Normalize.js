@@ -1,20 +1,22 @@
-define(["Tone/core/Tone", "Tone/signal/Add", "Tone/signal/Multiply"], function(Tone){
+import { Tone } from 'core';
+import { Add } from 'signal';
+import { Multiply } from 'signal';
 
 	"use strict";
 
 	/**
 	 *  @class Normalize takes an input min and max and maps it linearly to NormalRange [0,1]
 	 *
-	 *  @extends {Tone.SignalBase}
+	 *  @extends {SignalBase}
 	 *  @constructor
 	 *  @param {number} inputMin the min input value
 	 *  @param {number} inputMax the max input value
 	 *  @example
-	 * var norm = new Tone.Normalize(2, 4);
-	 * var sig = new Tone.Signal(3).connect(norm);
-	 * //output of norm is 0.5. 
+	 * var norm = new Normalize(2, 4);
+	 * var sig = new Signal(3).connect(norm);
+	 * //output of norm is 0.5.
 	 */
-	Tone.Normalize = function(inputMin, inputMax){
+	export function Normalize(inputMin, inputMax){
 
 		/**
 		 *  the min input value
@@ -32,31 +34,31 @@ define(["Tone/core/Tone", "Tone/signal/Add", "Tone/signal/Multiply"], function(T
 
 		/**
 		 *  subtract the min from the input
-		 *  @type {Tone.Add}
+		 *  @type {Add}
 		 *  @private
 		 */
-		this._sub = this.input = new Tone.Add(0);
+		this._sub = this.input = new Add(0);
 
 		/**
 		 *  divide by the difference between the input and output
-		 *  @type {Tone.Multiply}
+		 *  @type {Multiply}
 		 *  @private
 		 */
-		this._div = this.output = new Tone.Multiply(1);
+		this._div = this.output = new Multiply(1);
 
 		this._sub.connect(this._div);
 		this._setRange();
 	};
 
-	Tone.extend(Tone.Normalize, Tone.SignalBase);
+	Tone.extend(Normalize, SignalBase);
 
 	/**
 	 * The minimum value the input signal will reach.
-	 * @memberOf Tone.Normalize#
+	 * @memberOf Normalize#
 	 * @type {number}
 	 * @name min
 	 */
-	Object.defineProperty(Tone.Normalize.prototype, "min", {
+	Object.defineProperty(Normalize.prototype, "min", {
 		get : function(){
 			return this._inputMin;
 		},
@@ -68,11 +70,11 @@ define(["Tone/core/Tone", "Tone/signal/Add", "Tone/signal/Multiply"], function(T
 
 	/**
 	 * The maximum value the input signal will reach.
-	 * @memberOf Tone.Normalize#
+	 * @memberOf Normalize#
 	 * @type {number}
 	 * @name max
 	 */
-	Object.defineProperty(Tone.Normalize.prototype, "max", {
+	Object.defineProperty(Normalize.prototype, "max", {
 		get : function(){
 			return this._inputMax;
 		},
@@ -86,23 +88,20 @@ define(["Tone/core/Tone", "Tone/signal/Add", "Tone/signal/Multiply"], function(T
 	 *  set the values
 	 *  @private
 	 */
-	Tone.Normalize.prototype._setRange = function() {
+	Normalize.prototype._setRange = function() {
 		this._sub.value = -this._inputMin;
 		this._div.value = 1 / (this._inputMax - this._inputMin);
 	};
 
 	/**
 	 *  clean up
-	 *  @returns {Tone.Normalize} this
+	 *  @returns {Normalize} this
 	 */
-	Tone.Normalize.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	Normalize.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._sub.dispose();
 		this._sub = null;
 		this._div.dispose();
 		this._div = null;
 		return this;
 	};
-
-	return Tone.Normalize;
-});

@@ -1,45 +1,48 @@
-define(["Tone/core/Tone", "Tone/component/LFO", "Tone/component/CrossFade", 
-	"Tone/signal/Signal", "Tone/effect/FeedbackEffect", "Tone/core/Delay"], 
-function (Tone) {
+import { Tone } from 'core';
+import { LFO } from 'component';
+import { CrossFade } from 'component';
+import { Signal } from 'signal';
+import { FeedbackEffect } from 'effect';
+import { Delay } from 'core';
 
 	"use strict";
 
 	/**
-	 *  @class Tone.PitchShift does near-realtime pitch shifting to the incoming signal. 
+	 *  @class PitchShift does near-realtime pitch shifting to the incoming signal.
 	 *         The effect is achieved by speeding up or slowing down the delayTime
-	 *         of a DelayNode using a sawtooth wave. 
+	 *         of a DelayNode using a sawtooth wave.
 	 *         Algorithm found in [this pdf](http://dsp-book.narod.ru/soundproc.pdf).
 	 *         Additional reference by [Miller Pucket](http://msp.ucsd.edu/techniques/v0.11/book-html/node115.html).
-	 *         
-	 *  @extends {Tone.FeedbackEffect}
-	 *  @param {Interval=} pitch The interval to transpose the incoming signal by. 
+	 *
+	 *  @extends {FeedbackEffect}
+	 *  @param {Interval=} pitch The interval to transpose the incoming signal by.
 	 */
-	Tone.PitchShift = function(){
+	export function PitchShift(){
 
-		var options = this.optionsObject(arguments, ["pitch"], Tone.PitchShift.defaults);
-		Tone.FeedbackEffect.call(this, options);
+		var options = this.optionsObject(arguments, ["pitch"], PitchShift.defaults);
+		FeedbackEffect.call(this, options);
 
 		/**
 		 *  The pitch signal
-		 *  @type  {Tone.Signal}
+		 *  @type  {Signal}
 		 *  @private
 		 */
-		this._frequency = new Tone.Signal(0);
+		this._frequency = new Signal(0);
 
 		/**
 		 *  Uses two DelayNodes to cover up the jump in
-		 *  the sawtooth wave. 
+		 *  the sawtooth wave.
 		 *  @type  {DelayNode}
 		 *  @private
 		 */
-		this._delayA = new Tone.Delay(0, 1);
+		this._delayA = new Delay(0, 1);
 
 		/**
 		 *  The first LFO.
-		 *  @type  {Tone.LFO}
+		 *  @type  {LFO}
 		 *  @private
 		 */
-		this._lfoA = new Tone.LFO({
+		this._lfoA = new LFO({
 			"min" : 0,
 			"max" : 0.1,
 			"type" : "sawtooth"
@@ -51,14 +54,14 @@ function (Tone) {
 		 *  @type  {DelayNode}
 		 *  @private
 		 */
-		this._delayB = new Tone.Delay(0, 1);
+		this._delayB = new Delay(0, 1);
 
 		/**
 		 *  The first LFO.
-		 *  @type  {Tone.LFO}
+		 *  @type  {LFO}
 		 *  @private
 		 */
-		this._lfoB = new Tone.LFO({
+		this._lfoB = new LFO({
 			"min" : 0,
 			"max" : 0.1,
 			"type" : "sawtooth",
@@ -68,19 +71,19 @@ function (Tone) {
 		/**
 		 *  Crossfade quickly between the two delay lines
 		 *  to cover up the jump in the sawtooth wave
-		 *  @type  {Tone.CrossFade}
+		 *  @type  {CrossFade}
 		 *  @private
 		 */
-		this._crossFade = new Tone.CrossFade();
+		this._crossFade = new CrossFade();
 
 		/**
 		 *  LFO which alternates between the two
 		 *  delay lines to cover up the disparity in the
-		 *  sawtooth wave. 
-		 *  @type  {Tone.LFO}
+		 *  sawtooth wave.
+		 *  @type  {LFO}
 		 *  @private
 		 */
-		this._crossFadeLFO = new Tone.LFO({
+		this._crossFadeLFO = new LFO({
 			"min" : 0,
 			"max" : 1,
 			"type" : "triangle",
@@ -89,10 +92,10 @@ function (Tone) {
 
 		/**
 		 *  The delay node
-		 *  @type {Tone.Delay}
+		 *  @type {Delay}
 		 *  @private
 		 */
-		this._feedbackDelay = new Tone.Delay(options.delayTime);
+		this._feedbackDelay = new Delay(options.delayTime);
 
 		/**
 		 *  The amount of delay on the input signal
@@ -133,7 +136,7 @@ function (Tone) {
 		this.windowSize = this._windowSize;
 	};
 
-	Tone.extend(Tone.PitchShift, Tone.FeedbackEffect);
+	Tone.extend(PitchShift, FeedbackEffect);
 
 	/**
 	 *  default values
@@ -141,7 +144,7 @@ function (Tone) {
 	 *  @type {Object}
 	 *  @const
 	 */
-	Tone.PitchShift.defaults = {
+	PitchShift.defaults = {
 		"pitch" : 0,
 		"windowSize" : 0.1,
 		"delayTime" : 0,
@@ -150,15 +153,15 @@ function (Tone) {
 
 	/**
 	 * Repitch the incoming signal by some interval (measured
-	 * in semi-tones). 
-	 * @memberOf Tone.PitchShift#
+	 * in semi-tones).
+	 * @memberOf PitchShift#
 	 * @type {Interval}
 	 * @name pitch
 	 * @example
 	 * pitchShift.pitch = -12; //down one octave
 	 * pitchShift.pitch = 7; //up a fifth
 	 */
-	Object.defineProperty(Tone.PitchShift.prototype, "pitch", {
+	Object.defineProperty(PitchShift.prototype, "pitch", {
 		get : function(){
 			return this._pitch;
 		},
@@ -183,17 +186,17 @@ function (Tone) {
 	});
 
 	/**
-	 * The window size corresponds roughly to the sample length in a looping sampler. 
+	 * The window size corresponds roughly to the sample length in a looping sampler.
 	 * Smaller values are desirable for a less noticeable delay time of the pitch shifted
-	 * signal, but larger values will result in smoother pitch shifting for larger intervals. 
-	 * A nominal range of 0.03 to 0.1 is recommended. 
-	 * @memberOf Tone.PitchShift#
+	 * signal, but larger values will result in smoother pitch shifting for larger intervals.
+	 * A nominal range of 0.03 to 0.1 is recommended.
+	 * @memberOf PitchShift#
 	 * @type {Time}
 	 * @name windowSize
 	 * @example
 	 * pitchShift.windowSize = 0.1;
 	 */
-	Object.defineProperty(Tone.PitchShift.prototype, "windowSize", {
+	Object.defineProperty(PitchShift.prototype, "windowSize", {
 		get : function(){
 			return this._windowSize;
 		},
@@ -205,10 +208,10 @@ function (Tone) {
 
 	/**
 	 *  Clean up.
-	 *  @return  {Tone.PitchShift}  this
+	 *  @return  {PitchShift}  this
 	 */
-	Tone.PitchShift.prototype.dispose = function(){
-		Tone.FeedbackEffect.prototype.dispose.call(this);
+	PitchShift.prototype.dispose = function(){
+		FeedbackEffect.prototype.dispose.call(this);
 		this._frequency.dispose();
 		this._frequency = null;
 		this._delayA.disconnect();
@@ -229,6 +232,3 @@ function (Tone) {
 		this.delayTime = null;
 		return this;
 	};
-
-	return Tone.PitchShift;
-});

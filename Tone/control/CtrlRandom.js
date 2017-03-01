@@ -1,4 +1,5 @@
-define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
+import { Tone } from 'core';
+import { Type } from 'type';
 
 	"use strict";
 
@@ -6,7 +7,7 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	 *  @class  Choose a random value.
 	 *  @extends {Tone}
 	 *  @example
-	 * var randomWalk = new Tone.CtrlRandom({
+	 * var randomWalk = new CtrlRandom({
 	 * 	"min" : 0,
 	 * 	"max" : 10,
 	 * 	"integer" : true
@@ -16,9 +17,9 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 	 *  @param {Number|Time=} min The minimum return value.
 	 *  @param {Number|Time=} max The maximum return value.
 	 */
-	Tone.CtrlRandom = function(){
+	export function CtrlRandom(){
 
-		var options = this.optionsObject(arguments, ["min", "max"], Tone.CtrlRandom.defaults);
+		var options = this.optionsObject(arguments, ["min", "max"], CtrlRandom.defaults);
 
 		/**
 		 *  The minimum return value
@@ -39,31 +40,31 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 		this.integer = options.integer;
 	};
 
-	Tone.extend(Tone.CtrlRandom);
+	Tone.extend(CtrlRandom);
 
 	/**
 	 *  The defaults
 	 *  @const
 	 *  @type  {Object}
 	 */
-	Tone.CtrlRandom.defaults = {
+	CtrlRandom.defaults = {
 		"min" : 0,
 		"max" : 1,
 		"integer" : false
 	};
 
 	/**
-	 *  Return a random value between min and max. 
+	 *  Return a random value between min and max.
 	 *  @readOnly
-	 *  @memberOf Tone.CtrlRandom#
+	 *  @memberOf CtrlRandom#
 	 *  @type {*}
 	 *  @name value
 	 */
-	Object.defineProperty(Tone.CtrlRandom.prototype, "value", {
+	Object.defineProperty(CtrlRandom.prototype, "value", {
 		get : function(){
 			var min = this.toSeconds(this.min);
 			var max = this.toSeconds(this.max);
-			var rand = Math.random(); 
+			var rand = Math.random();
 			var val =  rand * min + (1 - rand) * max;
 			if (this.integer){
 				val = Math.floor(val);
@@ -71,6 +72,3 @@ define(["Tone/core/Tone", "Tone/type/Type"], function (Tone) {
 			return val;
 		}
 	});
-
-	return Tone.CtrlRandom;
-});

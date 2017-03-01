@@ -1,13 +1,14 @@
-define(["Tone/core/Tone", "Tone/core/Context"], function (Tone) {
+import { Tone } from 'core';
+import { Context } from 'core';
 
 	/**
 	 *  @class Wrapper around the OfflineAudioContext
-	 *  @extends {Tone.Context
+	 *  @extends {Context
 	 *  @param  {Number}  channels  The number of channels to render
 	 *  @param  {Number}  duration  The duration to render in samples
 	 *  @param {Number} sampleRate the sample rate to render at
 	 */
-	Tone.OfflineContext = function(channels, duration, sampleRate){
+	export function OfflineContext(channels, duration, sampleRate){
 		/**
 		 *  The offline context
 		 *  @private
@@ -16,7 +17,7 @@ define(["Tone/core/Tone", "Tone/core/Context"], function (Tone) {
 		var offlineContext = new OfflineAudioContext(channels, duration * sampleRate, sampleRate);
 
 		//wrap the methods/members
-		Tone.Context.call(this, offlineContext);
+		Context.call(this, offlineContext);
 
 		/**
 		 *  A private reference to the duration
@@ -37,13 +38,13 @@ define(["Tone/core/Tone", "Tone/core/Context"], function (Tone) {
 		this.updateInterval = this.blockTime;
 	};
 
-	Tone.extend(Tone.OfflineContext, Tone.Context);
+	Tone.extend(OfflineContext, Context);
 
 	/**
 	 *  Override the now method to point to the internal clock time
 	 *  @return  {Number}
 	 */
-	Tone.OfflineContext.prototype.now = function(){
+	OfflineContext.prototype.now = function(){
 		return this._currentTime;
 	};
 
@@ -51,7 +52,7 @@ define(["Tone/core/Tone", "Tone/core/Context"], function (Tone) {
 	 *  Overwrite this method since the worker is not necessary for the offline context
 	 *  @private
 	 */
-	Tone.OfflineContext.prototype._createWorker = function(){
+	OfflineContext.prototype._createWorker = function(){
 		//dummy worker that does nothing
 		return {
 			postMessage : function(){}
@@ -62,12 +63,12 @@ define(["Tone/core/Tone", "Tone/core/Context"], function (Tone) {
 	 *  Render the output of the OfflineContext
 	 *  @return  {Promise}
 	 */
-	Tone.OfflineContext.prototype.render = function(){
+	OfflineContext.prototype.render = function(){
 		while(this._duration - this._currentTime >= 0){
 			//invoke all the callbacks on that time
 			this.emit("tick");
 			//increment the clock
-			this._currentTime += Tone.prototype.blockTime;
+			this._currentTime += prototype.blockTime;
 		}
 
 		//promise returned is not yet implemented in all browsers
@@ -78,6 +79,3 @@ define(["Tone/core/Tone", "Tone/core/Context"], function (Tone) {
 			this._context.startRendering();
 		}.bind(this));
 	};
-
-	return Tone.OfflineContext;
-});

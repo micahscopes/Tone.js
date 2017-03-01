@@ -1,38 +1,41 @@
-define(["Tone/core/Tone", "Tone/source/Source", "Tone/source/Oscillator", "Tone/signal/Multiply", "Tone/core/Gain"], 
-function(Tone){
+import { Tone } from 'core';
+import { Source } from 'source';
+import { Oscillator } from 'source';
+import { Multiply } from 'signal';
+import { Gain } from 'core';
 
 	"use strict";
 
 	/**
-	 *  @class Tone.FatOscillator 
+	 *  @class FatOscillator
 	 *
-	 *  @extends {Tone.Oscillator}
+	 *  @extends {Oscillator}
 	 *  @constructor
-	 *  @param {Frequency} frequency The starting frequency of the oscillator. 
+	 *  @param {Frequency} frequency The starting frequency of the oscillator.
 	 *  @param {String} type The type of the carrier oscillator.
 	 *  @param {String} modulationType The type of the modulator oscillator.
 	 *  @example
 	 * //a sine oscillator frequency-modulated by a square wave
-	 * var fmOsc = new Tone.FatOscillator("Ab3", "sine", "square").toMaster().start();
+	 * var fmOsc = new FatOscillator("Ab3", "sine", "square").toMaster().start();
 	 */
-	Tone.FatOscillator = function(){
+	export function FatOscillator(){
 
-		var options = this.optionsObject(arguments, ["frequency", "type", "spread"], Tone.FatOscillator.defaults);
-		Tone.Source.call(this, options);
+		var options = this.optionsObject(arguments, ["frequency", "type", "spread"], FatOscillator.defaults);
+		Source.call(this, options);
 
 		/**
 		 *  The oscillator's frequency
 		 *  @type {Frequency}
 		 *  @signal
 		 */
-		this.frequency = new Tone.Signal(options.frequency, Tone.Type.Frequency);
+		this.frequency = new Signal(options.frequency, Type.Frequency);
 
 		/**
 		 *  The detune control signal.
 		 *  @type {Cents}
 		 *  @signal
 		 */
-		this.detune = new Tone.Signal(options.detune, Tone.Type.Cents);
+		this.detune = new Signal(options.detune, Type.Cents);
 
 		/**
 		 *  The array of oscillators
@@ -75,7 +78,7 @@ function(Tone){
 		this._readOnly(["frequency", "detune"]);
 	};
 
-	Tone.extend(Tone.FatOscillator, Tone.Oscillator);
+	Tone.extend(FatOscillator, Oscillator);
 
 	/**
 	 *  default values
@@ -83,7 +86,7 @@ function(Tone){
 	 *  @type {Object}
 	 *  @const
 	 */
-	Tone.FatOscillator.defaults = {
+	FatOscillator.defaults = {
 		"frequency" : 440,
 		"detune" : 0,
 		"phase" : 0,
@@ -97,7 +100,7 @@ function(Tone){
 	 *  @param  {Time} [time=now]
 	 *  @private
 	 */
-	Tone.FatOscillator.prototype._start = function(time){
+	FatOscillator.prototype._start = function(time){
 		time = this.toSeconds(time);
 		this._forEach(function(osc){
 			osc.start(time);
@@ -109,7 +112,7 @@ function(Tone){
 	 *  @param  {Time} time (optional) timing parameter
 	 *  @private
 	 */
-	Tone.FatOscillator.prototype._stop = function(time){
+	FatOscillator.prototype._stop = function(time){
 		time = this.toSeconds(time);
 		this._forEach(function(osc){
 			osc.stop(time);
@@ -121,7 +124,7 @@ function(Tone){
 	 *  @param  {Function}  iterator  The iterator function
 	 *  @private
 	 */
-	Tone.FatOscillator.prototype._forEach = function(iterator){
+	FatOscillator.prototype._forEach = function(iterator){
 		for (var i = 0; i < this._oscillators.length; i++){
 			iterator.call(this, this._oscillators[i], i);
 		}
@@ -129,11 +132,11 @@ function(Tone){
 
 	/**
 	 * The type of the carrier oscillator
-	 * @memberOf Tone.FatOscillator#
+	 * @memberOf FatOscillator#
 	 * @type {string}
 	 * @name type
 	 */
-	Object.defineProperty(Tone.FatOscillator.prototype, "type", {
+	Object.defineProperty(FatOscillator.prototype, "type", {
 		get : function(){
 			return this._type;
 		},
@@ -150,11 +153,11 @@ function(Tone){
 	 * set to 3 oscillators and the "spread" is set to 40,
 	 * the three oscillators would be detuned like this: [-20, 0, 20]
 	 * for a total detune spread of 40 cents.
-	 * @memberOf Tone.FatOscillator#
+	 * @memberOf FatOscillator#
 	 * @type {Cents}
 	 * @name spread
 	 */
-	Object.defineProperty(Tone.FatOscillator.prototype, "spread", {
+	Object.defineProperty(FatOscillator.prototype, "spread", {
 		get : function(){
 			return this._spread;
 		},
@@ -172,11 +175,11 @@ function(Tone){
 
 	/**
 	 * The number of detuned oscillators
-	 * @memberOf Tone.FatOscillator#
+	 * @memberOf FatOscillator#
 	 * @type {Number}
 	 * @name count
 	 */
-	Object.defineProperty(Tone.FatOscillator.prototype, "count", {
+	Object.defineProperty(FatOscillator.prototype, "count", {
 		get : function(){
 			return this._oscillators.length;
 		},
@@ -191,8 +194,8 @@ function(Tone){
 				});
 				this._oscillators = [];
 				for (var i = 0; i < count; i++){
-					var osc = new Tone.Oscillator();
-					if (this.type === Tone.Oscillator.Type.Custom){
+					var osc = new Oscillator();
+					if (this.type === Oscillator.Type.Custom){
 						osc.partials = this._partials;
 					} else {
 						osc.type = this._type;
@@ -206,10 +209,10 @@ function(Tone){
 				}
 				//set the spread
 				this.spread = this._spread;
-				if (this.state === Tone.State.Started){
+				if (this.state === State.Started){
 					this._forEach(function(osc){
 						osc.start();
-					});						
+					});
 				}
 			}
 		}
@@ -217,14 +220,14 @@ function(Tone){
 
 	/**
 	 * The phase of the oscillator in degrees.
-	 * @memberOf Tone.FatOscillator#
+	 * @memberOf FatOscillator#
 	 * @type {Number}
 	 * @name phase
 	 */
-	Object.defineProperty(Tone.FatOscillator.prototype, "phase", {
+	Object.defineProperty(FatOscillator.prototype, "phase", {
 		get : function(){
 			return this._phase;
-		}, 
+		},
 		set : function(phase){
 			this._phase = phase;
 			this._forEach(function(osc){
@@ -234,25 +237,25 @@ function(Tone){
 	});
 
 	/**
-	 * The partials of the carrier waveform. A partial represents 
-	 * the amplitude at a harmonic. The first harmonic is the 
+	 * The partials of the carrier waveform. A partial represents
+	 * the amplitude at a harmonic. The first harmonic is the
 	 * fundamental frequency, the second is the octave and so on
-	 * following the harmonic series. 
-	 * Setting this value will automatically set the type to "custom". 
-	 * The value is an empty array when the type is not "custom". 
-	 * @memberOf Tone.FatOscillator#
+	 * following the harmonic series.
+	 * Setting this value will automatically set the type to "custom".
+	 * The value is an empty array when the type is not "custom".
+	 * @memberOf FatOscillator#
 	 * @type {Array}
 	 * @name partials
 	 * @example
 	 * osc.partials = [1, 0.2, 0.01];
 	 */
-	Object.defineProperty(Tone.FatOscillator.prototype, "partials", {
+	Object.defineProperty(FatOscillator.prototype, "partials", {
 		get : function(){
 			return this._partials;
-		}, 
+		},
 		set : function(partials){
 			this._partials = partials;
-			this._type = Tone.Oscillator.Type.Custom;
+			this._type = Oscillator.Type.Custom;
 			this._forEach(function(osc){
 				osc.partials = partials;
 			});
@@ -261,10 +264,10 @@ function(Tone){
 
 	/**
 	 *  Clean up.
-	 *  @return {Tone.FatOscillator} this
+	 *  @return {FatOscillator} this
 	 */
-	Tone.FatOscillator.prototype.dispose = function(){
-		Tone.Source.prototype.dispose.call(this);
+	FatOscillator.prototype.dispose = function(){
+		Source.prototype.dispose.call(this);
 		this._writable(["frequency", "detune"]);
 		this.frequency.dispose();
 		this.frequency = null;
@@ -277,6 +280,3 @@ function(Tone){
 		this._partials = null;
 		return this;
 	};
-
-	return Tone.FatOscillator;
-});

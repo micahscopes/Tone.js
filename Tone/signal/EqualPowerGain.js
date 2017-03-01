@@ -1,22 +1,23 @@
-define(["Tone/core/Tone", "Tone/signal/WaveShaper"], function(Tone){
+import { Tone } from 'core';
+import { WaveShaper } from 'signal';
 
 	"use strict";
 
 	/**
 	 *  @class Convert an incoming signal between 0, 1 to an equal power gain scale.
 	 *
-	 *  @extends {Tone.SignalBase}
+	 *  @extends {SignalBase}
 	 *  @constructor
 	 *  @example
-	 * var eqPowGain = new Tone.EqualPowerGain();
+	 * var eqPowGain = new EqualPowerGain();
 	 */
-	Tone.EqualPowerGain = function(){
+	export function EqualPowerGain(){
 
 		/**
-		 *  @type {Tone.WaveShaper}
+		 *  @type {WaveShaper}
 		 *  @private
 		 */
-		this._eqPower = this.input = this.output = new Tone.WaveShaper(function(val){
+		this._eqPower = this.input = this.output = new WaveShaper(function(val){
 			if (Math.abs(val) < 0.001){
 				//should output 0 when input is 0
 				return 0;
@@ -26,18 +27,15 @@ define(["Tone/core/Tone", "Tone/signal/WaveShaper"], function(Tone){
 		}.bind(this), 4096);
 	};
 
-	Tone.extend(Tone.EqualPowerGain, Tone.SignalBase);
+	Tone.extend(EqualPowerGain, SignalBase);
 
 	/**
 	 *  clean up
-	 *  @returns {Tone.EqualPowerGain} this
+	 *  @returns {EqualPowerGain} this
 	 */
-	Tone.EqualPowerGain.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	EqualPowerGain.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._eqPower.dispose();
 		this._eqPower = null;
 		return this;
 	};
-
-	return Tone.EqualPowerGain;
-});

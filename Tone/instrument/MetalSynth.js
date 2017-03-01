@@ -1,6 +1,12 @@
-define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillator", "Tone/component/Filter", 
-	"Tone/component/FrequencyEnvelope", "Tone/component/AmplitudeEnvelope", "Tone/core/Gain", "Tone/signal/Scale", "Tone/signal/Multiply"], 
-	function (Tone) {
+import { Tone } from 'core';
+import { Instrument } from 'instrument';
+import { FMOscillator } from 'source';
+import { Filter } from 'component';
+import { FrequencyEnvelope } from 'component';
+import { AmplitudeEnvelope } from 'component';
+import { Gain } from 'core';
+import { Scale } from 'signal';
+import { Multiply } from 'signal';
 
 	/**
 	 *  Inharmonic ratio of frequencies based on the Roland TR-808
@@ -18,21 +24,21 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillato
 	 *          Inspiration from [Sound on Sound](http://www.soundonsound.com/sos/jul02/articles/synthsecrets0702.asp).
 	 *
 	 *  @constructor
-	 *  @extends {Tone.Instrument}
+	 *  @extends {Instrument}
 	 *  @param {Object} [options] The options availble for the synth
 	 *                             see defaults below
 	 */
-	Tone.MetalSynth = function(options){
+	export function MetalSynth(options){
 
-		options = this.defaultArg(options, Tone.MetalSynth.defaults);
-		Tone.Instrument.call(this, options);
+		options = this.defaultArg(options, MetalSynth.defaults);
+		Instrument.call(this, options);
 
 		/**
 		 *  The frequency of the cymbal
 		 *  @type  {Frequency}
 		 *  @signal
 		 */
-		this.frequency = new Tone.Signal(options.frequency, Tone.Type.Frequency);
+		this.frequency = new Signal(options.frequency, Type.Frequency);
 
 		/**
 		 *  The array of FMOscillators
@@ -50,17 +56,17 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillato
 
 		/**
 		 *  The amplitude for the body
-		 *  @type {Tone.Gain}
+		 *  @type {Gain}
 		 *  @private
 		 */
-		this._amplitue = new Tone.Gain(0).connect(this.output);
+		this._amplitue = new Gain(0).connect(this.output);
 
 		/**
 		 *  highpass the output
-		 *  @type {Tone.Filter}
+		 *  @type {Filter}
 		 *  @private
 		 */
-		this._highpass = new Tone.Filter({
+		this._highpass = new Filter({
 			"type" : "highpass",
 			"Q" : -3.0102999566398125
 		}).connect(this._amplitue);
@@ -76,17 +82,17 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillato
 		/**
 		 *  Scale the body envelope
 		 *  for the bandpass
-		 *  @type {Tone.Scale}
+		 *  @type {Scale}
 		 *  @private
 		 */
-		this._filterFreqScaler = new Tone.Scale(options.resonance, 7000);
+		this._filterFreqScaler = new Scale(options.resonance, 7000);
 
 		/**
-		 *  The envelope which is connected both to the 
+		 *  The envelope which is connected both to the
 		 *  amplitude and highpass filter's cutoff frequency
-		 *  @type  {Tone.Envelope}
+		 *  @type  {Envelope}
 		 */
-		this.envelope = new Tone.Envelope({
+		this.envelope = new Envelope({
 			"attack" : options.envelope.attack,
 			"attackCurve" : "linear",
 			"decay" : options.envelope.decay,
@@ -96,7 +102,7 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillato
 		this.envelope.connect(this._amplitue.gain);
 
 		for (var i = 0; i < inharmRatios.length; i++){
-			var osc = new Tone.FMOscillator({
+			var osc = new FMOscillator({
 				"type" : "square",
 				"modulationType" : "square",
 				"harmonicity" : options.harmonicity,
@@ -105,7 +111,7 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillato
 			osc.connect(this._highpass).start(0);
 			this._oscillators[i] = osc;
 
-			var mult = new Tone.Multiply(inharmRatios[i]);
+			var mult = new Multiply(inharmRatios[i]);
 			this._freqMultipliers[i] = mult;
 			this.frequency.chain(mult, osc.frequency);
 		}
@@ -115,7 +121,7 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillato
 
 	};
 
-	Tone.extend(Tone.MetalSynth, Tone.Instrument);
+	Tone.extend(MetalSynth, Instrument);
 
 	/**
 	 *  default values
@@ -123,7 +129,7 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillato
 	 *  @const
 	 *  @type {Object}
 	 */
-	Tone.MetalSynth.defaults = {
+	MetalSynth.defaults = {
 		"frequency" : 200,
 		"envelope" : {
 			"attack" : 0.001,
@@ -140,9 +146,9 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillato
 	 *  Trigger the attack.
 	 *  @param  {Time}  time      When the attack should be triggered.
 	 *  @param  {NormalRange=1}  velocity  The velocity that the envelope should be triggered at.
-	 *  @return  {Tone.MetalSynth}  this
+	 *  @return  {MetalSynth}  this
 	 */
-	Tone.MetalSynth.prototype.triggerAttack = function(time, vel) {
+	MetalSynth.prototype.triggerAttack = function(time, vel) {
 		time = this.toSeconds(time);
 		vel = this.defaultArg(vel, 1);
 		this.envelope.triggerAttack(time, vel);
@@ -152,23 +158,23 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillato
 	/**
 	 *  Trigger the release of the envelope.
 	 *  @param  {Time}  time      When the release should be triggered.
-	 *  @return  {Tone.MetalSynth}  this
+	 *  @return  {MetalSynth}  this
 	 */
-	Tone.MetalSynth.prototype.triggerRelease = function(time) {
+	MetalSynth.prototype.triggerRelease = function(time) {
 		time = this.toSeconds(time);
 		this.envelope.triggerRelease(time);
 		return this;
 	};
 
 	/**
-	 *  Trigger the attack and release of the envelope after the given 
-	 *  duration. 
+	 *  Trigger the attack and release of the envelope after the given
+	 *  duration.
 	 *  @param  {Time}  duration  The duration before triggering the release
 	 *  @param  {Time}  time      When the attack should be triggered.
 	 *  @param  {NormalRange=1}  velocity  The velocity that the envelope should be triggered at.
-	 *  @return  {Tone.MetalSynth}  this
+	 *  @return  {MetalSynth}  this
 	 */
-	Tone.MetalSynth.prototype.triggerAttackRelease = function(duration, time, velocity) {
+	MetalSynth.prototype.triggerAttackRelease = function(duration, time, velocity) {
 		time = this.toSeconds(time);
 		duration = this.toSeconds(duration);
 		this.triggerAttack(time, velocity);
@@ -178,12 +184,12 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillato
 
 	/**
 	 *  The modulationIndex of the oscillators which make up the source.
-	 *  see Tone.FMOscillator.modulationIndex
-	 *  @memberOf Tone.MetalSynth#
+	 *  see FMOscillator.modulationIndex
+	 *  @memberOf MetalSynth#
 	 *  @type {Positive}
 	 *  @name  modulationIndex
 	 */
-	Object.defineProperty(Tone.MetalSynth.prototype, "modulationIndex", {
+	Object.defineProperty(MetalSynth.prototype, "modulationIndex", {
 		get : function(){
 			return this._oscillators[0].modulationIndex.value;
 		},
@@ -196,12 +202,12 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillato
 
 	/**
 	 *  The harmonicity of the oscillators which make up the source.
-	 *  see Tone.FMOscillator.harmonicity
-	 *  @memberOf Tone.MetalSynth#
+	 *  see FMOscillator.harmonicity
+	 *  @memberOf MetalSynth#
 	 *  @type {Positive}
 	 *  @name  harmonicity
 	 */
-	Object.defineProperty(Tone.MetalSynth.prototype, "harmonicity", {
+	Object.defineProperty(MetalSynth.prototype, "harmonicity", {
 		get : function(){
 			return this._oscillators[0].harmonicity.value;
 		},
@@ -214,11 +220,11 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillato
 
 	/**
 	 *  The frequency of the highpass filter attached to the envelope
-	 *  @memberOf Tone.MetalSynth#
+	 *  @memberOf MetalSynth#
 	 *  @type {Frequency}
 	 *  @name  resonance
 	 */
-	Object.defineProperty(Tone.MetalSynth.prototype, "resonance", {
+	Object.defineProperty(MetalSynth.prototype, "resonance", {
 		get : function(){
 			return this._filterFreqScaler.min;
 		},
@@ -231,11 +237,11 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillato
 	/**
 	 *  The number of octaves above the "resonance" frequency
 	 *  that the filter ramps during the attack/decay envelope
-	 *  @memberOf Tone.MetalSynth#
+	 *  @memberOf MetalSynth#
 	 *  @type {Number}
 	 *  @name  octaves
 	 */
-	Object.defineProperty(Tone.MetalSynth.prototype, "octaves", {
+	Object.defineProperty(MetalSynth.prototype, "octaves", {
 		get : function(){
 			return this._octaves;
 		},
@@ -247,10 +253,10 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillato
 
 	/**
 	 *  Clean up
-	 *  @returns {Tone.MetalSynth} this
+	 *  @returns {MetalSynth} this
 	 */
-	Tone.MetalSynth.prototype.dispose = function(){
-		Tone.Instrument.prototype.dispose.call(this);
+	MetalSynth.prototype.dispose = function(){
+		Instrument.prototype.dispose.call(this);
 		for (var i = 0; i < this._oscillators.length; i++){
 			this._oscillators[i].dispose();
 			this._freqMultipliers[i].dispose();
@@ -268,6 +274,3 @@ define(["Tone/core/Tone", "Tone/instrument/Instrument", "Tone/source/FMOscillato
 		this._highpass.dispose();
 		this._highpass = null;
 	};
-
-	return Tone.MetalSynth;
-});

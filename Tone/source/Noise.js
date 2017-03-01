@@ -1,35 +1,36 @@
-define(["Tone/core/Tone", "Tone/source/Source"], function(Tone){
+import { Tone } from 'core';
+import { Source } from 'source';
 
 	"use strict";
 
 	/**
-	 *  @class  Tone.Noise is a noise generator. It uses looped noise buffers to save on performance.
-	 *          Tone.Noise supports the noise types: "pink", "white", and "brown". Read more about
+	 *  @class  Noise is a noise generator. It uses looped noise buffers to save on performance.
+	 *          Noise supports the noise types: "pink", "white", and "brown". Read more about
 	 *          colors of noise on [Wikipedia](https://en.wikipedia.org/wiki/Colors_of_noise).
 	 *
 	 *  @constructor
-	 *  @extends {Tone.Source}
+	 *  @extends {Source}
 	 *  @param {string} type the noise type (white|pink|brown)
 	 *  @example
 	 * //initialize the noise and start
-	 * var noise = new Tone.Noise("pink").start();
-	 * 
+	 * var noise = new Noise("pink").start();
+	 *
 	 * //make an autofilter to shape the noise
-	 * var autoFilter = new Tone.AutoFilter({
-	 * 	"frequency" : "8m", 
-	 * 	"min" : 800, 
+	 * var autoFilter = new AutoFilter({
+	 * 	"frequency" : "8m",
+	 * 	"min" : 800,
 	 * 	"max" : 15000
-	 * }).connect(Tone.Master);
-	 * 
+	 * }).connect(Master);
+	 *
 	 * //connect the noise
 	 * noise.connect(autoFilter);
 	 * //start the autofilter LFO
 	 * autoFilter.start()
 	 */
-	Tone.Noise = function(){
+	export function Noise(){
 
-		var options = this.optionsObject(arguments, ["type"], Tone.Noise.defaults);
-		Tone.Source.call(this, options);
+		var options = this.optionsObject(arguments, ["type"], Noise.defaults);
+		Source.call(this, options);
 
 		/**
 		 *  @private
@@ -55,7 +56,7 @@ define(["Tone/core/Tone", "Tone/source/Source"], function(Tone){
 		this.type = options.type;
 	};
 
-	Tone.extend(Tone.Noise, Tone.Source);
+	Tone.extend(Noise, Source);
 
 	/**
 	 *  the default parameters
@@ -64,20 +65,20 @@ define(["Tone/core/Tone", "Tone/source/Source"], function(Tone){
 	 *  @const
 	 *  @type {Object}
 	 */
-	Tone.Noise.defaults = {
+	Noise.defaults = {
 		"type" : "white",
 		"playbackRate" : 1
 	};
 
 	/**
-	 * The type of the noise. Can be "white", "brown", or "pink". 
-	 * @memberOf Tone.Noise#
+	 * The type of the noise. Can be "white", "brown", or "pink".
+	 * @memberOf Noise#
 	 * @type {string}
 	 * @name type
 	 * @example
 	 * noise.type = "white";
 	 */
-	Object.defineProperty(Tone.Noise.prototype, "type", {
+	Object.defineProperty(Noise.prototype, "type", {
 		get : function(){
 			if (this._buffer === _whiteNoise){
 				return "white";
@@ -86,24 +87,24 @@ define(["Tone/core/Tone", "Tone/source/Source"], function(Tone){
 			} else if (this._buffer === _pinkNoise){
 				return "pink";
 			}
-		}, 
+		},
 		set : function(type){
 			if (this.type !== type){
 				switch (type){
-					case "white" : 
+					case "white" :
 						this._buffer = _whiteNoise;
 						break;
-					case "pink" : 
+					case "pink" :
 						this._buffer = _pinkNoise;
 						break;
-					case "brown" : 
+					case "brown" :
 						this._buffer = _brownNoise;
 						break;
-					default : 
-						throw new TypeError("Tone.Noise: invalid type: "+type);
+					default :
+						throw new TypeError("Noise: invalid type: "+type);
 				}
 				//if it's playing, stop and restart it
-				if (this.state === Tone.State.Started){
+				if (this.state === State.Started){
 					var now = this.now() + this.blockTime;
 					//remove the listener
 					this._stop(now);
@@ -119,10 +120,10 @@ define(["Tone/core/Tone", "Tone/source/Source"], function(Tone){
 	 *  @type {Positive}
 	 *  @signal
 	 */
-	Object.defineProperty(Tone.Noise.prototype, "playbackRate", {
+	Object.defineProperty(Noise.prototype, "playbackRate", {
 		get : function(){
 			return this._playbackRate;
-		}, 
+		},
 		set : function(rate){
 			this._playbackRate = rate;
 			if (this._source) {
@@ -137,7 +138,7 @@ define(["Tone/core/Tone", "Tone/source/Source"], function(Tone){
 	 *  @param {Time} time
 	 *  @private
 	 */
-	Tone.Noise.prototype._start = function(time){
+	Noise.prototype._start = function(time){
 		this._source = this.context.createBufferSource();
 		this._source.buffer = this._buffer;
 		this._source.loop = true;
@@ -152,7 +153,7 @@ define(["Tone/core/Tone", "Tone/source/Source"], function(Tone){
 	 *  @param {Time} time
 	 *  @private
 	 */
-	Tone.Noise.prototype._stop = function(time){
+	Noise.prototype._stop = function(time){
 		if (this._source){
 			this._source.stop(this.toSeconds(time));
 		}
@@ -160,10 +161,10 @@ define(["Tone/core/Tone", "Tone/source/Source"], function(Tone){
 
 	/**
 	 *  Clean up.
-	 *  @returns {Tone.Noise} this
+	 *  @returns {Noise} this
 	 */
-	Tone.Noise.prototype.dispose = function(){
-		Tone.Source.prototype.dispose.call(this);
+	Noise.prototype.dispose = function(){
+		Source.prototype.dispose.call(this);
 		if (this._source !== null){
 			this._source.disconnect();
 			this._source = null;
@@ -243,9 +244,6 @@ define(["Tone/core/Tone", "Tone/source/Source"], function(Tone){
 			return buffer;
 		}());
 	}
-	createNoise(Tone.context);
+	createNoise(context);
 
-	Tone.Context.on("init", createNoise);
-
-	return Tone.Noise;
-});
+	Context.on("init", createNoise);

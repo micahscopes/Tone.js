@@ -1,25 +1,28 @@
-define(["Tone/core/Tone", "Tone/component/Filter", "Tone/signal/Signal", "Tone/core/Gain"], function(Tone){
+import { Tone } from 'core';
+import { Filter } from 'component';
+import { Signal } from 'signal';
+import { Gain } from 'core';
 
 	"use strict";
 
 	/**
 	 *  @class Split the incoming signal into three bands (low, mid, high)
-	 *         with two crossover frequency controls. 
+	 *         with two crossover frequency controls.
 	 *
 	 *  @extends {Tone}
 	 *  @constructor
 	 *  @param {Frequency|Object} [lowFrequency] the low/mid crossover frequency
 	 *  @param {Frequency} [highFrequency] the mid/high crossover frequency
 	 */
-	Tone.MultibandSplit = function(){
-		var options = this.optionsObject(arguments, ["lowFrequency", "highFrequency"], Tone.MultibandSplit.defaults);
+	export function MultibandSplit(){
+		var options = this.optionsObject(arguments, ["lowFrequency", "highFrequency"], MultibandSplit.defaults);
 
 		/**
 		 *  the input
-		 *  @type {Tone.Gain}
+		 *  @type {Gain}
 		 *  @private
 		 */
-		this.input = new Tone.Gain();
+		this.input = new Gain();
 
 		/**
 		 *  the outputs
@@ -30,49 +33,49 @@ define(["Tone/core/Tone", "Tone/component/Filter", "Tone/signal/Signal", "Tone/c
 
 		/**
 		 *  The low band. Alias for <code>output[0]</code>
-		 *  @type {Tone.Filter}
+		 *  @type {Filter}
 		 */
-		this.low = this.output[0] = new Tone.Filter(0, "lowpass");
+		this.low = this.output[0] = new Filter(0, "lowpass");
 
 		/**
 		 *  the lower filter of the mid band
-		 *  @type {Tone.Filter}
+		 *  @type {Filter}
 		 *  @private
 		 */
-		this._lowMidFilter = new Tone.Filter(0, "highpass");
+		this._lowMidFilter = new Filter(0, "highpass");
 
 		/**
 		 *  The mid band output. Alias for <code>output[1]</code>
-		 *  @type {Tone.Filter}
+		 *  @type {Filter}
 		 */
-		this.mid = this.output[1] = new Tone.Filter(0, "lowpass");
+		this.mid = this.output[1] = new Filter(0, "lowpass");
 
 		/**
 		 *  The high band output. Alias for <code>output[2]</code>
-		 *  @type {Tone.Filter}
+		 *  @type {Filter}
 		 */
-		this.high = this.output[2] = new Tone.Filter(0, "highpass");
+		this.high = this.output[2] = new Filter(0, "highpass");
 
 		/**
 		 *  The low/mid crossover frequency.
 		 *  @type {Frequency}
 		 *  @signal
 		 */
-		this.lowFrequency = new Tone.Signal(options.lowFrequency, Tone.Type.Frequency);
+		this.lowFrequency = new Signal(options.lowFrequency, Type.Frequency);
 
 		/**
 		 *  The mid/high crossover frequency.
 		 *  @type {Frequency}
 		 *  @signal
 		 */
-		this.highFrequency = new Tone.Signal(options.highFrequency, Tone.Type.Frequency);
+		this.highFrequency = new Signal(options.highFrequency, Type.Frequency);
 
 		/**
 		 *  The quality of all the filters
 		 *  @type {Number}
 		 *  @signal
 		 */
-		this.Q = new Tone.Signal(options.Q);
+		this.Q = new Signal(options.Q);
 
 		this.input.fan(this.low, this.high);
 		this.input.chain(this._lowMidFilter, this.mid);
@@ -90,14 +93,14 @@ define(["Tone/core/Tone", "Tone/component/Filter", "Tone/signal/Signal", "Tone/c
 		this._readOnly(["high", "mid", "low", "highFrequency", "lowFrequency"]);
 	};
 
-	Tone.extend(Tone.MultibandSplit);
+	Tone.extend(MultibandSplit);
 
 	/**
 	 *  @private
 	 *  @static
 	 *  @type {Object}
 	 */
-	Tone.MultibandSplit.defaults = {
+	MultibandSplit.defaults = {
 		"lowFrequency" : 400,
 		"highFrequency" : 2500,
 		"Q" : 1,
@@ -105,10 +108,10 @@ define(["Tone/core/Tone", "Tone/component/Filter", "Tone/signal/Signal", "Tone/c
 
 	/**
 	 *  Clean up.
-	 *  @returns {Tone.MultibandSplit} this
+	 *  @returns {MultibandSplit} this
 	 */
-	Tone.MultibandSplit.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	MultibandSplit.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._writable(["high", "mid", "low", "highFrequency", "lowFrequency"]);
 		this.low.dispose();
 		this.low = null;
@@ -126,6 +129,3 @@ define(["Tone/core/Tone", "Tone/component/Filter", "Tone/signal/Signal", "Tone/c
 		this.Q = null;
 		return this;
 	};
-
-	return Tone.MultibandSplit;
-});

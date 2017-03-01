@@ -1,28 +1,29 @@
-define(["Tone/core/Tone", "Tone/event/Event"], function (Tone) {
+import { Tone } from 'core';
+import { Event } from 'event';
 
 	/**
-	 *  @class Tone.Loop creates a looped callback at the 
-	 *         specified interval. The callback can be 
+	 *  @class Loop creates a looped callback at the
+	 *         specified interval. The callback can be
 	 *         started, stopped and scheduled along
-	 *         the Transport's timeline. 
+	 *         the Transport's timeline.
 	 *  @example
-	 * var loop = new Tone.Loop(function(time){
-	 * 	//triggered every eighth note. 
+	 * var loop = new Loop(function(time){
+	 * 	//triggered every eighth note.
 	 * 	console.log(time);
 	 * }, "8n").start(0);
-	 * Tone.Transport.start();
+	 * Transport.start();
 	 *  @extends {Tone}
 	 *  @param {Function} callback The callback to invoke with the event.
-	 *  @param {Time} interval The time between successive callback calls. 
+	 *  @param {Time} interval The time between successive callback calls.
 	 */
-	Tone.Loop = function(){
+	export function Loop(){
 
-		var options = this.optionsObject(arguments, ["callback", "interval"], Tone.Loop.defaults);
+		var options = this.optionsObject(arguments, ["callback", "interval"], Loop.defaults);
 
 		/**
 		 *  The event which produces the callbacks
 		 */
-		this._event = new Tone.Event({
+		this._event = new Event({
 			"callback" : this._tick.bind(this),
 			"loop" : true,
 			"loopEnd" : options.interval,
@@ -40,14 +41,14 @@ define(["Tone/core/Tone", "Tone/event/Event"], function (Tone) {
 		this.iterations = options.iterations;
 	};
 
-	Tone.extend(Tone.Loop);
+	Tone.extend(Loop);
 
 	/**
 	 *  The defaults
 	 *  @const
 	 *  @type  {Object}
 	 */
-	Tone.Loop.defaults = {
+	Loop.defaults = {
 		"interval" : "4n",
 		"callback" : Tone.noOp,
 		"playbackRate" : 1,
@@ -60,9 +61,9 @@ define(["Tone/core/Tone", "Tone/event/Event"], function (Tone) {
 	 *  Start the loop at the specified time along the Transport's
 	 *  timeline.
 	 *  @param  {TimelinePosition=}  time  When to start the Loop.
-	 *  @return  {Tone.Loop}  this
+	 *  @return  {Loop}  this
 	 */
-	Tone.Loop.prototype.start = function(time){
+	Loop.prototype.start = function(time){
 		this._event.start(time);
 		return this;
 	};
@@ -70,9 +71,9 @@ define(["Tone/core/Tone", "Tone/event/Event"], function (Tone) {
 	/**
 	 *  Stop the loop at the given time.
 	 *  @param  {TimelinePosition=}  time  When to stop the Arpeggio
-	 *  @return  {Tone.Loop}  this
+	 *  @return  {Loop}  this
 	 */
-	Tone.Loop.prototype.stop = function(time){
+	Loop.prototype.stop = function(time){
 		this._event.stop(time);
 		return this;
 	};
@@ -80,9 +81,9 @@ define(["Tone/core/Tone", "Tone/event/Event"], function (Tone) {
 	/**
 	 *  Cancel all scheduled events greater than or equal to the given time
 	 *  @param  {TimelinePosition}  [time=0]  The time after which events will be cancel.
-	 *  @return  {Tone.Loop}  this
+	 *  @return  {Loop}  this
 	 */
-	Tone.Loop.prototype.cancel = function(time){
+	Loop.prototype.cancel = function(time){
 		this._event.cancel(time);
 		return this;
 	};
@@ -92,18 +93,18 @@ define(["Tone/core/Tone", "Tone/event/Event"], function (Tone) {
 	 *  @param  {Number}  time  The time the event occurs
 	 *  @private
 	 */
-	Tone.Loop.prototype._tick = function(time){
+	Loop.prototype._tick = function(time){
 		this.callback(time);
 	};
 
 	/**
 	 *  The state of the Loop, either started or stopped.
-	 *  @memberOf Tone.Loop#
+	 *  @memberOf Loop#
 	 *  @type {String}
 	 *  @name state
 	 *  @readOnly
 	 */
-	Object.defineProperty(Tone.Loop.prototype, "state", {
+	Object.defineProperty(Loop.prototype, "state", {
 		get : function(){
 			return this._event.state;
 		}
@@ -111,27 +112,27 @@ define(["Tone/core/Tone", "Tone/event/Event"], function (Tone) {
 
 	/**
 	 *  The progress of the loop as a value between 0-1. 0, when
-	 *  the loop is stopped or done iterating. 
-	 *  @memberOf Tone.Loop#
+	 *  the loop is stopped or done iterating.
+	 *  @memberOf Loop#
 	 *  @type {NormalRange}
 	 *  @name progress
 	 *  @readOnly
 	 */
-	Object.defineProperty(Tone.Loop.prototype, "progress", {
+	Object.defineProperty(Loop.prototype, "progress", {
 		get : function(){
 			return this._event.progress;
 		}
 	});
 
 	/**
-	 *  The time between successive callbacks. 
+	 *  The time between successive callbacks.
 	 *  @example
 	 * loop.interval = "8n"; //loop every 8n
-	 *  @memberOf Tone.Loop#
+	 *  @memberOf Loop#
 	 *  @type {Time}
 	 *  @name interval
 	 */
-	Object.defineProperty(Tone.Loop.prototype, "interval", {
+	Object.defineProperty(Loop.prototype, "interval", {
 		get : function(){
 			return this._event.loopEnd;
 		},
@@ -141,13 +142,13 @@ define(["Tone/core/Tone", "Tone/event/Event"], function (Tone) {
 	});
 
 	/**
-	 *  The playback rate of the loop. The normal playback rate is 1 (no change). 
-	 *  A `playbackRate` of 2 would be twice as fast. 
-	 *  @memberOf Tone.Loop#
+	 *  The playback rate of the loop. The normal playback rate is 1 (no change).
+	 *  A `playbackRate` of 2 would be twice as fast.
+	 *  @memberOf Loop#
 	 *  @type {Time}
 	 *  @name playbackRate
 	 */
-	Object.defineProperty(Tone.Loop.prototype, "playbackRate", {
+	Object.defineProperty(Loop.prototype, "playbackRate", {
 		get : function(){
 			return this._event.playbackRate;
 		},
@@ -157,13 +158,13 @@ define(["Tone/core/Tone", "Tone/event/Event"], function (Tone) {
 	});
 
 	/**
-	 *  Random variation +/-0.01s to the scheduled time. 
+	 *  Random variation +/-0.01s to the scheduled time.
 	 *  Or give it a time value which it will randomize by.
 	 *  @type {Boolean|Time}
-	 *  @memberOf Tone.Loop#
+	 *  @memberOf Loop#
 	 *  @name humanize
 	 */
-	Object.defineProperty(Tone.Loop.prototype, "humanize", {
+	Object.defineProperty(Loop.prototype, "humanize", {
 		get : function(){
 			return this._event.humanize;
 		},
@@ -174,11 +175,11 @@ define(["Tone/core/Tone", "Tone/event/Event"], function (Tone) {
 
 	/**
 	 *  The probably of the callback being invoked.
-	 *  @memberOf Tone.Loop#
+	 *  @memberOf Loop#
 	 *  @type {NormalRange}
 	 *  @name probability
 	 */
-	Object.defineProperty(Tone.Loop.prototype, "probability", {
+	Object.defineProperty(Loop.prototype, "probability", {
 		get : function(){
 			return this._event.probability;
 		},
@@ -189,11 +190,11 @@ define(["Tone/core/Tone", "Tone/event/Event"], function (Tone) {
 
 	/**
 	 *  Muting the Loop means that no callbacks are invoked.
-	 *  @memberOf Tone.Loop#
+	 *  @memberOf Loop#
 	 *  @type {Boolean}
 	 *  @name mute
 	 */
-	Object.defineProperty(Tone.Loop.prototype, "mute", {
+	Object.defineProperty(Loop.prototype, "mute", {
 		get : function(){
 			return this._event.mute;
 		},
@@ -205,11 +206,11 @@ define(["Tone/core/Tone", "Tone/event/Event"], function (Tone) {
 	/**
 	 *  The number of iterations of the loop. The default
 	 *  value is Infinity (loop forever).
-	 *  @memberOf Tone.Loop#
+	 *  @memberOf Loop#
 	 *  @type {Positive}
 	 *  @name iterations
 	 */
-	Object.defineProperty(Tone.Loop.prototype, "iterations", {
+	Object.defineProperty(Loop.prototype, "iterations", {
 		get : function(){
 			if (this._event.loop === true){
 				return Infinity;
@@ -229,13 +230,10 @@ define(["Tone/core/Tone", "Tone/event/Event"], function (Tone) {
 
 	/**
 	 *  Clean up
-	 *  @return  {Tone.Loop}  this
+	 *  @return  {Loop}  this
 	 */
-	Tone.Loop.prototype.dispose = function(){
+	Loop.prototype.dispose = function(){
 		this._event.dispose();
 		this._event = null;
 		this.callback = null;
 	};
-
-	return Tone.Loop;
-});

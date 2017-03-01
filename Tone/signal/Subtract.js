@@ -1,29 +1,33 @@
-define(["Tone/core/Tone", "Tone/signal/Add", "Tone/signal/Negate", "Tone/signal/Signal", "Tone/core/Gain"], function(Tone){
+import { Tone } from 'core';
+import { Add } from 'signal';
+import { Negate } from 'signal';
+import { Signal } from 'signal';
+import { Gain } from 'core';
 
 	"use strict";
 
 	/**
-	 *  @class Subtract the signal connected to <code>input[1]</code> from the signal connected 
-	 *         to <code>input[0]</code>. If an argument is provided in the constructor, the 
+	 *  @class Subtract the signal connected to <code>input[1]</code> from the signal connected
+	 *         to <code>input[0]</code>. If an argument is provided in the constructor, the
 	 *         signals <code>.value</code> will be subtracted from the incoming signal.
 	 *
-	 *  @extends {Tone.Signal}
+	 *  @extends {Signal}
 	 *  @constructor
 	 *  @param {number=} value The value to subtract from the incoming signal. If the value
 	 *                         is omitted, it will subtract the second signal from the first.
 	 *  @example
-	 * var sub = new Tone.Subtract(1);
-	 * var sig = new Tone.Signal(4).connect(sub);
-	 * //the output of sub is 3. 
+	 * var sub = new Subtract(1);
+	 * var sig = new Signal(4).connect(sub);
+	 * //the output of sub is 3.
 	 *  @example
-	 * var sub = new Tone.Subtract();
-	 * var sigA = new Tone.Signal(10);
-	 * var sigB = new Tone.Signal(2.5);
+	 * var sub = new Subtract();
+	 * var sigA = new Signal(10);
+	 * var sigB = new Signal(2.5);
 	 * sigA.connect(sub, 0, 0);
 	 * sigB.connect(sub, 0, 1);
 	 * //output of sub is 7.5
 	 */
-	Tone.Subtract = function(value){
+	export function Subtract(value){
 
 		this.createInsOuts(2, 0);
 
@@ -32,34 +36,34 @@ define(["Tone/core/Tone", "Tone/signal/Add", "Tone/signal/Negate", "Tone/signal/
 		 *  @type {GainNode}
 		 *  @private
 		 */
-		this._sum = this.input[0] = this.output = new Tone.Gain();
+		this._sum = this.input[0] = this.output = new Gain();
 
 		/**
 		 *  negate the input of the second input before connecting it
 		 *  to the summing node.
-		 *  @type {Tone.Negate}
+		 *  @type {Negate}
 		 *  @private
 		 */
-		this._neg = new Tone.Negate();
+		this._neg = new Negate();
 
 		/**
 		 *  the node where the value is set
 		 *  @private
-		 *  @type {Tone.Signal}
+		 *  @type {Signal}
 		 */
-		this._param = this.input[1] = new Tone.Signal(value);
+		this._param = this.input[1] = new Signal(value);
 
 		this._param.chain(this._neg, this._sum);
 	};
 
-	Tone.extend(Tone.Subtract, Tone.Signal);
+	Tone.extend(Subtract, Signal);
 
 	/**
 	 *  Clean up.
-	 *  @returns {Tone.SignalBase} this
+	 *  @returns {SignalBase} this
 	 */
-	Tone.Subtract.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	Subtract.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._neg.dispose();
 		this._neg = null;
 		this._sum.disconnect();
@@ -68,6 +72,3 @@ define(["Tone/core/Tone", "Tone/signal/Add", "Tone/signal/Negate", "Tone/signal/
 		this._param = null;
 		return this;
 	};
-
-	return Tone.Subtract;
-});

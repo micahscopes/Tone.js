@@ -1,49 +1,51 @@
-define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/component/MidSideSplit", "Tone/component/MidSideMerge"], 
-	function(Tone){
+import { Tone } from 'core';
+import { Effect } from 'effect';
+import { MidSideSplit } from 'component';
+import { MidSideMerge } from 'component';
 
 	"use strict";
 
 	/**
-	 *  @class Mid/Side processing separates the the 'mid' signal 
-	 *         (which comes out of both the left and the right channel) 
-	 *         and the 'side' (which only comes out of the the side channels) 
+	 *  @class Mid/Side processing separates the the 'mid' signal
+	 *         (which comes out of both the left and the right channel)
+	 *         and the 'side' (which only comes out of the the side channels)
 	 *         and effects them separately before being recombined.
 	 *         Applies a Mid/Side seperation and recombination.
 	 *         Algorithm found in [kvraudio forums](http://www.kvraudio.com/forum/viewtopic.php?t=212587).
 	 *         <br><br>
-	 *         This is a base-class for Mid/Side Effects. 
+	 *         This is a base-class for Mid/Side Effects.
 	 *
-	 *  @extends {Tone.Effect}
+	 *  @extends {Effect}
 	 *  @constructor
 	 */
-	Tone.MidSideEffect = function(){
-		
-		Tone.Effect.apply(this, arguments);
+	export function MidSideEffect(){
+
+		Effect.apply(this, arguments);
 
 		/**
 		 *  The mid/side split
-		 *  @type  {Tone.MidSideSplit}
+		 *  @type  {MidSideSplit}
 		 *  @private
 		 */
-		this._midSideSplit = new Tone.MidSideSplit();
+		this._midSideSplit = new MidSideSplit();
 
 		/**
 		 *  The mid/side merge
-		 *  @type  {Tone.MidSideMerge}
+		 *  @type  {MidSideMerge}
 		 *  @private
 		 */
-		this._midSideMerge = new Tone.MidSideMerge();
+		this._midSideMerge = new MidSideMerge();
 
 		/**
 		 *  The mid send. Connect to mid processing
-		 *  @type {Tone.Expr}
+		 *  @type {Expr}
 		 *  @private
 		 */
 		this.midSend = this._midSideSplit.mid;
 
 		/**
 		 *  The side send. Connect to side processing
-		 *  @type {Tone.Expr}
+		 *  @type {Expr}
 		 *  @private
 		 */
 		this.sideSend = this._midSideSplit.side;
@@ -67,14 +69,14 @@ define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/component/MidSideSplit", "
 		this._midSideMerge.connect(this.effectReturn);
 	};
 
-	Tone.extend(Tone.MidSideEffect, Tone.Effect);
+	Tone.extend(MidSideEffect, Effect);
 
 	/**
-	 *  Clean up. 
-	 *  @returns {Tone.MidSideEffect} this
+	 *  Clean up.
+	 *  @returns {MidSideEffect} this
 	 */
-	Tone.MidSideEffect.prototype.dispose = function(){
-		Tone.Effect.prototype.dispose.call(this);
+	MidSideEffect.prototype.dispose = function(){
+		Effect.prototype.dispose.call(this);
 		this._midSideSplit.dispose();
 		this._midSideSplit = null;
 		this._midSideMerge.dispose();
@@ -85,6 +87,3 @@ define(["Tone/core/Tone", "Tone/effect/Effect", "Tone/component/MidSideSplit", "
 		this.sideReturn = null;
 		return this;
 	};
-
-	return Tone.MidSideEffect;
-});

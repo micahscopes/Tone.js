@@ -1,31 +1,32 @@
-define(["Tone/core/Tone", "Tone/component/ScaledEnvelope", "Tone/component/Envelope"], 
-	function(Tone){
+import { Tone } from 'core';
+import { ScaledEnvelope } from 'component';
+import { Envelope } from 'component';
 
 	"use strict";
 
 	/**
-	 *  @class Tone.FrequencyEnvelope is a Tone.ScaledEnvelope, but instead of `min` and `max`
-	 *         it's got a `baseFrequency` and `octaves` parameter. 
+	 *  @class FrequencyEnvelope is a ScaledEnvelope, but instead of `min` and `max`
+	 *         it's got a `baseFrequency` and `octaves` parameter.
 	 *
-	 *  @extends {Tone.Envelope}
+	 *  @extends {Envelope}
 	 *  @constructor
 	 *  @param {Time|Object} [attack]	the attack time in seconds
 	 *  @param {Time} [decay]	the decay time in seconds
 	 *  @param {number} [sustain] 	a percentage (0-1) of the full amplitude
 	 *  @param {Time} [release]	the release time in seconds
 	 *  @example
-	 *  var env = new Tone.FrequencyEnvelope({
+	 *  var env = new FrequencyEnvelope({
 	 *  	"attack" : 0.2,
 	 *  	"baseFrequency" : "C2",
 	 *  	"octaves" : 4
 	 *  });
 	 *  scaledEnv.connect(oscillator.frequency);
 	 */
-	Tone.FrequencyEnvelope = function(){
+	export function FrequencyEnvelope(){
 
-		var options = this.optionsObject(arguments, ["attack", "decay", "sustain", "release"], Tone.Envelope.defaults);
-		Tone.ScaledEnvelope.call(this, options);
-		options = this.defaultArg(options, Tone.FrequencyEnvelope.defaults);
+		var options = this.optionsObject(arguments, ["attack", "decay", "sustain", "release"], Envelope.defaults);
+		ScaledEnvelope.call(this, options);
+		options = this.defaultArg(options, FrequencyEnvelope.defaults);
 
 		/**
 		 *  Stores the octave value
@@ -39,13 +40,13 @@ define(["Tone/core/Tone", "Tone/component/ScaledEnvelope", "Tone/component/Envel
 		this.octaves = options.octaves;
 	};
 
-	Tone.extend(Tone.FrequencyEnvelope, Tone.Envelope);
+	Tone.extend(FrequencyEnvelope, Envelope);
 
 	/**
 	 *  the default parameters
 	 *  @static
 	 */
-	Tone.FrequencyEnvelope.defaults = {
+	FrequencyEnvelope.defaults = {
 		"baseFrequency" : 200,
 		"octaves" : 4,
 		"exponent" : 2
@@ -53,12 +54,12 @@ define(["Tone/core/Tone", "Tone/component/ScaledEnvelope", "Tone/component/Envel
 
 	/**
 	 * The envelope's mininum output value. This is the value which it
-	 * starts at. 
-	 * @memberOf Tone.FrequencyEnvelope#
+	 * starts at.
+	 * @memberOf FrequencyEnvelope#
 	 * @type {Frequency}
 	 * @name baseFrequency
 	 */
-	Object.defineProperty(Tone.FrequencyEnvelope.prototype, "baseFrequency", {
+	Object.defineProperty(FrequencyEnvelope.prototype, "baseFrequency", {
 		get : function(){
 			return this._scale.min;
 		},
@@ -72,11 +73,11 @@ define(["Tone/core/Tone", "Tone/component/ScaledEnvelope", "Tone/component/Envel
 	/**
 	 * The number of octaves above the baseFrequency that the
 	 * envelope will scale to.
-	 * @memberOf Tone.FrequencyEnvelope#
+	 * @memberOf FrequencyEnvelope#
 	 * @type {Positive}
 	 * @name octaves
 	 */
-	Object.defineProperty(Tone.FrequencyEnvelope.prototype, "octaves", {
+	Object.defineProperty(FrequencyEnvelope.prototype, "octaves", {
 		get : function(){
 			return this._octaves;
 		},
@@ -87,12 +88,12 @@ define(["Tone/core/Tone", "Tone/component/ScaledEnvelope", "Tone/component/Envel
 	});
 
 	/**
-	 * The envelope's exponent value. 
-	 * @memberOf Tone.FrequencyEnvelope#
+	 * The envelope's exponent value.
+	 * @memberOf FrequencyEnvelope#
 	 * @type {number}
 	 * @name exponent
 	 */
-	Object.defineProperty(Tone.FrequencyEnvelope.prototype, "exponent", {
+	Object.defineProperty(FrequencyEnvelope.prototype, "exponent", {
 		get : function(){
 			return this._exp.value;
 		},
@@ -100,15 +101,15 @@ define(["Tone/core/Tone", "Tone/component/ScaledEnvelope", "Tone/component/Envel
 			this._exp.value = exp;
 		}
 	});
-	
+
 	/**
 	 *  clean up
-	 *  @returns {Tone.FrequencyEnvelope} this
+	 *  @returns {FrequencyEnvelope} this
 	 */
-	Tone.FrequencyEnvelope.prototype.dispose = function(){
-		Tone.ScaledEnvelope.prototype.dispose.call(this);
+	FrequencyEnvelope.prototype.dispose = function(){
+		ScaledEnvelope.prototype.dispose.call(this);
 		return this;
 	};
 
-	return Tone.FrequencyEnvelope;
+	return FrequencyEnvelope;
 });

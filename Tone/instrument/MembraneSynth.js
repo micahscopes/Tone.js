@@ -1,42 +1,43 @@
-define(["Tone/core/Tone", "Tone/source/OmniOscillator", "Tone/instrument/Instrument", 
-	"Tone/component/AmplitudeEnvelope"],
-function(Tone){
+import { Tone } from 'core';
+import { OmniOscillator } from 'source';
+import { Instrument } from 'instrument';
+import { AmplitudeEnvelope } from 'component';
 
 	"use strict";
 
 	/**
-	 *  @class  Tone.MembraneSynth makes kick and tom sounds using a single oscillator
-	 *          with an amplitude envelope and frequency ramp. A Tone.OmniOscillator
-	 *          is routed through a Tone.AmplitudeEnvelope to the output. The drum
+	 *  @class  MembraneSynth makes kick and tom sounds using a single oscillator
+	 *          with an amplitude envelope and frequency ramp. A OmniOscillator
+	 *          is routed through a AmplitudeEnvelope to the output. The drum
 	 *          quality of the sound comes from the frequency envelope applied
-	 *          during during Tone.MembraneSynth.triggerAttack(note). The frequency
-	 *          envelope starts at <code>note * .octaves</code> and ramps to 
-	 *          <code>note</code> over the duration of <code>.pitchDecay</code>. 
+	 *          during during MembraneSynth.triggerAttack(note). The frequency
+	 *          envelope starts at <code>note * .octaves</code> and ramps to
+	 *          <code>note</code> over the duration of <code>.pitchDecay</code>.
 	 *
 	 *  @constructor
-	 *  @extends {Tone.Instrument}
-	 *  @param {Object} [options] the options available for the synth 
+	 *  @extends {Instrument}
+	 *  @param {Object} [options] the options available for the synth
 	 *                          see defaults below
 	 *  @example
-	 * var synth = new Tone.MembraneSynth().toMaster();
+	 * var synth = new MembraneSynth().toMaster();
 	 * synth.triggerAttackRelease("C2", "8n");
 	 */
-	Tone.MembraneSynth = function(options){
+	export function MembraneSynth(options){
 
-		options = this.defaultArg(options, Tone.MembraneSynth.defaults);
-		Tone.Instrument.call(this, options);
+		options = this.defaultArg(options, MembraneSynth.defaults);
+		Instrument.call(this, options);
 
 		/**
 		 *  The oscillator.
-		 *  @type {Tone.OmniOscillator}
+		 *  @type {OmniOscillator}
 		 */
-		this.oscillator = new Tone.OmniOscillator(options.oscillator).start();
+		this.oscillator = new OmniOscillator(options.oscillator).start();
 
 		/**
 		 *  The amplitude envelope.
-		 *  @type {Tone.AmplitudeEnvelope}
+		 *  @type {AmplitudeEnvelope}
 		 */
-		this.envelope = new Tone.AmplitudeEnvelope(options.envelope);
+		this.envelope = new AmplitudeEnvelope(options.envelope);
 
 		/**
 		 *  The number of octaves the pitch envelope ramps.
@@ -45,7 +46,7 @@ function(Tone){
 		this.octaves = options.octaves;
 
 		/**
-		 *  The amount of time the frequency envelope takes. 
+		 *  The amount of time the frequency envelope takes.
 		 *  @type {Time}
 		 */
 		this.pitchDecay = options.pitchDecay;
@@ -54,13 +55,13 @@ function(Tone){
 		this._readOnly(["oscillator", "envelope"]);
 	};
 
-	Tone.extend(Tone.MembraneSynth, Tone.Instrument);
+	Tone.extend(MembraneSynth, Instrument);
 
 	/**
 	 *  @static
 	 *  @type {Object}
 	 */
-	Tone.MembraneSynth.defaults = {
+	MembraneSynth.defaults = {
 		"pitchDecay" : 0.05,
 		"octaves" : 10,
 		"oscillator" : {
@@ -76,16 +77,16 @@ function(Tone){
 	};
 
 	/**
-	 *  Trigger the note at the given time with the given velocity. 
-	 *  
+	 *  Trigger the note at the given time with the given velocity.
+	 *
 	 *  @param  {Frequency} note     the note
 	 *  @param  {Time} [time=now]     the time, if not given is now
 	 *  @param  {number} [velocity=1] velocity defaults to 1
-	 *  @returns {Tone.MembraneSynth} this
+	 *  @returns {MembraneSynth} this
 	 *  @example
 	 *  kick.triggerAttack(60);
 	 */
-	Tone.MembraneSynth.prototype.triggerAttack = function(note, time, velocity) {
+	MembraneSynth.prototype.triggerAttack = function(note, time, velocity) {
 		time = this.toSeconds(time);
 		note = this.toFrequency(note);
 		var maxNote = note * this.octaves;
@@ -97,21 +98,21 @@ function(Tone){
 
 	/**
 	 *  Trigger the release portion of the note.
-	 *  
+	 *
 	 *  @param  {Time} [time=now] the time the note will release
-	 *  @returns {Tone.MembraneSynth} this
+	 *  @returns {MembraneSynth} this
 	 */
-	Tone.MembraneSynth.prototype.triggerRelease = function(time){
+	MembraneSynth.prototype.triggerRelease = function(time){
 		this.envelope.triggerRelease(time);
 		return this;
 	};
 
 	/**
 	 *  Clean up.
-	 *  @returns {Tone.MembraneSynth} this
+	 *  @returns {MembraneSynth} this
 	 */
-	Tone.MembraneSynth.prototype.dispose = function(){
-		Tone.Instrument.prototype.dispose.call(this);
+	MembraneSynth.prototype.dispose = function(){
+		Instrument.prototype.dispose.call(this);
 		this._writable(["oscillator", "envelope"]);
 		this.oscillator.dispose();
 		this.oscillator = null;
@@ -119,6 +120,3 @@ function(Tone){
 		this.envelope = null;
 		return this;
 	};
-
-	return Tone.MembraneSynth;
-});

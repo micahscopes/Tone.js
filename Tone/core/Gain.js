@@ -1,18 +1,20 @@
-define(["Tone/core/Tone", "Tone/core/Param", "Tone/type/Type"], function (Tone) {
+import { Tone } from 'core';
+import { Param } from 'core';
+import { Type } from 'type';
 
 	"use strict";
 
 	/**
 	 *  @class A thin wrapper around the Native Web Audio GainNode.
 	 *         The GainNode is a basic building block of the Web Audio
-	 *         API and is useful for routing audio and adjusting gains. 
+	 *         API and is useful for routing audio and adjusting gains.
 	 *  @extends {Tone}
 	 *  @param  {Number=}  gain  The initial gain of the GainNode
-	 *  @param {Tone.Type=} units The units of the gain parameter. 
+	 *  @param {Type=} units The units of the gain parameter.
 	 */
-	Tone.Gain = function(){
+	export function Gain(){
 
-		var options = this.optionsObject(arguments, ["gain", "units"], Tone.Gain.defaults);
+		var options = this.optionsObject(arguments, ["gain", "units"], Gain.defaults);
 
 		/**
 		 *  The GainNode
@@ -23,11 +25,11 @@ define(["Tone/core/Tone", "Tone/core/Param", "Tone/type/Type"], function (Tone) 
 
 		/**
 		 *  The gain parameter of the gain node.
-		 *  @type {Tone.Param}
+		 *  @type {Param}
 		 *  @signal
 		 */
-		this.gain = new Tone.Param({
-			"param" : this._gainNode.gain, 
+		this.gain = new Param({
+			"param" : this._gainNode.gain,
 			"units" : options.units,
 			"value" : options.gain,
 			"convert" : options.convert
@@ -35,24 +37,24 @@ define(["Tone/core/Tone", "Tone/core/Param", "Tone/type/Type"], function (Tone) 
 		this._readOnly("gain");
 	};
 
-	Tone.extend(Tone.Gain);
+	Tone.extend(Gain);
 
 	/**
 	 *  The defaults
 	 *  @const
 	 *  @type  {Object}
 	 */
-	Tone.Gain.defaults = {
+	Gain.defaults = {
 		"gain" : 1,
 		"convert" : true,
 	};
 
 	/**
 	 *  Clean up.
-	 *  @return  {Tone.Gain}  this
+	 *  @return  {Gain}  this
 	 */
-	Tone.Gain.prototype.dispose = function(){
-		Tone.Param.prototype.dispose.call(this);
+	Gain.prototype.dispose = function(){
+		Param.prototype.dispose.call(this);
 		this._gainNode.disconnect();
 		this._gainNode = null;
 		this._writable("gain");
@@ -69,22 +71,19 @@ define(["Tone/core/Tone", "Tone/core/Param", "Tone/type/Type"], function (Tone) 
 	 *  @return  {Tone}  this
 	 *  @internal
 	 */
-	Tone.prototype.createInsOuts = function(inputs, outputs){
+	prototype.createInsOuts = function(inputs, outputs){
 
 		if (inputs === 1){
-			this.input = new Tone.Gain();
+			this.input = new Gain();
 		} else if (inputs > 1){
 			this.input = new Array(inputs);
 		}
 
 		if (outputs === 1){
-			this.output = new Tone.Gain();
+			this.output = new Gain();
 		} else if (outputs > 1){
 			this.output = new Array(inputs);
 		}
 	};
 
 	///////////////////////////////////////////////////////////////////////////
-
-	return Tone.Gain;
-});

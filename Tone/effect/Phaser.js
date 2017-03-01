@@ -1,47 +1,49 @@
-define(["Tone/core/Tone", "Tone/component/LFO", "Tone/component/Filter", "Tone/effect/StereoEffect"], 
-function(Tone){
+import { Tone } from 'core';
+import { LFO } from 'component';
+import { Filter } from 'component';
+import { StereoEffect } from 'effect';
 
 	"use strict";
 
 	/**
-	 *  @class Tone.Phaser is a phaser effect. Phasers work by changing the phase
-	 *         of different frequency components of an incoming signal. Read more on 
-	 *         [Wikipedia](https://en.wikipedia.org/wiki/Phaser_(effect)). 
+	 *  @class Phaser is a phaser effect. Phasers work by changing the phase
+	 *         of different frequency components of an incoming signal. Read more on
+	 *         [Wikipedia](https://en.wikipedia.org/wiki/Phaser_(effect)).
 	 *         Inspiration for this phaser comes from [Tuna.js](https://github.com/Dinahmoe/tuna/).
 	 *
-	 *	@extends {Tone.StereoEffect}
+	 *	@extends {StereoEffect}
 	 *	@constructor
-	 *	@param {Frequency|Object} [frequency] The speed of the phasing. 
-	 *	@param {number} [octaves] The octaves of the effect. 
-	 *	@param {Frequency} [baseFrequency] The base frequency of the filters. 
+	 *	@param {Frequency|Object} [frequency] The speed of the phasing.
+	 *	@param {number} [octaves] The octaves of the effect.
+	 *	@param {Frequency} [baseFrequency] The base frequency of the filters.
 	 *	@example
-	 * var phaser = new Tone.Phaser({
-	 * 	"frequency" : 15, 
-	 * 	"octaves" : 5, 
+	 * var phaser = new Phaser({
+	 * 	"frequency" : 15,
+	 * 	"octaves" : 5,
 	 * 	"baseFrequency" : 1000
 	 * }).toMaster();
-	 * var synth = new Tone.FMSynth().connect(phaser);
+	 * var synth = new FMSynth().connect(phaser);
 	 * synth.triggerAttackRelease("E3", "2n");
 	 */
-	Tone.Phaser = function(){
+	export function Phaser(){
 
 		//set the defaults
-		var options = this.optionsObject(arguments, ["frequency", "octaves", "baseFrequency"], Tone.Phaser.defaults);
-		Tone.StereoEffect.call(this, options);
+		var options = this.optionsObject(arguments, ["frequency", "octaves", "baseFrequency"], Phaser.defaults);
+		StereoEffect.call(this, options);
 
 		/**
 		 *  the lfo which controls the frequency on the left side
-		 *  @type {Tone.LFO}
+		 *  @type {LFO}
 		 *  @private
 		 */
-		this._lfoL = new Tone.LFO(options.frequency, 0, 1);
+		this._lfoL = new LFO(options.frequency, 0, 1);
 
 		/**
 		 *  the lfo which controls the frequency on the right side
-		 *  @type {Tone.LFO}
+		 *  @type {LFO}
 		 *  @private
 		 */
-		this._lfoR = new Tone.LFO(options.frequency, 0, 1);
+		this._lfoR = new LFO(options.frequency, 0, 1);
 		this._lfoR.phase = 180;
 
 		/**
@@ -63,8 +65,8 @@ function(Tone){
 		 *  @type {Positive}
 		 *  @signal
 		 */
-		this.Q = new Tone.Signal(options.Q, Tone.Type.Positive);
-		
+		this.Q = new Signal(options.Q, Type.Positive);
+
 		/**
 		 *  the array of filters for the left side
 		 *  @type {Array}
@@ -81,11 +83,11 @@ function(Tone){
 
 		/**
 		 * the frequency of the effect
-		 * @type {Tone.Signal}
+		 * @type {Signal}
 		 */
 		this.frequency = this._lfoL.frequency;
 		this.frequency.value = options.frequency;
-		
+
 		//connect them up
 		this.effectSendL.connect(this._filtersL[0]);
 		this.effectSendR.connect(this._filtersR[0]);
@@ -102,14 +104,14 @@ function(Tone){
 		this._readOnly(["frequency", "Q"]);
 	};
 
-	Tone.extend(Tone.Phaser, Tone.StereoEffect);
+	Tone.extend(Phaser, StereoEffect);
 
 	/**
 	 *  defaults
 	 *  @static
 	 *  @type {object}
 	 */
-	Tone.Phaser.defaults = {
+	Phaser.defaults = {
 		"frequency" : 0.5,
 		"octaves" : 3,
 		"stages" : 10,
@@ -122,7 +124,7 @@ function(Tone){
 	 *  @returns {Array} the number of filters all connected together
 	 *  @private
 	 */
-	Tone.Phaser.prototype._makeFilters = function(stages, connectToFreq, Q){
+	Phaser.prototype._makeFilters = function(stages, connectToFreq, Q){
 		var filters = new Array(stages);
 		//make all the filters
 		for (var i = 0; i < stages; i++){
@@ -139,11 +141,11 @@ function(Tone){
 	/**
 	 * The number of octaves the phase goes above
 	 * the baseFrequency
-	 * @memberOf Tone.Phaser#
+	 * @memberOf Phaser#
 	 * @type {Positive}
 	 * @name octaves
 	 */
-	Object.defineProperty(Tone.Phaser.prototype, "octaves", {
+	Object.defineProperty(Phaser.prototype, "octaves", {
 		get : function(){
 			return this._octaves;
 		},
@@ -156,17 +158,17 @@ function(Tone){
 	});
 
 	/**
-	 * The the base frequency of the filters. 
-	 * @memberOf Tone.Phaser#
+	 * The the base frequency of the filters.
+	 * @memberOf Phaser#
 	 * @type {number}
 	 * @name baseFrequency
 	 */
-	Object.defineProperty(Tone.Phaser.prototype, "baseFrequency", {
+	Object.defineProperty(Phaser.prototype, "baseFrequency", {
 		get : function(){
 			return this._baseFrequency;
 		},
 		set : function(freq){
-			this._baseFrequency = freq;	
+			this._baseFrequency = freq;
 			this._lfoL.min = freq;
 			this._lfoR.min = freq;
 			this.octaves = this._octaves;
@@ -175,10 +177,10 @@ function(Tone){
 
 	/**
 	 *  clean up
-	 *  @returns {Tone.Phaser} this
+	 *  @returns {Phaser} this
 	 */
-	Tone.Phaser.prototype.dispose = function(){
-		Tone.StereoEffect.prototype.dispose.call(this);
+	Phaser.prototype.dispose = function(){
+		StereoEffect.prototype.dispose.call(this);
 		this._writable(["frequency", "Q"]);
 		this.Q.dispose();
 		this.Q = null;
@@ -199,6 +201,3 @@ function(Tone){
 		this.frequency = null;
 		return this;
 	};
-
-	return Tone.Phaser;
-});

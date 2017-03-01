@@ -1,59 +1,60 @@
-define(["Tone/core/Tone", "Tone/component/Envelope", "Tone/signal/Scale"], 
-	function(Tone){
+import { Tone } from 'core';
+import { Envelope } from 'component';
+import { Scale } from 'signal';
 
 	"use strict";
 
 	/**
-	 *  @class Tone.ScaledEnvelop is an envelope which can be scaled 
-	 *         to any range. It's useful for applying an envelope 
-	 *         to a frequency or any other non-NormalRange signal 
-	 *         parameter. 
+	 *  @class ScaledEnvelop is an envelope which can be scaled
+	 *         to any range. It's useful for applying an envelope
+	 *         to a frequency or any other non-NormalRange signal
+	 *         parameter.
 	 *
-	 *  @extends {Tone.Envelope}
+	 *  @extends {Envelope}
 	 *  @constructor
 	 *  @param {Time|Object} [attack]	the attack time in seconds
 	 *  @param {Time} [decay]	the decay time in seconds
 	 *  @param {number} [sustain] 	a percentage (0-1) of the full amplitude
 	 *  @param {Time} [release]	the release time in seconds
 	 *  @example
-	 *  var scaledEnv = new Tone.ScaledEnvelope({
+	 *  var scaledEnv = new ScaledEnvelope({
 	 *  	"attack" : 0.2,
 	 *  	"min" : 200,
 	 *  	"max" : 2000
 	 *  });
 	 *  scaledEnv.connect(oscillator.frequency);
 	 */
-	Tone.ScaledEnvelope = function(){
+	export function ScaledEnvelope(){
 
 		//get all of the defaults
-		var options = this.optionsObject(arguments, ["attack", "decay", "sustain", "release"], Tone.Envelope.defaults);
-		Tone.Envelope.call(this, options);
-		options = this.defaultArg(options, Tone.ScaledEnvelope.defaults);
+		var options = this.optionsObject(arguments, ["attack", "decay", "sustain", "release"], Envelope.defaults);
+		Envelope.call(this, options);
+		options = this.defaultArg(options, ScaledEnvelope.defaults);
 
-		/** 
+		/**
 		 *  scale the incoming signal by an exponent
-		 *  @type {Tone.Pow}
+		 *  @type {Pow}
 		 *  @private
 		 */
-		this._exp = this.output = new Tone.Pow(options.exponent);
+		this._exp = this.output = new Pow(options.exponent);
 
 		/**
 		 *  scale the signal to the desired range
-		 *  @type {Tone.Multiply}
+		 *  @type {Multiply}
 		 *  @private
 		 */
-		this._scale = this.output = new Tone.Scale(options.min, options.max);
+		this._scale = this.output = new Scale(options.min, options.max);
 
 		this._sig.chain(this._exp, this._scale);
 	};
 
-	Tone.extend(Tone.ScaledEnvelope, Tone.Envelope);
+	Tone.extend(ScaledEnvelope, Envelope);
 
 	/**
 	 *  the default parameters
 	 *  @static
 	 */
-	Tone.ScaledEnvelope.defaults = {
+	ScaledEnvelope.defaults = {
 		"min" : 0,
 		"max" : 1,
 		"exponent" : 1
@@ -61,12 +62,12 @@ define(["Tone/core/Tone", "Tone/component/Envelope", "Tone/signal/Scale"],
 
 	/**
 	 * The envelope's min output value. This is the value which it
-	 * starts at. 
-	 * @memberOf Tone.ScaledEnvelope#
+	 * starts at.
+	 * @memberOf ScaledEnvelope#
 	 * @type {number}
 	 * @name min
 	 */
-	Object.defineProperty(Tone.ScaledEnvelope.prototype, "min", {
+	Object.defineProperty(ScaledEnvelope.prototype, "min", {
 		get : function(){
 			return this._scale.min;
 		},
@@ -77,12 +78,12 @@ define(["Tone/core/Tone", "Tone/component/Envelope", "Tone/signal/Scale"],
 
 	/**
 	 * The envelope's max output value. In other words, the value
-	 * at the peak of the attack portion of the envelope. 
-	 * @memberOf Tone.ScaledEnvelope#
+	 * at the peak of the attack portion of the envelope.
+	 * @memberOf ScaledEnvelope#
 	 * @type {number}
 	 * @name max
 	 */
-	Object.defineProperty(Tone.ScaledEnvelope.prototype, "max", {
+	Object.defineProperty(ScaledEnvelope.prototype, "max", {
 		get : function(){
 			return this._scale.max;
 		},
@@ -92,12 +93,12 @@ define(["Tone/core/Tone", "Tone/component/Envelope", "Tone/signal/Scale"],
 	});
 
 	/**
-	 * The envelope's exponent value. 
-	 * @memberOf Tone.ScaledEnvelope#
+	 * The envelope's exponent value.
+	 * @memberOf ScaledEnvelope#
 	 * @type {number}
 	 * @name exponent
 	 */
-	Object.defineProperty(Tone.ScaledEnvelope.prototype, "exponent", {
+	Object.defineProperty(ScaledEnvelope.prototype, "exponent", {
 		get : function(){
 			return this._exp.value;
 		},
@@ -105,19 +106,16 @@ define(["Tone/core/Tone", "Tone/component/Envelope", "Tone/signal/Scale"],
 			this._exp.value = exp;
 		}
 	});
-	
+
 	/**
 	 *  clean up
-	 *  @returns {Tone.ScaledEnvelope} this
+	 *  @returns {ScaledEnvelope} this
 	 */
-	Tone.ScaledEnvelope.prototype.dispose = function(){
-		Tone.Envelope.prototype.dispose.call(this);
+	ScaledEnvelope.prototype.dispose = function(){
+		Envelope.prototype.dispose.call(this);
 		this._scale.dispose();
 		this._scale = null;
 		this._exp.dispose();
 		this._exp = null;
 		return this;
 	};
-
-	return Tone.ScaledEnvelope;
-});

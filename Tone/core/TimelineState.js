@@ -1,4 +1,6 @@
-define(["Tone/core/Tone", "Tone/core/Timeline", "Tone/type/Type"], function (Tone) {
+import { Tone } from 'core';
+import { Timeline } from 'core';
+import { Type } from 'type';
 
 	"use strict";
 
@@ -6,13 +8,13 @@ define(["Tone/core/Tone", "Tone/core/Timeline", "Tone/type/Type"], function (Ton
 	 *  @class  A Timeline State. Provides the methods: <code>setStateAtTime("state", time)</code>
 	 *          and <code>getValueAtTime(time)</code>.
 	 *
-	 *  @extends {Tone.Timeline}
-	 *  @param {String} initial The initial state of the TimelineState. 
+	 *  @extends {Timeline}
+	 *  @param {String} initial The initial state of the TimelineState.
 	 *                          Defaults to <code>undefined</code>
 	 */
-	Tone.TimelineState = function(initial){
+	export function TimelineState(initial){
 
-		Tone.Timeline.call(this);
+		Timeline.call(this);
 
 		/**
 		 *  The initial state
@@ -22,7 +24,7 @@ define(["Tone/core/Tone", "Tone/core/Timeline", "Tone/type/Type"], function (Ton
 		this._initial = initial;
 	};
 
-	Tone.extend(Tone.TimelineState, Tone.Timeline);
+	Tone.extend(TimelineState, Timeline);
 
 	/**
 	 *  Returns the scheduled state scheduled before or at
@@ -30,7 +32,7 @@ define(["Tone/core/Tone", "Tone/core/Timeline", "Tone/type/Type"], function (Ton
 	 *  @param  {Number}  time  The time to query.
 	 *  @return  {String}  The name of the state input in setStateAtTime.
 	 */
-	Tone.TimelineState.prototype.getValueAtTime = function(time){
+	TimelineState.prototype.getValueAtTime = function(time){
 		var event = this.get(time);
 		if (event !== null){
 			return event.state;
@@ -45,12 +47,9 @@ define(["Tone/core/Tone", "Tone/core/Timeline", "Tone/type/Type"], function (Ton
 	 *  @param  {String}  state The name of the state to set.
 	 *  @param  {Number}  time  The time to query.
 	 */
-	Tone.TimelineState.prototype.setStateAtTime = function(state, time){
+	TimelineState.prototype.setStateAtTime = function(state, time){
 		this.add({
 			"state" : state,
 			"time" : time
 		});
 	};
-
-	return Tone.TimelineState;
-});

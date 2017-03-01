@@ -1,20 +1,21 @@
-define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
+import { Tone } from 'core';
+import { Type } from 'type';
 
 	"use strict";
 
 	/**
-	 *  @class Tone.Param wraps the native Web Audio's AudioParam to provide
+	 *  @class Param wraps the native Web Audio's AudioParam to provide
 	 *         additional unit conversion functionality. It also
 	 *         serves as a base-class for classes which have a single,
-	 *         automatable parameter. 
+	 *         automatable parameter.
 	 *  @extends {Tone}
 	 *  @param  {AudioParam}  param  The parameter to wrap.
-	 *  @param  {Tone.Type} units The units of the audio param.
+	 *  @param  {Type} units The units of the audio param.
 	 *  @param  {Boolean} convert If the param should be converted.
 	 */
-	Tone.Param = function(){
+	export function Param(){
 
-		var options = this.optionsObject(arguments, ["param", "units", "convert"], Tone.Param.defaults);
+		var options = this.optionsObject(arguments, ["param", "units", "convert"], Param.defaults);
 
 		/**
 		 *  The native parameter to control
@@ -25,7 +26,7 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 
 		/**
 		 *  The units of the parameter
-		 *  @type {Tone.Type}
+		 *  @type {Type}
 		 */
 		this.units = options.units;
 
@@ -36,7 +37,7 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 		this.convert = options.convert;
 
 		/**
-		 *  True if the signal value is being overridden by 
+		 *  True if the signal value is being overridden by
 		 *  a connected signal.
 		 *  @readOnly
 		 *  @type  {boolean}
@@ -46,7 +47,7 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 
 		/**
 		 *  If there is an LFO, this is where it is held.
-		 *  @type  {Tone.LFO}
+		 *  @type  {LFO}
 		 *  @private
 		 */
 		this._lfo = null;
@@ -58,40 +59,40 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 		}
 	};
 
-	Tone.extend(Tone.Param);
-	
+	Tone.extend(Param);
+
 	/**
 	 *  Defaults
 	 *  @type  {Object}
 	 *  @const
 	 */
-	Tone.Param.defaults = {
-		"units" : Tone.Type.Default,
+	Param.defaults = {
+		"units" : Type.Default,
 		"convert" : true,
 		"param" : undefined
 	};
 
 	/**
-	 * The current value of the parameter. 
-	 * @memberOf Tone.Param#
+	 * The current value of the parameter.
+	 * @memberOf Param#
 	 * @type {Number}
 	 * @name value
 	 */
-	Object.defineProperty(Tone.Param.prototype, "value", {
+	Object.defineProperty(Param.prototype, "value", {
 		get : function(){
 			return this._toUnits(this._param.value);
 		},
 		set : function(value){
 			if (this.isObject(value)){
 				//throw an error if the LFO needs to be included
-				if (this.isUndef(Tone.LFO)){
-					throw new Error("Include 'Tone.LFO' to use an LFO as a Param value.");
+				if (this.isUndef(LFO)){
+					throw new Error("Include 'LFO' to use an LFO as a Param value.");
 				}
 				//remove the old one
 				if (this._lfo){
 					this._lfo.dispose();
 				}
-				this._lfo = new Tone.LFO(value).start();
+				this._lfo = new LFO(value).start();
 				this._lfo.connect(this.input);
 			} else {
 				var convertedVal = this._fromUnits(value);
@@ -102,26 +103,26 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 	});
 
 	/**
-	 *  Convert the given value from the type specified by Tone.Param.units
+	 *  Convert the given value from the type specified by Param.units
 	 *  into the destination value (such as Gain or Frequency).
 	 *  @private
 	 *  @param  {*} val the value to convert
 	 *  @return {number}     the number which the value should be set to
 	 */
-	Tone.Param.prototype._fromUnits = function(val){
+	Param.prototype._fromUnits = function(val){
 		if (this.convert || this.isUndef(this.convert)){
 			switch(this.units){
-				case Tone.Type.Time: 
+				case Type.Time:
 					return this.toSeconds(val);
-				case Tone.Type.Frequency: 
+				case Type.Frequency:
 					return this.toFrequency(val);
-				case Tone.Type.Decibels: 
+				case Type.Decibels:
 					return this.dbToGain(val);
-				case Tone.Type.NormalRange: 
+				case Type.NormalRange:
 					return Math.min(Math.max(val, 0), 1);
-				case Tone.Type.AudioRange: 
+				case Type.AudioRange:
 					return Math.min(Math.max(val, -1), 1);
-				case Tone.Type.Positive: 
+				case Type.Positive:
 					return Math.max(val, 0);
 				default:
 					return val;
@@ -132,15 +133,15 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 	};
 
 	/**
-	 * Convert the parameters value into the units specified by Tone.Param.units.
+	 * Convert the parameters value into the units specified by Param.units.
 	 * @private
 	 * @param  {number} val the value to convert
 	 * @return {number}
 	 */
-	Tone.Param.prototype._toUnits = function(val){
+	Param.prototype._toUnits = function(val){
 		if (this.convert || this.isUndef(this.convert)){
 			switch(this.units){
-				case Tone.Type.Decibels: 
+				case Type.Decibels:
 					return this.gainToDb(val);
 				default:
 					return val;
@@ -155,18 +156,18 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 	 *  @type {Number}
 	 *  @private
 	 */
-	Tone.Param.prototype._minOutput = 0.00001;
+	Param.prototype._minOutput = 0.00001;
 
 	/**
 	 *  Schedules a parameter value change at the given time.
 	 *  @param {*}	value The value to set the signal.
 	 *  @param {Time}  time The time when the change should occur.
-	 *  @returns {Tone.Param} this
+	 *  @returns {Param} this
 	 *  @example
-	 * //set the frequency to "G4" in exactly 1 second from now. 
+	 * //set the frequency to "G4" in exactly 1 second from now.
 	 * freq.setValueAtTime("G4", "+1");
 	 */
-	Tone.Param.prototype.setValueAtTime = function(value, time){
+	Param.prototype.setValueAtTime = function(value, time){
 		value = this._fromUnits(value);
 		time = this.toSeconds(time);
 		if (time <= this.now() + this.blockTime){
@@ -179,13 +180,13 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 
 	/**
 	 *  Creates a schedule point with the current value at the current time.
-	 *  This is useful for creating an automation anchor point in order to 
-	 *  schedule changes from the current value. 
+	 *  This is useful for creating an automation anchor point in order to
+	 *  schedule changes from the current value.
 	 *
-	 *  @param {number=} now (Optionally) pass the now value in. 
-	 *  @returns {Tone.Param} this
+	 *  @param {number=} now (Optionally) pass the now value in.
+	 *  @returns {Param} this
 	 */
-	Tone.Param.prototype.setRampPoint = function(now){
+	Param.prototype.setRampPoint = function(now){
 		now = this.defaultArg(now, this.now());
 		var currentVal = this._param.value;
 		// exponentialRampToValueAt cannot ever ramp from or to 0
@@ -198,28 +199,28 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 	};
 
 	/**
-	 *  Schedules a linear continuous change in parameter value from the 
+	 *  Schedules a linear continuous change in parameter value from the
 	 *  previous scheduled parameter value to the given value.
-	 *  
-	 *  @param  {number} value   
-	 *  @param  {Time} endTime 
-	 *  @returns {Tone.Param} this
+	 *
+	 *  @param  {number} value
+	 *  @param  {Time} endTime
+	 *  @returns {Param} this
 	 */
-	Tone.Param.prototype.linearRampToValueAtTime = function(value, endTime){
+	Param.prototype.linearRampToValueAtTime = function(value, endTime){
 		value = this._fromUnits(value);
 		this._param.linearRampToValueAtTime(value, this.toSeconds(endTime));
 		return this;
 	};
 
 	/**
-	 *  Schedules an exponential continuous change in parameter value from 
+	 *  Schedules an exponential continuous change in parameter value from
 	 *  the previous scheduled parameter value to the given value.
-	 *  
-	 *  @param  {number} value   
-	 *  @param  {Time} endTime 
-	 *  @returns {Tone.Param} this
+	 *
+	 *  @param  {number} value
+	 *  @param  {Time} endTime
+	 *  @returns {Param} this
 	 */
-	Tone.Param.prototype.exponentialRampToValueAtTime = function(value, endTime){
+	Param.prototype.exponentialRampToValueAtTime = function(value, endTime){
 		value = this._fromUnits(value);
 		value = Math.max(this._minOutput, value);
 		this._param.exponentialRampToValueAtTime(value, this.toSeconds(endTime));
@@ -227,20 +228,20 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 	};
 
 	/**
-	 *  Schedules an exponential continuous change in parameter value from 
-	 *  the current time and current value to the given value over the 
+	 *  Schedules an exponential continuous change in parameter value from
+	 *  the current time and current value to the given value over the
 	 *  duration of the rampTime.
-	 *  
+	 *
 	 *  @param  {number} value   The value to ramp to.
-	 *  @param  {Time} rampTime the time that it takes the 
+	 *  @param  {Time} rampTime the time that it takes the
 	 *                               value to ramp from it's current value
-	 *  @param {Time}	[startTime=now] 	When the ramp should start. 
-	 *  @returns {Tone.Param} this
+	 *  @param {Time}	[startTime=now] 	When the ramp should start.
+	 *  @returns {Param} this
 	 *  @example
-	 * //exponentially ramp to the value 2 over 4 seconds. 
+	 * //exponentially ramp to the value 2 over 4 seconds.
 	 * signal.exponentialRampToValue(2, 4);
 	 */
-	Tone.Param.prototype.exponentialRampToValue = function(value, rampTime, startTime){
+	Param.prototype.exponentialRampToValue = function(value, rampTime, startTime){
 		startTime = this.toSeconds(startTime);
 		this.setRampPoint(startTime);
 		this.exponentialRampToValueAtTime(value, startTime + this.toSeconds(rampTime));
@@ -248,20 +249,20 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 	};
 
 	/**
-	 *  Schedules an linear continuous change in parameter value from 
-	 *  the current time and current value to the given value over the 
+	 *  Schedules an linear continuous change in parameter value from
+	 *  the current time and current value to the given value over the
 	 *  duration of the rampTime.
-	 *  
+	 *
 	 *  @param  {number} value   The value to ramp to.
-	 *  @param  {Time} rampTime the time that it takes the 
+	 *  @param  {Time} rampTime the time that it takes the
 	 *                               value to ramp from it's current value
-	 *  @param {Time}	[startTime=now] 	When the ramp should start. 
-	 *  @returns {Tone.Param} this
+	 *  @param {Time}	[startTime=now] 	When the ramp should start.
+	 *  @returns {Param} this
 	 *  @example
-	 * //linearly ramp to the value 4 over 3 seconds. 
+	 * //linearly ramp to the value 4 over 3 seconds.
 	 * signal.linearRampToValue(4, 3);
 	 */
-	Tone.Param.prototype.linearRampToValue = function(value, rampTime, startTime){
+	Param.prototype.linearRampToValue = function(value, rampTime, startTime){
 		startTime = this.toSeconds(startTime);
 		this.setRampPoint(startTime);
 		this.linearRampToValueAtTime(value, startTime + this.toSeconds(rampTime));
@@ -271,12 +272,12 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 	/**
 	 *  Start exponentially approaching the target value at the given time with
 	 *  a rate having the given time constant.
-	 *  @param {number} value        
-	 *  @param {Time} startTime    
-	 *  @param {number} timeConstant 
-	 *  @returns {Tone.Param} this 
+	 *  @param {number} value
+	 *  @param {Time} startTime
+	 *  @param {number} timeConstant
+	 *  @returns {Param} this
 	 */
-	Tone.Param.prototype.setTargetAtTime = function(value, startTime, timeConstant){
+	Param.prototype.setTargetAtTime = function(value, startTime, timeConstant){
 		value = this._fromUnits(value);
 		// The value will never be able to approach without timeConstant > 0.
 		// http://www.w3.org/TR/webaudio/#dfn-setTargetAtTime, where the equation
@@ -290,13 +291,13 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 	/**
 	 *  Sets an array of arbitrary parameter values starting at the given time
 	 *  for the given duration.
-	 *  	
-	 *  @param {Array} values    
-	 *  @param {Time} startTime 
-	 *  @param {Time} duration  
-	 *  @returns {Tone.Param} this
+	 *
+	 *  @param {Array} values
+	 *  @param {Time} startTime
+	 *  @param {Time} duration
+	 *  @returns {Param} this
 	 */
-	Tone.Param.prototype.setValueCurveAtTime = function(values, startTime, duration){
+	Param.prototype.setValueCurveAtTime = function(values, startTime, duration){
 		for (var i = 0; i < values.length; i++){
 			values[i] = this._fromUnits(values[i]);
 		}
@@ -305,38 +306,38 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 	};
 
 	/**
-	 *  Cancels all scheduled parameter changes with times greater than or 
+	 *  Cancels all scheduled parameter changes with times greater than or
 	 *  equal to startTime.
-	 *  
+	 *
 	 *  @param  {Time} startTime
-	 *  @returns {Tone.Param} this
+	 *  @returns {Param} this
 	 */
-	Tone.Param.prototype.cancelScheduledValues = function(startTime){
+	Param.prototype.cancelScheduledValues = function(startTime){
 		this._param.cancelScheduledValues(this.toSeconds(startTime));
 		return this;
 	};
 
 	/**
-	 *  Ramps to the given value over the duration of the rampTime. 
+	 *  Ramps to the given value over the duration of the rampTime.
 	 *  Automatically selects the best ramp type (exponential or linear)
 	 *  depending on the `units` of the signal
-	 *  
-	 *  @param  {number} value   
-	 *  @param  {Time} rampTime 	The time that it takes the 
+	 *
+	 *  @param  {number} value
+	 *  @param  {Time} rampTime 	The time that it takes the
 	 *                              value to ramp from it's current value
-	 *  @param {Time}	[startTime=now] 	When the ramp should start. 
-	 *  @returns {Tone.Param} this
+	 *  @param {Time}	[startTime=now] 	When the ramp should start.
+	 *  @returns {Param} this
 	 *  @example
-	 * //ramp to the value either linearly or exponentially 
+	 * //ramp to the value either linearly or exponentially
 	 * //depending on the "units" value of the signal
 	 * signal.rampTo(0, 10);
 	 *  @example
 	 * //schedule it to ramp starting at a specific time
 	 * signal.rampTo(0, 10, 5)
 	 */
-	Tone.Param.prototype.rampTo = function(value, rampTime, startTime){
+	Param.prototype.rampTo = function(value, rampTime, startTime){
 		rampTime = this.defaultArg(rampTime, 0);
-		if (this.units === Tone.Type.Frequency || this.units === Tone.Type.BPM){
+		if (this.units === Type.Frequency || this.units === Type.BPM){
 			this.exponentialRampToValue(value, rampTime, startTime);
 		} else {
 			this.linearRampToValue(value, rampTime, startTime);
@@ -347,12 +348,12 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 	/**
 	 *  The LFO created by the signal instance. If none
 	 *  was created, this is null.
-	 *  @type {Tone.LFO}
+	 *  @type {LFO}
 	 *  @readOnly
-	 *  @memberOf Tone.Param#
+	 *  @memberOf Param#
 	 *  @name lfo
 	 */
-	Object.defineProperty(Tone.Param.prototype, "lfo", {
+	Object.defineProperty(Param.prototype, "lfo", {
 		get : function(){
 			return this._lfo;
 		}
@@ -360,10 +361,10 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 
 	/**
 	 *  Clean up
-	 *  @returns {Tone.Param} this
+	 *  @returns {Param} this
 	 */
-	Tone.Param.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	Param.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._param = null;
 		if (this._lfo){
 			this._lfo.dispose();
@@ -371,6 +372,3 @@ define(["Tone/core/Tone", "Tone/type/Type"], function(Tone){
 		}
 		return this;
 	};
-
-	return Tone.Param;
-});

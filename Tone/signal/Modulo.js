@@ -1,52 +1,54 @@
-define(["Tone/core/Tone", "Tone/signal/WaveShaper", "Tone/signal/Multiply", "Tone/signal/Subtract"], 
-function(Tone){
+import { Tone } from 'core';
+import { WaveShaper } from 'signal';
+import { Multiply } from 'signal';
+import { Subtract } from 'signal';
 
 	"use strict";
 
 	/**
 	 *  @class Signal-rate modulo operator. Only works in AudioRange [-1, 1] and for modulus
-	 *         values in the NormalRange. 
+	 *         values in the NormalRange.
 	 *
 	 *  @constructor
-	 *  @extends {Tone.SignalBase}
+	 *  @extends {SignalBase}
 	 *  @param {NormalRange} modulus The modulus to apply.
 	 *  @example
-	 * var mod = new Tone.Modulo(0.2)
-	 * var sig = new Tone.Signal(0.5).connect(mod);
+	 * var mod = new Modulo(0.2)
+	 * var sig = new Signal(0.5).connect(mod);
 	 * //mod outputs 0.1
 	 */
-	Tone.Modulo = function(modulus){
+	export function Modulo(modulus){
 
 		this.createInsOuts(1, 0);
 
 		/**
-		 *  A waveshaper gets the integer multiple of 
+		 *  A waveshaper gets the integer multiple of
 		 *  the input signal and the modulus.
 		 *  @private
-		 *  @type {Tone.WaveShaper}
+		 *  @type {WaveShaper}
 		 */
-		this._shaper = new Tone.WaveShaper(Math.pow(2, 16));
+		this._shaper = new WaveShaper(Math.pow(2, 16));
 
 		/**
 		 *  the integer multiple is multiplied by the modulus
-		 *  @type  {Tone.Multiply}
+		 *  @type  {Multiply}
 		 *  @private
 		 */
-		this._multiply = new Tone.Multiply();
+		this._multiply = new Multiply();
 
 		/**
 		 *  and subtracted from the input signal
-		 *  @type  {Tone.Subtract}
+		 *  @type  {Subtract}
 		 *  @private
 		 */
-		this._subtract = this.output = new Tone.Subtract();
+		this._subtract = this.output = new Subtract();
 
 		/**
 		 *  the modulus signal
-		 *  @type  {Tone.Signal}
+		 *  @type  {Signal}
 		 *  @private
 		 */
-		this._modSignal = new Tone.Signal(modulus);
+		this._modSignal = new Signal(modulus);
 
 		//connections
 		this.input.fan(this._shaper, this._subtract);
@@ -56,13 +58,13 @@ function(Tone){
 		this._setWaveShaper(modulus);
 	};
 
-	Tone.extend(Tone.Modulo, Tone.SignalBase);
+	Tone.extend(Modulo, SignalBase);
 
 	/**
 	 *  @param  {number}  mod  the modulus to apply
 	 *  @private
 	 */
-	Tone.Modulo.prototype._setWaveShaper = function(mod){
+	Modulo.prototype._setWaveShaper = function(mod){
 		this._shaper.setMap(function(val){
 			var multiple = Math.floor((val + 0.0001) / mod);
 			return multiple;
@@ -71,11 +73,11 @@ function(Tone){
 
 	/**
 	 * The modulus value.
-	 * @memberOf Tone.Modulo#
+	 * @memberOf Modulo#
 	 * @type {NormalRange}
 	 * @name value
 	 */
-	Object.defineProperty(Tone.Modulo.prototype, "value", {
+	Object.defineProperty(Modulo.prototype, "value", {
 		get : function(){
 			return this._modSignal.value;
 		},
@@ -87,10 +89,10 @@ function(Tone){
 
 	/**
 	 * clean up
-	 *  @returns {Tone.Modulo} this
+	 *  @returns {Modulo} this
 	 */
-	Tone.Modulo.prototype.dispose = function(){
-		Tone.prototype.dispose.call(this);
+	Modulo.prototype.dispose = function(){
+		prototype.dispose.call(this);
 		this._shaper.dispose();
 		this._shaper = null;
 		this._multiply.dispose();
@@ -101,6 +103,3 @@ function(Tone){
 		this._modSignal = null;
 		return this;
 	};
-
-	return Tone.Modulo;
-});

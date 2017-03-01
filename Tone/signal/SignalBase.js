@@ -1,33 +1,34 @@
-define(["Tone/core/Tone"], function(Tone){
+import { Tone } from 'core';
+import { Tone } from 'core';
 
 	"use strict";
 
 	/**
-	 *  @class  Base class for all Signals. Used Internally. 
+	 *  @class  Base class for all Signals. Used Internally.
 	 *
 	 *  @constructor
 	 *  @extends {Tone}
 	 */
-	Tone.SignalBase = function(){};
+	export function SignalBase(){};
 
-	Tone.extend(Tone.SignalBase);
+	Tone.extend(SignalBase);
 
 	/**
-	 *  When signals connect to other signals or AudioParams, 
-	 *  they take over the output value of that signal or AudioParam. 
-	 *  For all other nodes, the behavior is the same as a default <code>connect</code>. 
+	 *  When signals connect to other signals or AudioParams,
+	 *  they take over the output value of that signal or AudioParam.
+	 *  For all other nodes, the behavior is the same as a default <code>connect</code>.
 	 *
 	 *  @override
-	 *  @param {AudioParam|AudioNode|Tone.Signal|Tone} node 
+	 *  @param {AudioParam|AudioNode|Signal|Tone} node
 	 *  @param {number} [outputNumber=0] The output number to connect from.
 	 *  @param {number} [inputNumber=0] The input number to connect to.
-	 *  @returns {Tone.SignalBase} this
+	 *  @returns {SignalBase} this
 	 */
-	Tone.SignalBase.prototype.connect = function(node, outputNumber, inputNumber){
+	SignalBase.prototype.connect = function(node, outputNumber, inputNumber){
 		//zero it out so that the signal can have full control
-		if ((Tone.Signal && Tone.Signal === node.constructor) || 
-				(Tone.Param && Tone.Param === node.constructor) || 
-				(Tone.TimelineSignal && Tone.TimelineSignal === node.constructor)){
+		if ((Signal && Signal === node.constructor) ||
+				(Param && Param === node.constructor) ||
+				(TimelineSignal && TimelineSignal === node.constructor)){
 			//cancel changes
 			node._param.cancelScheduledValues(0);
 			//reset the value
@@ -37,10 +38,7 @@ define(["Tone/core/Tone"], function(Tone){
 		} else if (node instanceof AudioParam){
 			node.cancelScheduledValues(0);
 			node.value = 0;
-		} 
-		Tone.prototype.connect.call(this, node, outputNumber, inputNumber);
+		}
+		prototype.connect.call(this, node, outputNumber, inputNumber);
 		return this;
 	};
-
-	return Tone.SignalBase;
-});
